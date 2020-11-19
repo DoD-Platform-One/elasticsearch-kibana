@@ -1,0 +1,36 @@
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  version: {{ .Values.kibana.version }}
+  count: 1
+  image: {{ .Values.kibana.image.repository }}:{{ .Values.kibana.image.tag }}
+
+  elasticsearchRef:
+    name: {{ .Release.Name }}
+
+  {{- if .Values.istio.enabled }}
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+  {{- end }}
+
+  podTemplate:
+    metadata:
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      containers:
+        - name: kibana
+          resources:
+            {{- toYaml .Values.kibana.resources | nindent 12 }}
+    {{- if .Values.istio.enabled }}
+      automountServiceAccountToken: true
+    {{- end }}
+    {{- with .Values.kibana.imagePullSecrets }}
+    imagePullSecrets:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}

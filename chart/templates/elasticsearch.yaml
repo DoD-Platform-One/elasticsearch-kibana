@@ -1,0 +1,116 @@
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  version: {{ .Values.elasticsearch.version }}
+  image: {{ .Values.elasticsearch.image.repository }}:{{ .Values.elasticsearch.image.tag }}
+
+  nodeSets:
+  {{- with .Values.elasticsearch.master }}
+  - name: master
+    count: {{ .count }}
+
+    config:
+      index.store.type: mmapfs
+      node.data: false
+      node.ingest: false
+      node.master: true
+      node.ml: false
+      node.store.allow_mmap: true
+      xpack.ml.enabled: false
+      xpack.security.authc.token.enabled: true
+
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          resources:
+            requests:
+              storage: {{ .persistence.size }}
+          accessModes:
+            - ReadWriteOnce
+          {{- if .persistence.storageClassName }}
+          storageClassName: {{ .persistence.storageClassName }}
+          {{- end }}
+
+    podTemplate:
+      metadata:
+        annotations:
+          fluentbit.io/exclude-istio-proxy: "true"
+          prometheus.istio.io/merge-metrics: "false"
+          sidecar.istio.io/rewriteAppHTTPProbers: "true"
+          traffic.sidecar.istio.io/excludeInboundPorts: "9300"
+          traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
+      spec:
+        containers:
+          - name: elasticsearch
+            env:
+              - name: ES_JAVA_OPTS
+                value: "-Xms{{ .heap.min }} -Xmx{{ .heap.max }}"
+            resources:
+              {{- toYaml .resources | nindent 14 }}
+        {{- with $.Values.elasticsearch.imagePullSecrets }}
+        imagePullSecrets:
+        {{- toYaml . | nindent 10 }}
+        {{- end }}
+
+        {{- if $.Values.istio.enabled }}
+        automountServiceAccountToken: true
+      {{- end }}
+  {{- end }}
+
+  {{- with .Values.elasticsearch.data }}
+  - name: data
+    count: {{ .count }}
+
+    config:
+      index.store.type: mmapfs
+      node.data: true
+      node.ingest: true
+      node.master: false
+      node.ml: false
+      node.store.allow_mmap: true
+      xpack.ml.enabled: false
+      xpack.security.authc.token.enabled: true
+
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+      spec:
+        resources:
+          requests:
+            storage: {{ .persistence.size }}
+        accessModes:
+        - ReadWriteOnce
+        {{- if .persistence.storageClassName }}
+        storageClassName: {{ .persistence.storageClassName }}
+        {{- end }}
+
+    podTemplate:
+      metadata:
+        annotations:
+          fluentbit.io/exclude-istio-proxy: "true"
+          prometheus.istio.io/merge-metrics: "false"
+          sidecar.istio.io/rewriteAppHTTPProbers: "true"
+          traffic.sidecar.istio.io/excludeInboundPorts: "9300"
+          traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
+
+      spec:
+        containers:
+          - name: elasticsearch
+            env:
+              - name: ES_JAVA_OPTS
+                value: "-Xms{{ .heap.min }} -Xmx{{ .heap.max }}"
+            resources:
+              {{- toYaml .resources | nindent 14 }}
+        {{- with $.Values.elasticsearch.imagePullSecrets }}
+        imagePullSecrets:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+
+      {{- if $.Values.istio.enabled }}
+        automountServiceAccountToken: true
+      {{- end }}
+  {{- end }}

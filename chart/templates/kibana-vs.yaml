@@ -1,0 +1,18 @@
+{{- if .Values.istio.enabled -}}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: kibana
+  namespace: {{ .Release.Namespace }}
+spec:
+  gateways:
+    - main.istio-system.svc.cluster.local
+  hosts:
+    - "kibana.{{ .Values.hostname }}"
+  http:
+    - route:
+        - destination:
+            port:
+              number: 5601
+            host: {{ .Release.Name }}-kb-http
+{{- end }}

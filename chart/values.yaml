@@ -1,0 +1,72 @@
+hostname: bigbang.dev
+
+kibana:
+  version: 7.9.2
+  image:
+    repository: registry1.dsop.io/ironbank/elastic/kibana/kibana
+    tag: 7.9.2
+
+  imagePullSecrets:
+    []
+#    - name: private-registry
+
+  resources: {}
+#    requests:
+#      memory: 1Gi
+#      cpu: 0.5
+#    limits:
+#      memory: 2Gi
+#      cpu: 2
+
+elasticsearch:
+  version: 7.9.2
+  image:
+    repository: registry1.dsop.io/ironbank/elastic/elasticsearch/elasticsearch
+    tag: 7.9.2
+
+  imagePullSecrets:
+    []
+#    - name: private-registry
+
+  # Values for master node sets
+  master:
+    count: 3
+    persistence:
+      storageClassName: ""
+      size: 5Gi
+    resources: {}
+#      limits:
+#        cpu: 2
+#        memory: 4Gi
+#      requests:
+#        cpu: 1
+#        memory: 2Gi
+    heap:
+      # Xms
+      min: 1g
+      # Xmx
+      max: 1g
+
+  # Values for data node sets
+  data:
+    count: 4
+    persistence:
+      storageClassName: ""
+      size: 100Gi
+    resources: {}
+#      limits:
+#        cpu: 4
+#        memory: 4Gi
+#      requests:
+#        cpu: 2
+#        memory: 2Gi
+    heap:
+      # Xms
+      min: 1g
+      # Xmx
+      max: 1g
+
+istio:
+  # Toggle istio interaction
+  # TODO: Toggling does nothing yet, this is always on
+  enabled: true
