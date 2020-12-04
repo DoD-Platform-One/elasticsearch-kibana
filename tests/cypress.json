@@ -1,0 +1,11 @@
+{
+ 
+  "pluginsFile": false,
+  "supportFile": false,
+  "fixturesFolder": false,
+  "env": {
+    "kibana_url": "https://kibana.fences.dsop.io",
+    "kibana_password": "",
+    "kibana_user": "elastic-kibana-kibana-user"
+  }
+}
