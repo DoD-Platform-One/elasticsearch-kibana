@@ -1,3 +1,16 @@
+# Elasticsearch-Kibana Documentation
+ 
+# Table of Contents
+- [Development](#elasticsearch-kibana)
+- [Prerequisites](#pre-requisites)
+- [IronBank Images](#iron-bank)
+- [Deployment](#deployment)
+- [Kibana Metrics](docs/prometheus.md)
+- [kibana ECK Integration](docs/elastic.md)
+- [kibana SSO Integration](docs/Keycloak.md)
+
+---
+
 # elasticsearch-kibana
 
 Thin chart wrapper around a deployment of Elasticsearch and Kibana using the [ECK Operator](https://repo1.dsop.io/platform-one/big-bang/apps/core/eck-operator).
@@ -9,3 +22,10 @@ The ECK Operator must be deployed beforehand in order to leverage the `Elasticse
 ## Iron Bank
 
 You can `pull` the registry1 image(s) [here](https://registry1.dsop.io/harbor/projects/3/repositories/elastic%2Felasticsearch%2Felasticsearch) and view the container approval [here](https://ironbank.dsop.io/ironbank/repomap/elastic/elasticsearch).
+
+## Deployment
+```
+git clone https://repo1.dsop.io/platform-one/big-bang/apps/core/elasticsearch-kibana.git
+cd elasticsearch-kibana
+helm install elasticsearch-kibana chart --debug
+```
