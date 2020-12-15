@@ -1,4 +1,4 @@
 apiVersion: v2
 name: logging
-version: 0.1.0-bb.1
+version: 0.1.2-bb.0
 appVersion: 7.9.2
