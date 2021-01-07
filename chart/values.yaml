@@ -7,8 +7,8 @@ kibana:
     tag: 7.9.2
 
   imagePullSecrets:
-    []
-#    - name: private-registry
+   [] 
+  #  - name: private-registry
 
   resources: {}
 #    requests:
@@ -25,8 +25,8 @@ elasticsearch:
     tag: 7.9.2
 
   imagePullSecrets:
-    []
-#    - name: private-registry
+    [] 
+    # - name: private-registry
 
   # Values for master node sets
   master:
