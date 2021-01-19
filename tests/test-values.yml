@@ -9,7 +9,6 @@ kibana:
   imagePullSecrets:
     
     - name: private-registry
-    - name: private-registry-mil
 
   resources: {}
 #    requests:
@@ -28,7 +27,6 @@ elasticsearch:
   imagePullSecrets:
     
     - name: private-registry
-    - name: private-registry-mil
 
   # Values for master node sets
   master:
