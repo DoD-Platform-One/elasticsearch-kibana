@@ -2,6 +2,3 @@ include:
   - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
     ref: master
     file: '/templates/package-tests.yml'
-variables:
-  DEPENDENCY_REPO: "https://repo1.dsop.io/platform-one/big-bang/apps/core/eck-operator.git"
-  DEPENDENCY_REPO_BRANCH: main
