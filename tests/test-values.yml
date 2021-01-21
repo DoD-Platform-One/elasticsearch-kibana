@@ -30,14 +30,14 @@ elasticsearch:
 
   # Values for master node sets
   master:
-    count: 3
+    count: 1
     persistence:
       storageClassName: ""
       size: 5Gi
-    resources: {}
-#      limits:
-#        cpu: 2
-#        memory: 4Gi
+    resources:
+      limits:
+        cpu: 1
+        memory: 3Gi
 #      requests:
 #        cpu: 1
 #        memory: 2Gi
@@ -49,14 +49,14 @@ elasticsearch:
 
   # Values for data node sets
   data:
-    count: 4
+    count: 1
     persistence:
       storageClassName: ""
-      size: 100Gi
-    resources: {}
-#      limits:
-#        cpu: 4
-#        memory: 4Gi
+      size: 5Gi
+    resources:
+      limits:
+        cpu: 1
+        memory: 3Gi
 #      requests:
 #        cpu: 2
 #        memory: 2Gi
