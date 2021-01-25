@@ -44,6 +44,14 @@ spec:
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
       spec:
+        {{- if .securityContext }}
+        securityContext:
+        {{- toYaml .securityContext | nindent 10 }}
+        {{- end }}
+        {{- if .initContainers }}
+        initContainers:
+        {{ toYaml .initContainers | nindent 10 }}
+        {{- end }}
         containers:
           - name: elasticsearch
             env:
@@ -98,6 +106,14 @@ spec:
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
 
       spec:
+        {{- if .securityContext }}
+        securityContext:
+        {{- toYaml .securityContext | nindent 10 }}
+        {{- end }}
+        {{- if .initContainers }}
+        initContainers:
+        {{ toYaml .initContainers | nindent 10 }}
+        {{- end }}
         containers:
           - name: elasticsearch
             env:
