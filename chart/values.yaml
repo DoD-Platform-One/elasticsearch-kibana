@@ -30,6 +30,20 @@ elasticsearch:
 
   # Values for master node sets
   master:
+    initContainers: []
+    # add an init container that adjusts the kernel setting for elastic
+    # - name: sysctl
+    #   securityContext:
+    #     privileged: true
+    #   image: busybox
+    #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+
+    # Add ability customize the security context for 
+    # fixing user or group.  
+    securityContext: {}
+      # runAsUser: 1000
+      # runAsGroup: 0
+      # fsGroup: 0
     count: 3
     persistence:
       storageClassName: ""
@@ -49,6 +63,20 @@ elasticsearch:
 
   # Values for data node sets
   data:
+    initContainers: []
+    # add an init container that adjusts the kernel setting for elastic
+    # - name: sysctl
+    #   securityContext:
+    #     privileged: true
+    #   image: busybox
+    #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+
+    # Add ability customize the security context for 
+    # fixing user or group.  
+    securityContext: {}
+      # runAsUser: 1000
+      # runAsGroup: 0
+      # fsGroup: 0
     count: 4
     persistence:
       storageClassName: ""
