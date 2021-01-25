@@ -3,7 +3,7 @@ hostname: bigbang.dev
 kibana:
   version: 7.9.2
   image:
-    repository: registry1.dsop.io/ironbank/elastic/kibana/kibana
+    repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     tag: 7.9.2
 
   imagePullSecrets:
@@ -21,7 +21,7 @@ kibana:
 elasticsearch:
   version: 7.9.2
   image:
-    repository: registry1.dsop.io/ironbank/elastic/elasticsearch/elasticsearch
+    repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     tag: 7.9.2
 
   imagePullSecrets:
