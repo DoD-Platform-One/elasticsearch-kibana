@@ -6,15 +6,15 @@ The docker file will make use of an exporter, which is found here: https://githu
 
 1. Create a dockerfile within your eck repository and paste the following code into the file.  This is an Iron Bank Image you are building from:
 ```
-FROM registry.dsop.io/platform-one/apps/eck/kibana-ib:7.8.0
+FROM registry.dso.mil/platform-one/apps/eck/kibana-ib:7.8.0
 
 RUN cd /usr/share/kibana && /usr/share/kibana/bin/kibana-plugin install https://github.com/pjhampton/kibana-prometheus-exporter/releases/download/7.8.0/kibana-prometheus-exporter-7.8.0.zip --allow-root 
 
 USER kibana
 ```
-2. Run <code>docker build . -t registry.dsop.io/platform-one/apps/eck/kibana/kibana-prom:7.8.0-prom</code> to build the image 
+2. Run <code>docker build . -t registry.dso.mil/platform-one/apps/eck/kibana/kibana-prom:7.8.0-prom</code> to build the image 
 * Make sure you are at the file directory with the dockerfile. 
-3. Run <code>docker push registry.dsop.io/platform-one/apps/eck/kibana/kibana:7.8.0-prom</code> to push the image into your registry. 
+3. Run <code>docker push registry.dso.mil/platform-one/apps/eck/kibana/kibana:7.8.0-prom</code> to push the image into your registry. 
 4. Create a directory 'monitoring/prometheus' within your kibana directory
 5. Make files named 'KibanaServiceMonitor.yaml', 'role.yaml' , 'roleBinding.yaml', 'kustomization.yaml', 'secret.yaml'
 6. Copy the folllowing code into KibanaServiceMonitor.yaml:

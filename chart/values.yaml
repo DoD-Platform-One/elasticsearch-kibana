@@ -3,12 +3,10 @@ hostname: bigbang.dev
 kibana:
   version: 7.9.2
   image:
-    repository: registry1.dsop.io/ironbank/elastic/kibana/kibana
+    repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     tag: 7.9.2
 
-  imagePullSecrets:
-   [] 
-  #  - name: private-registry
+  imagePullSecrets: [ ] 
 
   resources: {}
 #    requests:
@@ -21,12 +19,10 @@ kibana:
 elasticsearch:
   version: 7.9.2
   image:
-    repository: registry1.dsop.io/ironbank/elastic/elasticsearch/elasticsearch
+    repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     tag: 7.9.2
 
-  imagePullSecrets:
-    [] 
-    # - name: private-registry
+  imagePullSecrets: [ ] 
 
   # Values for master node sets
   master:
