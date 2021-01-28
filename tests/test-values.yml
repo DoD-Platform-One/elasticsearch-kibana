@@ -6,7 +6,8 @@ kibana:
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     tag: 7.9.2
 
-  imagePullSecrets: [ private-registry-mil ]
+  imagePullSecrets:
+  - name: private-registry-mil
 
   resources: {}
 #    requests:
@@ -22,7 +23,8 @@ elasticsearch:
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     tag: 7.9.2
 
-  imagePullSecrets: [ private-registry-mil ]
+  imagePullSecrets:
+  - name: private-registry-mil
 
   # Values for master node sets
   master:
