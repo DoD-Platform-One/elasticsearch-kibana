@@ -8,6 +8,22 @@ spec:
   count: 1
   image: {{ .Values.kibana.image.repository }}:{{ .Values.kibana.image.tag }}
 
+  {{- with .Values.sso }}
+  {{- if .enabled }}
+  config:
+    xpack.security.authc.providers:
+      oidc.oidc1:
+        enabled: true
+        order: 0
+        realm: {{ .oidc.realm }}
+      {{- if $.Values.kibanaBasicAuth.enabled }}
+      basic.basic1:
+        enabled: true
+        order: 1
+      {{- end }}
+  {{- end }}
+  {{- end }}
+
   elasticsearchRef:
     name: {{ .Release.Name }}
 
@@ -27,10 +43,10 @@ spec:
         - name: kibana
           resources:
             {{- toYaml .Values.kibana.resources | nindent 12 }}
+      {{- with .Values.kibana.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     {{- if .Values.istio.enabled }}
       automountServiceAccountToken: true
-    {{- end }}
-    {{- with .Values.kibana.imagePullSecrets }}
-      imagePullSecrets:
-{{- toYaml . | nindent 6 }}
     {{- end }}
