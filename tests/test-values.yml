@@ -81,3 +81,17 @@ istio:
   # TODO: Toggling does nothing yet, this is always on
   enabled: true
 
+# Toggle and configure SSO with Keycloak
+# Example values are for local development
+sso:
+  enabled: false
+  client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana
+  client_secret: keycloak-client-credential-here
+  oidc:
+    host: login.dso.mil
+    realm: baby-yoda
+
+# Toggle this to turn off Kibana's built in auth and only allow SSO
+# Role mappings for SSO groups must be set up and SSO enabled before doing this
+kibanaBasicAuth:
+  enabled: true

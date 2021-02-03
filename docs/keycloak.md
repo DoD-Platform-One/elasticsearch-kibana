@@ -1,16 +1,16 @@
-# Elastic / Kibana keycloak Integration
+# Elastic / Kibana Keycloak Integration
 
-This document summarizes what manifest changes are required to integrate with keycloak. For configuration as checklist items and detailed keycloak configuration please see the documentation in this repo.
+This document summarizes helm values and manual steps that are required to integrate with keycloak.
 
-### Configuration as checklist
+## Configuration Steps
 
-These are the items you need to do after keycloak and elastic search are working on your cluster. 
+These are the items you need to do to configure keycloak, elastic search, and kibana for SSO on the ECK stack in your Big Bang installation. 
 
 ### Keycloak Configuration
 
-### Prerequisites
+#### Prerequisites
 
-Keycloak is configured with a working Realm including Groups and Users
+Keycloak is configured with a working Realm including Groups and Users.
 
 #### Process
 
@@ -32,14 +32,14 @@ Keycloak is configured with a working Realm including Groups and Users
     - optional client scopes: N/A
   - Take note of the client secret in the credential tab
 
-To Verify evaluate a client scope, these fields should be present
+To verify the client, check that these fields are present:
 
 ```json
 {
   "exp": 9999999999,
   "iat": 9999999999,
   "jti": "00000000-0000-0000-0000-000000000000",
-  "iss": "https://keycloak.${dns}/auth/realms/{realm_name}",
+  "iss": "https://${keycloakRootUrl}/auth/realms/{realm_name}",
   "sub": "00000000-0000-0000-0000-000000000000",
   "typ": "Bearer",
   "azp": "${client_id}",
@@ -55,90 +55,42 @@ To Verify evaluate a client scope, these fields should be present
   "email": "${email}"
 }
 ```
-## Elastic Configuration
 
-See manifests/elasticsearch for a manifest patch example. These are the required updates to the default configuration of elasticsearch
+### Elastic Configuration
 
-- On each node set
-  - Add xpack.security.authc.realms.oidc.${REALM_NAME} (This realm name is the keycloak realm configured)
-  - The following items go below the realm configuration
-    - order
-    - rp
-      - client_id
-      - response_type
-      - redirect_uri
-      - post_logout_redirect_uri
-    - op
-      - authorization_endpoint
-      - token_endpoint
-      - jwkset_path
-      - userinfo_endpoint
-      - endsession_endpoint
-      - issuer
-    - claims
-      - principal
-      - groups
-      - mail
-- In spec add secureSettings
-  - create a field called secretName with the name of the secret that contains your keycloak client secret
-- Create a secret with the following data
-  - xpack.security.authc.realms.oidc.${REALM_NAME}.rp.client_secret
-- To enable oidc configuration you must have an enterprise license. To devlelop you can agree to the enterprise trial and have access to the features. To do so create the config map in eck_enterprise_trial.yaml
+The config changes needed for SSO/Keycloak in Elastic are embedded in the helm chart and require values to be set.
 
+Set the values for your elasticsearch-kibana helm chart as follows:
 
-Most documentation you will see will reference xpack.security.authc.realms.oidc.oidc1, the oidc1 is the realm name, which is not always made clear.
+```yaml
+sso:
+  enabled: true # Toggle this on
+  client_id: # Set this to your elastic client id from Keycloak
+  client_secret: # Set this to the client credential from keycloak
+  oidc:
+    host: # Set this to the base URL for your Keycloak instance, i.e. keycloak.example.com
+    realm: # Set this to the realm being used from Keycloak
 
-## Add new groups
+kibanaBasicAuth:
+  enabled: true # This should initially be enabled to allow you to setup role mappings
+```
 
-- Create elastic search role you want under system settings
-- Create a role binding rule that matches the group name to the keycloak group
+Make sure that you have enabled an enterprise license via the operator - this can be done in Big Bang via the logging values section.
 
-## Claim information
+NOTE: Local development makes use of login.dsop.io and the necessary values are committed in the values.yaml files in each repo.
 
-Sample Claim
+### Kibana Configuration
 
-```json
-{
-  "exp": 9999999999,
-  "iat": 9999999999,
-  "jti": "00000000-0000-0000-0000-000000000000",
-  "iss": "https://keycloak.${dns}/auth/realms/{realm_name}",
-  "sub": "00000000-0000-0000-0000-000000000000",
-  "typ": "Bearer",
-  "azp": "${client_id}",
-  "session_state": "00000000-0000-0000-0000-000000000000",
-  "acr": "1",
-  "scope": "openid elastic",
-  "groups": [
-    "group_1",
-    "...",
-    "group_n"
-  ],
-  "preferred_username": "${username}",
-  "email": "${email}"
-}
-```  
-### Enabling Keycloak in Kibana
+Kibana requires no additional helm values changes, since all of the above will incorporate the necessary Kibana changes.
 
-1. Get the elasticsearch user secret from the kubernetes secret
-    - `kubectl get secrets -n elastic elasticsearch-es-elastic-user -o yaml | grep elastic: | awk '//{print $2}' | base64 -d`
-2. log into kibana with elastic and the above password
-3. Go to settings > Security > Role Mappings
-4. Create the desired role 
-    - For simplicity the following settings will make everyone a super user. Roles: Superuser, Mapping rules: groups = *
-5. Apply the secret xpack.security.authc.realms.oidc.${REALM_NAME}.rp.client_secret with the correct value
-
-6. These are the required updates to the default configuration of kibana
-
-- in spec/config
-  - add xpack.security.authc.providers
-    - oidc.oidc1 (unlike elastic search it is always oidc.oidc1)
-      - order (order choice will show up in the gui)
-      - realm (keycloak realm name)
-
-Adding the basic section will enable kibana login with elastic users (this is recommened to be removed after initial configuration)
- 7. After applying the secret all of the nodes will do a rolling re-start (this takes about 10 minutes in testing).
-
+To set up role mappings and fully enable SSO:
+ - Decrypt the elasticsearch user secret from the kubernetes secret
+   - `kubectl get secrets -n logging logging-ek-es-elastic-user -o yaml | grep elastic: | awk 'NR==1{printf $2}' | base64 -d | xargs echo`
+ - Log into kibana with user elastic and the decrypted password
+ - Go to Management -> Stack Management -> Security -> Role Mappings
+ - Create the desired role 
+    - For development the following settings will make everyone a super user. Roles: Superuser, Mapping rules: groups = *
+ - You should now be able to login to Kibana with Keycloak realm users
 
 ## Dev Reference Resources
 
