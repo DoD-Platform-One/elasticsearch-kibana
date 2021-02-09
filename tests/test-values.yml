@@ -78,7 +78,6 @@ elasticsearch:
 
 istio:
   # Toggle istio interaction
-  # TODO: Toggling does nothing yet, this is always on
   enabled: true
 
 # Toggle and configure SSO with Keycloak
@@ -87,6 +86,8 @@ sso:
   enabled: false
   client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana
   client_secret: keycloak-client-credential-here
+  # redirect_url defaults to .Values.istio.kibana.hosts[0] if not set
+  redirect_url: ""
   oidc:
     host: login.dso.mil
     realm: baby-yoda

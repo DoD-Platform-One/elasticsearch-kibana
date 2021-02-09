@@ -13,6 +13,10 @@ spec:
   {{- end }}
 
   nodeSets:
+
+  #
+  # Masters
+  #
   {{- with .Values.elasticsearch.master }}
   - name: master
     count: {{ .count }}
@@ -32,7 +36,7 @@ spec:
         order: 2
         rp.client_id: {{ .client_id }}
         rp.response_type: code
-        rp.redirect_uri: "https://kibana.{{ $.Values.hostname }}/api/security/oidc/callback"
+        rp.redirect_uri: "https://{{ template "redirect_url" $ }}/api/security/oidc/callback"
         rp.signature_algorithm: RS256
         rp.requested_scopes:
           - openid
@@ -42,7 +46,7 @@ spec:
         op.userinfo_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/userinfo"
         op.endsession_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/logout"
         op.issuer: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}"
-        rp.post_logout_redirect_uri: "https://kibana.{{ $.Values.hostname }}/logged_out"
+        rp.post_logout_redirect_uri: "https://{{ template "redirect_url" $ }}/logged_out"
         claims.principal: preferred_username
         claims.groups: groups
         claims.mail: email
@@ -74,6 +78,36 @@ spec:
         securityContext:
         {{- toYaml .securityContext | nindent 10 }}
         {{- end }}
+
+        {{- if or .antiAffinity .nodeAffinity }}
+        affinity:
+        {{- end }}
+        {{- if eq .antiAffinity "hard" }}
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: "kubernetes.io/hostname"
+                labelSelector:
+                  matchLabels:
+                    elasticsearch.k8s.elastic.co/statefulset-name: "{{ $.Release.Name }}-es-master"
+                    elasticsearch.k8s.elastic.co/cluster-name: "{{ $.Release.Name }}"
+                    elasticsearch.k8s.elastic.co/node-master: "true"
+        {{- else if eq .antiAffinity "soft" }}
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    elasticsearch.k8s.elastic.co/statefulset-name: "{{ $.Release.Name }}-es-master"
+                    elasticsearch.k8s.elastic.co/cluster-name: "{{ $.Release.Name }}"
+                    elasticsearch.k8s.elastic.co/node-master: "true"
+        {{- end }}
+        {{- with .nodeAffinity }}
+          nodeAffinity:
+    {{ toYaml . | nindent 12 }}
+        {{- end }}
+
         {{- if .initContainers }}
         initContainers:
         {{ toYaml .initContainers | nindent 10 }}
@@ -95,6 +129,9 @@ spec:
       {{- end }}
   {{- end }}
 
+  #
+  # Data Nodes
+  #
   {{- with .Values.elasticsearch.data }}
   - name: data
     count: {{ .count }}
@@ -114,7 +151,7 @@ spec:
         order: 2
         rp.client_id: {{ .client_id }}
         rp.response_type: code
-        rp.redirect_uri: "https://kibana.{{ $.Values.hostname }}/api/security/oidc/callback"
+        rp.redirect_uri: "https://{{ template "redirect_url" $ }}/api/security/oidc/callback"
         rp.signature_algorithm: RS256
         rp.requested_scopes:
           - openid
@@ -124,7 +161,7 @@ spec:
         op.userinfo_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/userinfo"
         op.endsession_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/logout"
         op.issuer: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}"
-        rp.post_logout_redirect_uri: "https://kibana.{{ $.Values.hostname }}/logged_out"
+        rp.post_logout_redirect_uri: "https://{{ template "redirect_url" $ }}/logged_out"
         claims.principal: preferred_username
         claims.groups: groups
         claims.mail: email
@@ -158,6 +195,37 @@ spec:
         securityContext:
         {{- toYaml .securityContext | nindent 10 }}
         {{- end }}
+
+        {{- if or .antiAffinity .nodeAffinity }}
+        affinity:
+        {{- end }}
+        {{- if eq .antiAffinity "hard" }}
+          podAntiAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              - topologyKey: "kubernetes.io/hostname"
+                labelSelector:
+                  matchLabels:
+                    elasticsearch.k8s.elastic.co/statefulset-name: "{{ $.Release.Name }}-es-data"
+                    elasticsearch.k8s.elastic.co/cluster-name: "{{ $.Release.Name }}"
+                    elasticsearch.k8s.elastic.co/node-data: "true"
+        {{- else if eq .antiAffinity "soft" }}
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    elasticsearch.k8s.elastic.co/statefulset-name: "{{ $.Release.Name }}-es-data"
+                    elasticsearch.k8s.elastic.co/cluster-name: "{{ $.Release.Name }}"
+                    elasticsearch.k8s.elastic.co/node-data: "true"
+        {{- end }}
+        {{- with .nodeAffinity }}
+          nodeAffinity:
+    {{ toYaml . | nindent 12 }}
+        {{- end }}
+
+
         {{- if .initContainers }}
         initContainers:
         {{ toYaml .initContainers | nindent 10 }}
