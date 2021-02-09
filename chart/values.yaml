@@ -40,6 +40,19 @@ elasticsearch:
       # runAsUser: 1000
       # runAsGroup: 0
       # fsGroup: 0
+
+    # Available options are "soft" and "hard"
+    antiAffinity: ""
+
+    nodeAffinity: {}
+      # requiredDuringSchedulingIgnoredDuringExecution:
+      #   nodeSelectorTerms:
+      #   - matchExpressions:
+      #     - key: type
+      #       operator: In
+      #       values:
+      #       - "ecs-optimized"
+
     count: 3
     persistence:
       storageClassName: ""
@@ -73,6 +86,19 @@ elasticsearch:
       # runAsUser: 1000
       # runAsGroup: 0
       # fsGroup: 0
+
+    # Available options are "soft" and "hard"
+    antiAffinity: ""
+
+    nodeAffinity: {}
+      # requiredDuringSchedulingIgnoredDuringExecution:
+      #   nodeSelectorTerms:
+      #   - matchExpressions:
+      #     - key: type
+      #       operator: In
+      #       values:
+      #       - "ecs-optimized"
+
     count: 4
     persistence:
       storageClassName: ""
@@ -93,11 +119,23 @@ elasticsearch:
 istio:
   # Toggle istio interaction
   enabled: false
+  kibana:
+    # Toggle vs creation
+    enabled: true
+    annotations: {}
+    labels: {}
+    gateways:
+      - istio-system/main
+    hosts:
+      - kibana.{{ .Values.hostname }}
+
 
 # Toggle and configure SSO with Keycloak
 # Example values are for local development
 sso:
   enabled: false
+  # redirect_url defaults to .Values.istio.kibana.hosts[0] if not set
+  redirect_url: ""
   client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana
   client_secret: keycloak-client-credential-here
   oidc:
