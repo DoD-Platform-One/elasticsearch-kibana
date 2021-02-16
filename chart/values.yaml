@@ -36,10 +36,10 @@ elasticsearch:
 
     # Add ability customize the security context for 
     # fixing user or group.  
-    securityContext: {}
-      # runAsUser: 1000
-      # runAsGroup: 0
-      # fsGroup: 0
+    securityContext: 
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
 
     # Available options are "soft" and "hard"
     antiAffinity: ""
@@ -82,10 +82,10 @@ elasticsearch:
 
     # Add ability customize the security context for 
     # fixing user or group.  
-    securityContext: {}
-      # runAsUser: 1000
-      # runAsGroup: 0
-      # fsGroup: 0
+    securityContext: 
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
 
     # Available options are "soft" and "hard"
     antiAffinity: ""
