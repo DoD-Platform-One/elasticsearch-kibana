@@ -4,6 +4,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.5-bb.0] - 2021-03-05
+
+### Added
+- kibana.securityContext to chart values.
+- securityContext block to Kibana custom resource template.
+
+## [0.1.4-bb.4] - 2021-03-02
+
+### Changed
+- Added default value for xpack.security.authc.realms.oidc.{{ .Values.sso.oidc.realm }}.rp.client_secret in sso-secret template to not error out when not populated.
+
+## [0.1.4-bb.3] - 2021-01-27
+
+### Added
+- elasticsearch.data.securityContext to chart values.
+- elasticsearch.master.securityContext to chart values.
+- securityContext blocks to elasticsearch custom resource templates.
+
 ## [0.1.4-bb.2] - 2021-02-09
 
 ### Added
