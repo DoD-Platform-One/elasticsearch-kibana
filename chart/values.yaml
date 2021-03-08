@@ -6,7 +6,12 @@ kibana:
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     tag: 7.9.2
 
-  imagePullSecrets: [ ] 
+  securityContext: 
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+
+  imagePullSecrets: [ ]
 
   resources: {}
 #    requests:
