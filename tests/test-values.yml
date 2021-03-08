@@ -1,56 +1,18 @@
-hostname: bigbang.dev
-
 kibana:
-  version: 7.9.2
-  image:
-    repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
-    tag: 7.9.2
-
   imagePullSecrets:
   - name: private-registry-mil
-
-  resources: {}
-#    requests:
-#      memory: 1Gi
-#      cpu: 0.5
-#    limits:
-#      memory: 2Gi
-#      cpu: 2
 
 elasticsearch:
-  version: 7.9.2
-  image:
-    repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
-    tag: 7.9.2
-
   imagePullSecrets:
   - name: private-registry-mil
 
-  # Values for master node sets
   master:
     count: 1
-    persistence:
-      storageClassName: ""
-      size: 5Gi
     resources:
       limits:
         cpu: 1
         memory: 3Gi
-#      requests:
-#        cpu: 1
-#        memory: 2Gi
-    heap:
-      # Xms
-      min: 1g
-      # Xmx
-      max: 1g
 
-    securityContext: 
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
-
-  # Values for data node sets
   data:
     count: 1
     persistence:
@@ -60,37 +22,6 @@ elasticsearch:
       limits:
         cpu: 1
         memory: 3Gi
-#      requests:
-#        cpu: 2
-#        memory: 2Gi
-    heap:
-      # Xms
-      min: 1g
-      # Xmx
-      max: 1g
-
-    securityContext: 
-      runAsUser: 1000
-      runAsGroup: 1000
-      fsGroup: 1000
 
 istio:
-  # Toggle istio interaction
-  enabled: true
-
-# Toggle and configure SSO with Keycloak
-# Example values are for local development
-sso:
-  enabled: false
-  client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana
-  client_secret: keycloak-client-credential-here
-  # redirect_url defaults to .Values.istio.kibana.hosts[0] if not set
-  redirect_url: ""
-  oidc:
-    host: login.dso.mil
-    realm: baby-yoda
-
-# Toggle this to turn off Kibana's built in auth and only allow SSO
-# Role mappings for SSO groups must be set up and SSO enabled before doing this
-kibanaBasicAuth:
   enabled: true
