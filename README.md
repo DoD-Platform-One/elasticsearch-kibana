@@ -7,6 +7,8 @@
 - [Deployment](#deployment)
 - [Enterprise License](#enterprise-license)
 - [Elastic Password](#elastic-password)
+- [Upgrading](#upgrading)
+- [Configuration](#configuration)
 - [Kibana Metrics](docs/prometheus.md)
 - [Kibana ECK Integration](docs/elastic.md)
 - [Kibana SSO Integration](docs/keycloak.md)
@@ -15,11 +17,13 @@
 
 # elasticsearch-kibana
 
-Thin chart wrapper around a deployment of Elasticsearch and Kibana using the [ECK Operator](https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator).
+- Thin chart wrapper around a deployment of Elasticsearch and Kibana using the [ECK Operator](https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator).
+- This chart is owned by Big Bang and does not point to an upstream chart provided by Elastic or another vendor.
+- Open an [issue](https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana/-/issues) if you would like to request a feature or submit an issue that needs to be fixed/addressed.
 
 ## Pre-Requisites
 
-The ECK Operator must be deployed beforehand in order to leverage the `Elasticsearch` and `Kibana` custom resources.  You can use the full [BigBang]() solution or the individual [eck operator chart](https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator).
+The ECK Operator must be deployed beforehand in order to leverage the `Elasticsearch` and `Kibana` custom resources.  You can use the full [BigBang](https://repo1.dso.mil/platform-one/big-bang/bigbang) solution or the individual [eck operator chart](https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator).
 
 ## Iron Bank
 
@@ -29,12 +33,12 @@ You can `pull` the registry1 image(s) [here](https://registry1.dso.mil/harbor/pr
 ```bash
 git clone https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana.git
 cd elasticsearch-kibana
-helm install elasticsearch-kibana chart --debug
+helm install elasticsearch-kibana chart --debug -n logging --create-namespace -f chart/values.yaml
 ```
 
 ## Enterprise License
 
-If you want to experiment with enterprise features for development, you can toggle on a trial license. This is done in the BigBang values as shown below:
+If you want to experiment with enterprise features for development, you can toggle on a trial license. This is done in the [BigBang](https://repo1.dso.mil/platform-one/big-bang/bigbang) values as shown below:
 
 ```yaml
 logging:
@@ -70,5 +74,37 @@ logging:
 The default "admin" `elastic` user has its password stored in a secret. To login initially and set up additional users or SSO (see [the Keycloak doc](./docs/keycloak.md)) you need to get this password:
 
 ```bash
-kubectl get secrets -n logging logging-ek-es-elastic-user -o yaml | grep elastic: | awk 'NR==1{printf $2}' | base64 -d | xargs echo
+kubectl get secrets -n logging logging-ek-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
 ```
+
+## Upgrading
+
+Please always check [CHANGELOG](./CHANGELOG.md) before upgrading to a new chart version.
+
+## Configuration
+
+| Parameter                                    | Description                                                                                                                                        | Default                                                               |
+|----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| `elasticsearch.{master|data}.antiAffinity`   | Configurable options are "soft" and "hard" [antiAffinity][]                                                                                        | `""`                                                                  |
+| `elasticsearch.{master|data}.count`          | Kubernetes replica count for the Deployment (i.e. how many pods for elasticsearch nodes)                                                           | `3`                                                                   |
+| `elasticsearch.heap`                         | Configurable setting for java [JVM heap](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-jvm-heap-size.html) min + max amount             | `1g`                                                                  |
+| `{kibana|elasticsearch}.imagePullSecrets`    | Configuration for [imagePullSecrets][] so that you can use a private registry for your image                                                       | `[ ]`                                                                 |
+| `{kibana|elasticsearch}.image.repository`    | The image repository URL                                                                                                                           | see [values](./chart/values.yaml)                                     |
+| `{kibana|elasticsearch}.image.tag`           | Configurable tag applied to the image.                                                                                                             | `7.9.2`                                                               |
+| `elasticsearch.{master|data}.initContainers` | Allows for creation of an initContainer for the Elasticsearch Master or Data nodes. Kibana initContainer support coming soon                       | `[]`                                                                  |
+| `istio`                                      | Configurable istio VirtualService for Kibana external access                                                                                       | see [values](./chart/values.yaml)                                     |
+| `kibanaBasicAuth`                            | Configurable setting for Kibana to enable/disable basic authentication support for the UI                                                          | `enabled: true`                                                       |
+| `elasticsearch.{master|data}.nodeAffinity`   | Configurable [nodeAffinity][] applied to master or data nodes to run on specific nodes                                                             | `{}`                                                                  |
+| `elasticsearch.{master|data}.nodeSelector`   | Configurable [nodeSelector][] so that you can target specific nodes for your Kibana instances                                                      | `{}`                                                                  |
+| `elasticsearch.{master|data}.persistence`    | Configurable [persistence][] for persistent volume storage, can set storageClassName and size                                                      | see [values](./chart/values.yaml)                                     |
+| `{kibana|elasticsearch}.resources`           | Allows you to set the [resources][] for the indivudial Deployments, kibana, es master and es data                                                  | see [values](./chart/values.yaml)                                     |
+| `securityContext`                            | Allows you to set the [securityContext][] for the container                                                                                        | see [values](./chart/values.yaml)                                     |
+| `sso`                                        | Configurable SSO integration with OIDC                                                                                                             | see [values](./chart/values.yaml) & [documentation](docs/keycloak.md) |
+| `{kibana|elasticsearch}.version`             | Configurable version setting for the eck-operator to handle the version of kibana or elasticsearch                                                 | `7.9.2`                                                               |
+
+[antiAffinity]: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+[imagePullSecrets]: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-pod-that-uses-your-secret
+[nodeSelector]: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+[persistence]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistent-volumes
+[resources]: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+[securityContext]: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
