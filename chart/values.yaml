@@ -42,6 +42,13 @@ kibana:
 
   nodeSelector: {}
     # node-type: kibana
+  lifecycle: {}
+    # preStop:
+    #   exec:
+    #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
+    # postStart:
+    #   exec:
+    #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
 elasticsearch:
   version: 7.9.2
