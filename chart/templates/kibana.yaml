@@ -12,6 +12,7 @@ spec:
   {{- if .enabled }}
   config:
     xpack.security.authc.providers:
+    #xpack.security.authc.realms.oidc
       oidc.{{ .oidc.realm }}:
         enabled: true
         order: 0
@@ -21,6 +22,7 @@ spec:
         enabled: true
         order: 1
       {{- end }}
+    xpack.security.enabled: true
   {{- end }}
   {{- end }}
 
