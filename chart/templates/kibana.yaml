@@ -12,10 +12,10 @@ spec:
   {{- if .enabled }}
   config:
     xpack.security.authc.providers:
-      oidc.oidc1:
+      oidc.google:
         enabled: true
         order: 0
-        realm: {{ .oidc.realm }}
+        realm: google
       {{- if $.Values.kibanaBasicAuth.enabled }}
       basic.basic1:
         enabled: true
