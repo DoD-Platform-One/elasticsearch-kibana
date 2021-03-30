@@ -32,7 +32,8 @@ spec:
       xpack.security.authc.token.enabled: true
       {{- with $.Values.sso }}
       {{- if .enabled }}
-      xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
+      # xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
+      xpack.security.authc.realms.oidc.oidc1:
         order: 2
         rp.client_id: {{ .client_id }}
         rp.response_type: code
