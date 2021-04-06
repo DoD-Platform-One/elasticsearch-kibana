@@ -6,6 +6,9 @@ kibana:
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     tag: 7.9.2
 
+  # Number of Kibana replicas
+  count: 3
+
   securityContext: 
     runAsUser: 1000
     runAsGroup: 1000
@@ -20,6 +23,25 @@ kibana:
 #    limits:
 #      memory: 2Gi
 #      cpu: 2
+
+  affinity: {}
+    # podAntiAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     - topologyKey: "kubernetes.io/hostname"
+    #       labelSelector:
+    #         matchLabels:
+    #           dont-schedule-with: kibana
+    # nodeAffinity:
+    #   requiredDuringSchedulingIgnoredDuringExecution:
+    #     nodeSelectorTerms:
+    #     - matchExpressions:
+    #       - key: node-type
+    #         operator: In
+    #         values:
+    #         - "kibana"
+
+  nodeSelector: {}
+    # node-type: kibana
 
 elasticsearch:
   version: 7.9.2
@@ -46,17 +68,24 @@ elasticsearch:
       runAsGroup: 1000
       fsGroup: 1000
 
-    # Available options are "soft" and "hard"
-    antiAffinity: ""
+    affinity: {}
+      # podAntiAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     - topologyKey: "kubernetes.io/hostname"
+      #       labelSelector:
+      #         matchLabels:
+      #           dont-schedule-with: elastic-master
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #     - matchExpressions:
+      #       - key: node-type
+      #         operator: In
+      #         values:
+      #         - "elastic-master"
 
-    nodeAffinity: {}
-      # requiredDuringSchedulingIgnoredDuringExecution:
-      #   nodeSelectorTerms:
-      #   - matchExpressions:
-      #     - key: type
-      #       operator: In
-      #       values:
-      #       - "ecs-optimized"
+    nodeSelector: {}
+      # node-type: elastic-master
 
     count: 3
     persistence:
@@ -92,17 +121,24 @@ elasticsearch:
       runAsGroup: 1000
       fsGroup: 1000
 
-    # Available options are "soft" and "hard"
-    antiAffinity: ""
+    affinity: {}
+      # podAntiAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     - topologyKey: "kubernetes.io/hostname"
+      #       labelSelector:
+      #         matchLabels:
+      #           dont-schedule-with: elastic-data
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #     - matchExpressions:
+      #       - key: node-type
+      #         operator: In
+      #         values:
+      #         - "elastic-data"
 
-    nodeAffinity: {}
-      # requiredDuringSchedulingIgnoredDuringExecution:
-      #   nodeSelectorTerms:
-      #   - matchExpressions:
-      #     - key: type
-      #       operator: In
-      #       values:
-      #       - "ecs-optimized"
+    nodeSelector: {}
+      # node-type: elastic-data
 
     count: 4
     persistence:
