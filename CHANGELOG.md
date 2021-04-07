@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.7-bb.0] - 2021-04-07
+### Added
+- Updating isito labels for elasticsearch resource
+
 ## [0.1.6-bb.0] - 2021-03-30
 ### Added
 - `kibana.count` to chart values
