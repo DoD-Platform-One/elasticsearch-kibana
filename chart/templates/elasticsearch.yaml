@@ -7,13 +7,6 @@ spec:
   version: {{ .Values.elasticsearch.version }}
   image: {{ .Values.elasticsearch.image.repository }}:{{ .Values.elasticsearch.image.tag }}
 
-  {{- if .Values.istio.enabled }}
-  http:
-    tls:
-      selfSignedCertificate:
-        disabled: true
-  {{- end }}
-
   {{- if .Values.sso.enabled }}
   secureSettings:
     - secretName: sso-secret
@@ -36,7 +29,7 @@ spec:
       node.ml: false
       node.store.allow_mmap: true
       xpack.ml.enabled: false
-      xpack.security.authc.token.enabled: false
+      xpack.security.authc.token.enabled: true
       {{- with $.Values.sso }}
       {{- if .enabled }}
       xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
@@ -75,9 +68,9 @@ spec:
     podTemplate:
       metadata:
         annotations:
+          fluentbit.io/exclude-istio-proxy: "true"
           prometheus.istio.io/merge-metrics: "false"
           sidecar.istio.io/rewriteAppHTTPProbers: "true"
-          traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
       spec:
@@ -131,7 +124,7 @@ spec:
       node.ml: false
       node.store.allow_mmap: true
       xpack.ml.enabled: false
-      xpack.security.authc.token.enabled: false
+      xpack.security.authc.token.enabled: true
       {{- with $.Values.sso }}
       {{- if .enabled }}
       xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
@@ -171,11 +164,12 @@ spec:
     podTemplate:
       metadata:
         annotations:
+          fluentbit.io/exclude-istio-proxy: "true"
           prometheus.istio.io/merge-metrics: "false"
           sidecar.istio.io/rewriteAppHTTPProbers: "true"
-          traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
+
       spec:
         {{- if .securityContext }}
         securityContext:
