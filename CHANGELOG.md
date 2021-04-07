@@ -4,15 +4,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
-## [0.1.7-bb.0] - 2021-04-06
-
-### Added
-- Updated configuration for istio mTLS communication for elasticsearch services.
-- Istio DestinationRule for Elasticsearch http service.
-
-### Changed
-- Disabled xpack authc tokens for temporary API token access.
-
 ## [0.1.6-bb.0] - 2021-03-30
 ### Added
 - `kibana.count` to chart values
