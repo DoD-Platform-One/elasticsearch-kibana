@@ -47,6 +47,8 @@ spec:
         op.jwkset_path: "https://www.googleapis.com/oauth2/v3/certs"
         claims.principal: email
         claim_patterns.principal: "^([^@]+)@leapfrog\\.ai$"
+        
+        
 
       # xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
       #   order: 2
