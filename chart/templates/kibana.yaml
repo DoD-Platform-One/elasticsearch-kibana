@@ -12,10 +12,11 @@ spec:
   {{- if .enabled }}
   config:
     xpack.security.authc.providers:
-      oidc.google:
+      oidc.oidc1:
         enabled: true
         order: 0
-        realm: google
+        description: "Log in with Google"
+        realm: "google"
       {{- if $.Values.kibanaBasicAuth.enabled }}
       basic.basic1:
         enabled: true
