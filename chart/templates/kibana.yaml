@@ -15,8 +15,8 @@ spec:
       oidc.oidc1:
         enabled: true
         order: 0
-        description: "Log in with Google"
-        realm: "google"
+        description: "Log in with OIDC"
+        realm: {{ .oidc.realm }}
       {{- if $.Values.kibanaBasicAuth.enabled }}
       basic.basic1:
         enabled: true

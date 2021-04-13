@@ -11,7 +11,7 @@ This should be used with the $ scope
 
 {{- define "oidc" }}
 {{- with .Values.sso }}
-xpack.security.authc.realms.oidc.google:
+xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
   order: 2
   rp.client_id: {{ .client_id }}
   rp.response_type: code
