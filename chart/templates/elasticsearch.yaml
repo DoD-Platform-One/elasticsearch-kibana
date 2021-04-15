@@ -54,8 +54,8 @@ spec:
           sidecar.istio.io/rewriteAppHTTPProbers: "true"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
-          checksum/es-values: {{ include (print "elasticsearch.yaml") . | sha256sum }}
-          checksum/kb-values: {{ include (print "kibana.yaml") . | sha256sum }}
+          checksum/es-values: {{ include (print $.Template.Basepath "/elasticsearch.yaml") $ | sha256sum }}
+          checksum/kb-values: {{ include (print $.Template.Basepath "/kibana.yaml") $ | sha256sum }}
       spec:
         {{- if .securityContext }}
         securityContext:
@@ -153,8 +153,8 @@ spec:
           sidecar.istio.io/rewriteAppHTTPProbers: "true"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
-          checksum/es-values: {{ include (print "elasticsearch.yaml") . | sha256sum }}
-          checksum/kb-values: {{ include (print "kibana.yaml") . | sha256sum }}
+          checksum/es-values: {{ include (print $.Template.Basepath "/elasticsearch.yaml") $ | sha256sum }}
+          checksum/kb-values: {{ include (print $.Template.Basepath "/kibana.yaml") $ | sha256sum }}
       spec:
         {{- if .securityContext }}
         securityContext:
