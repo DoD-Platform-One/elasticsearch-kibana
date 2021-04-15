@@ -49,9 +49,9 @@ spec:
     podTemplate:
       metadata:
         annotations:
-          fluentbit.io/exclude-istio-proxy: "true"
           prometheus.istio.io/merge-metrics: "false"
           sidecar.istio.io/rewriteAppHTTPProbers: "true"
+          traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
       spec:
@@ -60,33 +60,13 @@ spec:
         {{- toYaml .securityContext | nindent 10 }}
         {{- end }}
 
-        {{- if or .antiAffinity .nodeAffinity }}
+        {{- if .nodeSelector }}
+        nodeSelector:
+          {{ toYaml .nodeSelector | nindent 10 }}
+        {{- end }}
+        {{- if .affinity }}
         affinity:
-        {{- end }}
-        {{- if eq .antiAffinity "hard" }}
-          podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              - topologyKey: "kubernetes.io/hostname"
-                labelSelector:
-                  matchLabels:
-                    elasticsearch.k8s.elastic.co/statefulset-name: "{{ $.Release.Name }}-es-master"
-                    elasticsearch.k8s.elastic.co/cluster-name: "{{ $.Release.Name }}"
-                    elasticsearch.k8s.elastic.co/node-master: "true"
-        {{- else if eq .antiAffinity "soft" }}
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchLabels:
-                    elasticsearch.k8s.elastic.co/statefulset-name: "{{ $.Release.Name }}-es-master"
-                    elasticsearch.k8s.elastic.co/cluster-name: "{{ $.Release.Name }}"
-                    elasticsearch.k8s.elastic.co/node-master: "true"
-        {{- end }}
-        {{- with .nodeAffinity }}
-          nodeAffinity:
-    {{ toYaml . | nindent 12 }}
+          {{ toYaml .affinity | nindent 10 }}
         {{- end }}
 
         {{- if .initContainers }}
@@ -146,9 +126,9 @@ spec:
     podTemplate:
       metadata:
         annotations:
-          fluentbit.io/exclude-istio-proxy: "true"
           prometheus.istio.io/merge-metrics: "false"
           sidecar.istio.io/rewriteAppHTTPProbers: "true"
+          traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
       spec:
@@ -157,35 +137,14 @@ spec:
         {{- toYaml .securityContext | nindent 10 }}
         {{- end }}
 
-        {{- if or .antiAffinity .nodeAffinity }}
+        {{- if .nodeSelector }}
+        nodeSelector:
+          {{ toYaml .nodeSelector | nindent 10 }}
+        {{- end }}
+        {{- if .affinity }}
         affinity:
+          {{ toYaml .affinity | nindent 10 }}
         {{- end }}
-        {{- if eq .antiAffinity "hard" }}
-          podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-              - topologyKey: "kubernetes.io/hostname"
-                labelSelector:
-                  matchLabels:
-                    elasticsearch.k8s.elastic.co/statefulset-name: "{{ $.Release.Name }}-es-data"
-                    elasticsearch.k8s.elastic.co/cluster-name: "{{ $.Release.Name }}"
-                    elasticsearch.k8s.elastic.co/node-data: "true"
-        {{- else if eq .antiAffinity "soft" }}
-          podAntiAffinity:
-            preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 1
-              podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchLabels:
-                    elasticsearch.k8s.elastic.co/statefulset-name: "{{ $.Release.Name }}-es-data"
-                    elasticsearch.k8s.elastic.co/cluster-name: "{{ $.Release.Name }}"
-                    elasticsearch.k8s.elastic.co/node-data: "true"
-        {{- end }}
-        {{- with .nodeAffinity }}
-          nodeAffinity:
-    {{ toYaml . | nindent 12 }}
-        {{- end }}
-
 
         {{- if .initContainers }}
         initContainers:

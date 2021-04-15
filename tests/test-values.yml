@@ -2,6 +2,8 @@ kibana:
   imagePullSecrets:
   - name: private-registry-mil
 
+  count: 1
+
 elasticsearch:
   imagePullSecrets:
   - name: private-registry-mil
