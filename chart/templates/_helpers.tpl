@@ -20,7 +20,7 @@ xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
     - email
   rp.redirect_uri: "https://{{ template "redirect_url" $ }}/api/security/v1/oidc"
   rp.post_logout_redirect_uri: "https://{{ template "redirect_url" $ }}/logged_out"
-  op.issuer: {{ tpl .issuer }}
+  op.issuer: {{ tpl .issuer . }}
   op.authorization_endpoint: {{ tpl .auth_url . }}
   op.token_endpoint: {{ tpl .token_url . }}
   op.userinfo_endpoint: {{ tpl .userinfo_url . }}
