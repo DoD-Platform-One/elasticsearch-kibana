@@ -150,16 +150,16 @@ sso:
     realm: baby-yoda
 
   # additional fields (required for SSO - default templates for keycloak)
-  issuer: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}"
-  auth_url: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/auth"
-  token_url: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/token"
-  userinfo_url: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/userinfo"
-  jwkset_url: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/certs"
+  issuer: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"
+  auth_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth"
+  token_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token"
+  userinfo_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"
+  jwkset_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs"
   claims_principal: "preferred_username"
 
   # additional fields (required for keycloak - may be optional for other providers)
   signature_algorithm: "RS256"
-  endsession_url: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/logout"
+  endsession_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"
   claims_group: "groups"
   claims_mail: "email"
 
