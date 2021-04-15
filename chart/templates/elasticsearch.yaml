@@ -151,7 +151,8 @@ spec:
           sidecar.istio.io/rewriteAppHTTPProbers: "true"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
-
+          checksum/es-values: {{ include (print $.Template.BasePath "/elasticsearch.yaml") . | sha256sum }}
+          checksum/kb-values: {{ include (print $.Template.BasePath "/kibana.yaml") . | sha256sum }}
       spec:
         {{- if .securityContext }}
         securityContext:
