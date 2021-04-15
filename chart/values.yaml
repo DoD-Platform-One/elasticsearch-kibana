@@ -149,6 +149,24 @@ sso:
     host: login.dso.mil
     realm: baby-yoda
 
+  # additional fields (required for SSO)
+  issuer: ""
+  auth_url: ""
+  token_url: ""
+  api_url: ""
+  userinfo_url: ""
+  jwkset_url: ""
+  claims_principal: ""
+
+  # additional fields (required for google - may be optional for other providers)
+  claims_principal_pattern: ""
+
+  # additional fields (required for keycloak - may be optional for other providers)
+  signature_algorithm: ""
+  endsession_url: ""
+  claims_group: ""
+  claims_mail: ""
+
 # Toggle this to turn off Kibana's built in auth and only allow SSO
 # Role mappings for SSO groups must be set up and SSO enabled before doing this
 kibanaBasicAuth:
