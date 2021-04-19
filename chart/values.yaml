@@ -93,6 +93,10 @@ elasticsearch:
 
     nodeSelector: {}
       # node-type: elastic-master
+    lifecycle: {}
+      # preStop:
+      #   exec:
+      #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
     count: 3
     persistence:
@@ -146,6 +150,10 @@ elasticsearch:
 
     nodeSelector: {}
       # node-type: elastic-data
+    lifecycle: {}
+      # preStop:
+      #   exec:
+      #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
     count: 4
     persistence:

@@ -99,6 +99,8 @@ spec:
                 value: "-Xms{{ .heap.min }} -Xmx{{ .heap.max }}"
             resources:
               {{- toYaml .resources | nindent 14 }}
+            lifecycle:
+              {{- toYaml .lifecycle | nindent 14 }}
         {{- with $.Values.elasticsearch.imagePullSecrets }}
         imagePullSecrets:
         {{- toYaml . | nindent 10 }}
@@ -196,6 +198,8 @@ spec:
                 value: "-Xms{{ .heap.min }} -Xmx{{ .heap.max }}"
             resources:
               {{- toYaml .resources | nindent 14 }}
+            lifecycle:
+              {{- toYaml .lifecycle | nindent 14 }}
         {{- with $.Values.elasticsearch.imagePullSecrets }}
         imagePullSecrets:
           {{- toYaml . | nindent 10 }}
