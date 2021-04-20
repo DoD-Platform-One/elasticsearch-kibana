@@ -26,9 +26,11 @@ xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
   op.userinfo_endpoint: {{ tpl .userinfo_url $ }}
   op.jwkset_path: {{ tpl .jwkset_url $ }}
   claims.principal: {{ .claims_principal }}
-  claim_patterns.principal: {{ tpl .claims_principal_pattern $ }}
+  claim_patterns.principal: {{ .claims_principal_pattern }}
   rp.signature_algorithm: {{ .signature_algorithm }}
-  op.endsession_endpoint: {{ tpl .endsession_url $ }}
+  {{- if .endsession_url }}
+  op.endsession_endpoint: {{ tpl .endsession_url $ | default "" }}
+  {{- end }}
   claims.groups: {{ .claims_group }}
   claims.mail: {{ .claims_mail }}
 {{- end }}
