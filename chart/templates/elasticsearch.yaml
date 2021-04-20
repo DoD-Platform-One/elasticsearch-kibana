@@ -55,7 +55,7 @@ spec:
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
-          values/checksum: {{ include (print $.Template.BasePath "/elasticsearch.yaml") $ | sha256sum }}
+          values/checksum: {{ include "oidc" $ | sha256sum }}
 
       spec:
         {{- if .securityContext }}
@@ -135,7 +135,7 @@ spec:
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
-          values/checksum: {{ include (print $.Template.BasePath "/elasticsearch.yaml") $ | sha256sum }}
+          values/checksum: {{ include "oidc" $ | sha256sum }}
       spec:
         {{- if .securityContext }}
         securityContext:
