@@ -48,6 +48,8 @@ spec:
         - name: kibana
           resources:
             {{- toYaml .Values.kibana.resources | nindent 12 }}
+          lifecycle:
+            {{- toYaml .Values.kibana.lifecycle | nindent 12 }}
       {{- with .Values.kibana.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
