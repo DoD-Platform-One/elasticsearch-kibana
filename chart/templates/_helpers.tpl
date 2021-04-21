@@ -27,19 +27,19 @@ xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
   op.jwkset_path: {{ tpl .jwkset_url $ }}
   claims.principal: {{ .claims_principal }}
   {{- /*Optional values should be nil checked*/ -}}
-  {{- if .claims_principal_pattern }}
+  {{- if and (.claims_principal_pattern) (ne .claims_principal_pattern "-") }}
   claim_patterns.principal: {{ .claims_principal_pattern }}
   {{- end }}
-  {{- if .signature_algorithm }}
+  {{- if and (.signature_algorithm) (ne .signature_algorithm "-") }}
   rp.signature_algorithm: {{ .signature_algorithm }}
   {{- end }}
-  {{- if .endsession_url }}
+  {{- if and (.endsession_url) (ne .endsession_url "-") }}
   op.endsession_endpoint: {{ tpl .endsession_url $ }}
   {{- end }}
-  {{- if .claims_group }}
+  {{- if and (.claims_group) (ne .claims_group "-") }}
   claims.groups: {{ .claims_group }}
   {{- end }}
-  {{- if .claims_mail }}
+  {{- if and (.claims_mail) (ne .claims_mail "-") }}
   claims.mail: {{ .claims_mail }}
   {{- end }}
 {{- end }}

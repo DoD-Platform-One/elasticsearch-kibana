@@ -200,7 +200,7 @@ sso:
   claims_mail: "email"
 
   # additional fields (required for google - may be optional for other providers)
-  claims_principal_pattern: ""
+  claims_principal_pattern: "-"
 
 # Toggle this to turn off Kibana's built in auth and only allow SSO
 # Role mappings for SSO groups must be set up and SSO enabled before doing this
