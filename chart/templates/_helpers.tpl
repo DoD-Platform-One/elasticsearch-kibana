@@ -15,7 +15,10 @@ xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
   order: 2
   rp.client_id: {{ .client_id }}
   rp.response_type: code
-  rp.requested_scopes: {{ toYaml .requested_scopes | indent 4 }}
+  rp.requested_scopes: |-
+    {{- range .requested_scopes }}
+    - {{ . | quote }}
+    {{- end }}
   rp.redirect_uri: "https://{{ template "redirect_url" $ }}/api/security/v1/oidc"
   rp.post_logout_redirect_uri: "https://{{ template "redirect_url" $ }}/logged_out"
   op.issuer: {{ tpl .issuer $ }}
