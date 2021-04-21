@@ -15,7 +15,7 @@ xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
   order: 2
   rp.client_id: {{ .client_id }}
   rp.response_type: code
-  rp.requested_scopes: |-
+  rp.requested_scopes:
     {{- range .requested_scopes }}
     - {{ . | quote }}
     {{- end }}
