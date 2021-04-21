@@ -192,6 +192,8 @@ sso:
   userinfo_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"
   jwkset_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs"
   claims_principal: "preferred_username"
+  requested_scopes: 
+    - openid
 
   # additional fields (required for keycloak - may be optional for other providers)
   signature_algorithm: "RS256"
