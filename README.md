@@ -1,6 +1,7 @@
 # Elasticsearch-Kibana Documentation
  
 # Table of Contents
+- [Overview](docs/overview.md)
 - [Development](#elasticsearch-kibana)
 - [Prerequisites](#pre-requisites)
 - [IronBank Images](#iron-bank)
@@ -12,6 +13,8 @@
 - [Kibana Metrics](docs/prometheus.md)
 - [Kibana ECK Integration](docs/elastic.md)
 - [Kibana SSO Integration](docs/keycloak.md)
+- [Troubleshooting](docs/troubleshooting.md)
+- [Backup and recovery](docs/backup.md)
 
 ---
 
