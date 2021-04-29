@@ -1,0 +1,54 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: "{{ .Release.Name }}-access-test"
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": test-success
+    "helm.sh/hook-weight": "10"
+    sidecar.istio.io/inject: "false"
+  labels:
+    helm-test: enabled
+    {{- include "elasticsearch.labels" . | nindent 4 }}
+spec:
+  containers:
+    - name: {{ .Release.Name }}-credentials-test
+      image: {{.Values.mcImage }}
+      imagePullPolicy: {{ .Values.image.imagePullPolicy | quote }}
+      env:
+        - name: ELASTICSEARCH_PORT
+          value: {{ .Values.service.port | quote }}
+        - name: ELASTICSEARCH_HOST
+          value: {{ include "minio.serviceName" . }}
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.elasticsearchRootCreds }}
+              key: secretkey
+        - name: ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.elasticsearchRootCreds }}
+              key: accesskey
+      command:
+        - /bin/bash
+        - -ec
+        - |-
+            set -x
+            mc config host add bigbang http://${ELASTICSEARCH_HOST}:${ELASTICSEARCH_PORT} ${ACCESS_KEY} ${SECRET_KEY}
+            # cleanup from pervious runs
+            mc rb bigbang/foobar --force || true 
+            mc mb bigbang/foobar
+            mc ls bigbang/foobar
+            base64 /dev/urandom | head -c 10000000 > /tmp/file.txt
+            md5sum /tmp/file.txt > /tmp/filesig
+            mc cp /tmp/file.txt bigbang/foobar/file.txt
+            mc ls bigbang/foobar/file.txt
+            mc cp bigbang/foobar/file.txt /tmp/file.txt
+            mc rb bigbang/foobar --force
+            md5sum -c /tmp/filesig
+  {{- with .Values.imagePullSecrets }}
+  imagePullSecrets:
+    {{- toYaml . | nindent 4}}
+  {{- end }}
+  restartPolicy: Never
