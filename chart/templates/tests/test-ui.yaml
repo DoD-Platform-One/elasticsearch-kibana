@@ -9,7 +9,7 @@ metadata:
     sidecar.istio.io/inject: "false"
   labels:
     helm-test: enabled
-    {{- include "elasticsearch.labels" . | nindent 4 }}
+    {{- include "minio.labels" . | nindent 4 }}
 spec:
   initContainers:
   - name: copier
@@ -38,8 +38,8 @@ spec:
       env:
         - name: HOST
           value: {{ .Values.service.port | quote }}
-        - name: ELASTICSEARCH_HOST
-          value: {{ include "elasticsearch.serviceName" . }}
+        - name: MINIO_HOST
+          value: {{ include "minio.serviceName" . }}
         - name: cypress_secretkey
           valueFrom:
             secretKeyRef:
@@ -51,7 +51,7 @@ spec:
               name: {{ .Values.minioRootCreds }}
               key: accesskey
         - name: cypress_url
-          value: "http://{{ include "elasticsearch".serviceName" . }}:{{ .Values.service.port }}"
+          value: "http://{{ .Release.Name }}-kb-http:5601"
       args:
       - "--"
       - "--reporter-options=list"
@@ -66,4 +66,3 @@ spec:
       name: "{{ .Release.Name }}-cypress-test-configmap"
   - name: workdir
     emptyDir: {}
-
