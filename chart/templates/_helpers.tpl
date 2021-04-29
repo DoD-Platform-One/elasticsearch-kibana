@@ -43,5 +43,11 @@ xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
   {{- if .claims_mail }}
   claims.mail: {{ .claims_mail }}
   {{- end }}
+  {{- if .cert_authorities }}
+  ssl.certificate_authorities:
+    {{- range .cert_authorities }}
+    - {{ . | quote }}
+    {{- end }}
+  {{- end }}
 {{- end }}
 {{- end }}
