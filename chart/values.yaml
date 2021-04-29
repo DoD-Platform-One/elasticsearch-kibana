@@ -217,7 +217,7 @@ sso:
   claims_mail: "email"
 
   # additional fields (required for google - may be optional for other providers)
-  claims_principal_pattern: "-"
+  claims_principal_pattern: ""
 
   # additional fields not used by keycloak or google
   cert_authorities: []
