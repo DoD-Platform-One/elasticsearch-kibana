@@ -37,19 +37,10 @@ spec:
       workingDir: /e2e
       env:
         - name: HOST
-          value: {{ .Values.service.port | quote }}
+          value: 5601
         - name: MINIO_HOST
-          value: {{ include "minio.serviceName" . }}
-        - name: cypress_secretkey
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.minioRootCreds }}
-              key: secretkey
-        - name: cypress_accesskey
-          valueFrom:
-            secretKeyRef:
-              name: {{ .Values.minioRootCreds }}
-              key: accesskey
+          value: {{ .Release.Name }}-kb-htt
+       
         - name: cypress_url
           value: "http://{{ .Release.Name }}-kb-http:5601"
       args:
