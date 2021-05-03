@@ -15,7 +15,7 @@ Common labels
 */}}
 {{- define "elasticsearch.labels" -}}
 helm.sh/chart: {{ include "elasticsearch.chart" . }}
-{{ include "minio.selectorLabels" . }}
+{{ include "elasticsearch.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
