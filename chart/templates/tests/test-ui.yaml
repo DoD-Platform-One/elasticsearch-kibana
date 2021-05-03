@@ -36,7 +36,7 @@ spec:
       imagePullPolicy: Always
       workingDir: /e2e
       env:
-        - name: cypress_url
+        - name: kibana_url
           value: "http://{{ .Release.Name }}-kb-http:5601"
       args:
       - "--"
