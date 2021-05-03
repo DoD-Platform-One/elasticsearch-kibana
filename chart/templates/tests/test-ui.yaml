@@ -9,7 +9,7 @@ metadata:
     sidecar.istio.io/inject: "false"
   labels:
     helm-test: enabled
-    {{- include "minio.labels" . | nindent 4 }}
+    {{- include "elasticsearch.fullname" . | nindent 4 }}
 spec:
   initContainers:
   - name: copier
