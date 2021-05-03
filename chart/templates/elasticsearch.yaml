@@ -85,6 +85,14 @@ spec:
               {{- toYaml .resources | nindent 14 }}
             lifecycle:
               {{- toYaml .lifecycle | nindent 14 }}
+            {{- if .volumeMounts }}
+            volumeMounts:
+            {{- toYaml .volumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if .volumes }}
+        volumes:
+        {{- toYaml .volumes | nindent 8 }}
+        {{- end }}
         {{- with $.Values.elasticsearch.imagePullSecrets }}
         imagePullSecrets:
         {{- toYaml . | nindent 10 }}
@@ -166,6 +174,14 @@ spec:
               {{- toYaml .resources | nindent 14 }}
             lifecycle:
               {{- toYaml .lifecycle | nindent 14 }}
+            {{- if .volumeMounts }}
+            volumeMounts:
+            {{- toYaml .volumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if .volumes }}
+        volumes:
+        {{- toYaml .volumes | nindent 8 }}
+        {{- end }}
         {{- with $.Values.elasticsearch.imagePullSecrets }}
         imagePullSecrets:
           {{- toYaml . | nindent 10 }}
