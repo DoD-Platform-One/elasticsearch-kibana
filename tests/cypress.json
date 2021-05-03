@@ -2,8 +2,5 @@
   "pluginsFile": false,
   "supportFile": false,
   "fixturesFolder": false,
-  "env": {
-    "kibana_url": "kibana.bigbang.dev",
-    
-  }
+
 }
