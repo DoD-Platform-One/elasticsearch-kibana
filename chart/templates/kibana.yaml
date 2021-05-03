@@ -49,6 +49,14 @@ spec:
             {{- toYaml .Values.kibana.resources | nindent 12 }}
           lifecycle:
             {{- toYaml .Values.kibana.lifecycle | nindent 12 }}
+          {{- if .Values.kibana.volumeMounts }}
+          volumeMounts:
+          {{- toYaml .Values.kibana.volumeMounts | nindent 10 }}
+          {{- end }}
+      {{- if .Values.kibana.volumes }}
+      volumes:
+      {{- toYaml .Values.kibana.volumes | nindent 6 }}
+      {{- end }}
       {{- with .Values.kibana.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

@@ -17,12 +17,16 @@ kibana:
   imagePullSecrets: [ ]
 
   resources: {}
-#    requests:
-#      memory: 1Gi
-#      cpu: 0.5
-#    limits:
-#      memory: 2Gi
-#      cpu: 2
+    # requests:
+    #   memory: 1Gi
+    #   cpu: 0.5
+    # limits:
+    #   memory: 2Gi
+    #   cpu: 2
+
+  volumes: []
+
+  volumeMounts: []
 
   affinity: {}
     # podAntiAffinity:
@@ -75,6 +79,18 @@ elasticsearch:
       runAsGroup: 1000
       fsGroup: 1000
 
+    volumes: []
+    # - name: cert
+    #   secret:
+    #     secretName: cert
+    #     defaultMode: 0644
+  
+    volumeMounts: []
+    # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
+    #   name: cert
+    #   subPath: ca.crt
+    #   readOnly: true
+
     affinity: {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
@@ -103,12 +119,12 @@ elasticsearch:
       storageClassName: ""
       size: 5Gi
     resources: {}
-#      limits:
-#        cpu: 2
-#        memory: 4Gi
-#      requests:
-#        cpu: 1
-#        memory: 2Gi
+      # limits:
+      #   cpu: 2
+      #   memory: 4Gi
+      # requests:
+      #   cpu: 1
+      #   memory: 2Gi
     heap:
       # Xms
       min: 1g
@@ -131,6 +147,18 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+
+    volumes: []
+      # - name: cert
+      #   secret:
+      #     secretName: cert
+      #     defaultMode: 0644
+  
+    volumeMounts: []
+      # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
+      #   name: cert
+      #   subPath: ca.crt
+      #   readOnly: true
 
     affinity: {}
       # podAntiAffinity:
