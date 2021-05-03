@@ -33,7 +33,7 @@ spec:
   containers:
     - name: {{ .Release.Name }}-ui-test
       image: registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/included:5.0.0
-      imagePullPolicy: {{ .Values.image.imagePullPolicy | quote }}
+      imagePullPolicy: Always
       workingDir: /e2e
       env:
         - name: HOST
