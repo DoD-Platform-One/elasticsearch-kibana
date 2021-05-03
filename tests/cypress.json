@@ -4,7 +4,6 @@
   "fixturesFolder": false,
   "env": {
     "kibana_url": "kibana.bigbang.dev",
-    "kibana_password": "",
-    "kibana_user": "elastic"
+    
   }
 }
