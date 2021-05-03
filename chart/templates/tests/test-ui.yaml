@@ -38,8 +38,8 @@ spec:
       env:
         - name: HOST
           value: 5601
-        - name: MINIO_HOST
-          value: {{ .Release.Name }}-kb-htt
+        - name: ELASTICSEARCH_HOST
+          value: {{ .Release.Name }}-kb-http
        
         - name: cypress_url
           value: "http://{{ .Release.Name }}-kb-http:5601"
