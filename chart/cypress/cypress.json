@@ -1,10 +1,6 @@
 {
   "pluginsFile": false,
   "supportFile": false,
-  "fixturesFolder": false,
-  "env": {
-    "kibana_url": "http://elasticsearch-kb-http:5601",
-    "kibana_password": "",
-    "kibana_user": "elastic"
-  }
+  "fixturesFolder": false
+ 
 }
