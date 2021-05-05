@@ -26,5 +26,5 @@ elasticsearch:
         memory: 3Gi
 
 istio:
-  enabled: false
+  enabled: true
 
