@@ -35,7 +35,9 @@ spec:
       image: registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/included:5.0.0
       imagePullPolicy: Always
       workingDir: /e2e
-     
+      env:
+        - name: kibana_url
+          value: "https://localhost:5601" 
       args:
       - "--"
       - "--reporter-options=list"

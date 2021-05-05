@@ -8,7 +8,7 @@ metadata:
     sidecar.istio.io/inject: "false"
   labels:
     helm-test: enabled
-    
+    {{- include "elasticsearch.labels" . | nindent 4 }}
   namespace: {{ .Release.Namespace }}
 data:
 {{ (.Files.Glob "cypress/*").AsConfig | indent 2 }}
