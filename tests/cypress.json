@@ -3,7 +3,7 @@
   "supportFile": false,
   "fixturesFolder": false,
   "env": {
-    "kibana_url": "http://localhost:5601",
+    "kibana_url": "kibana.bigbang.dev",
     "kibana_password": "",
     "kibana_user": "elastic"
   }
