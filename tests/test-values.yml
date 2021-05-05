@@ -1,12 +1,12 @@
 kibana:
   imagePullSecrets:
-  - name: private-registry
+  - name: private-registry-mil
 
   count: 1
 
 elasticsearch:
   imagePullSecrets:
-  - name: private-registry
+  - name: private-registry-mil
 
   master:
     count: 1
@@ -26,4 +26,5 @@ elasticsearch:
         memory: 3Gi
 
 istio:
-  enabled: true
+  enabled: false
+
