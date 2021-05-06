@@ -1,6 +1,6 @@
 describe('Basic Kibana', function() {
   it('Check Kibana UI is accessible', function() {
-    cy.visit(Cypress.env('kibana_url'))
+    cy.visit('https://localhost:5601')
     cy.title().should('eq', 'Elastic')
     cy.get('[name="username"]')
         .type('elastic')
@@ -18,7 +18,7 @@ describe('Basic Kibana', function() {
       cy.location('pathname', { timeout: 10000 }).should('eq', '/app/home');
       
       // Verify the page title is "Home"
-     cy.title().should('eq', 'Home - Elastic1');
+     cy.title().should('eq', 'Home - Elastic');
 
   
   })
