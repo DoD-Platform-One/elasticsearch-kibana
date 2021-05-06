@@ -36,8 +36,8 @@ spec:
       imagePullPolicy: Always
       workingDir: /e2e
       env:
-        - name: kibana_url
-          value : "https://elasticsearch-kibana-kb-http:5601"
+        - name:  cypress_url
+          value : "https://{{ .Release.Name }}-kb-http:5601"
         - name: password
           valueFrom:
             secretKeyRef:
