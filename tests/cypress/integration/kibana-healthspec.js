@@ -1,6 +1,6 @@
 describe("Basic kibana is ", function () {
   it("Check kibana is accessible", function () {
-    cy.visit("https://localhost:5601/login?next=%2F");
+    cy.visit("https://kibana.bigbang.dev:5601/login?next=%2F");
     cy.title().should("eq", "Elastic");
 
    /* cy.get("input[name=username]", { timeout: 15000 })
