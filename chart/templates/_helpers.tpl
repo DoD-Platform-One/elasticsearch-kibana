@@ -45,6 +45,12 @@ Expand the name of the chart.
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
+{{/*
+Create the name of the service used to access the UI
+*/}}
+{{- define "elasticsearch.serviceName" -}}
+{{- .Release.Name }}
+{{- end }}
 
 
 

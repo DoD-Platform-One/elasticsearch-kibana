@@ -1,7 +1,10 @@
 describe('Basic Kibana', function() {
   it('Check Kibana UI is accessible', function() {
-    cy.visit('https://elasticsearch-kibana-kb-http:5601')
+    
+
+    cy.visit( Cypress.env('kibana_url') 
     cy.title().should('eq', 'Elastic')
+    
     
   })
 })

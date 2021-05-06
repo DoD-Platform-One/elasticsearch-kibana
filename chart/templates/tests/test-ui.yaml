@@ -37,11 +37,11 @@ spec:
       workingDir: /e2e
       env:
         - name: kibana_url
-          value: "https://elasticsearch-kb-http:5601" 
-        - name: elasticsearch-es-elastic-user
+          value : "https://elasticsearch-kibana-kb-http:5601"
+        - name: password
           valueFrom:
             secretKeyRef:
-              name: elasticsearch-es-elastic-user
+              name: elasticsearch-kibana-es-elastic-user
               key: elastic
 
       args:
