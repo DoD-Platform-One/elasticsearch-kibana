@@ -38,6 +38,12 @@ spec:
       env:
         - name: kibana_url
           value: "https://localhost:5601" 
+        - name: password
+          valueFrom:
+            secretKeyRef:
+              name: elasticsearch-es-elastic-user
+              key: elastic
+
       args:
       - "--"
       - "--reporter-options=list"
