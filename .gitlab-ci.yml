@@ -1,4 +1,4 @@
 include:
   - project: 'platform-one/big-bang/pipeline-templates/pipeline-templates'
-    ref: helmtest-logs
+    ref: chart-test-lib
     file: '/templates/package-tests.yml'
