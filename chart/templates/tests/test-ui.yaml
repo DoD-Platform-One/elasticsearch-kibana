@@ -37,7 +37,7 @@ spec:
       workingDir: /e2e
       env:
         - name:  cypress_url
-          value : "https://{{ .Release.Name }}-kb-http:5601"
+          value : "http://{{ .Release.Name }}-kb-http:5601"
         - name: cypress_password
           valueFrom:
             secretKeyRef:
