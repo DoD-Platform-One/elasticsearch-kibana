@@ -27,3 +27,15 @@ elasticsearch:
 istio:
   enabled: true
 
+bbtests:
+  scripts:
+    image: registry1.dso.mil/ironbank/stedolan/jq:1.6
+    envs:
+      es_host: "http://{{ Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"
+      desired_version: "{{ .Values.elasticsearch.version }}"
+    secretEnvs:
+      - name: ELASTIC_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: {{ .Release.Name }}-es-elastic-user
+            key: password
