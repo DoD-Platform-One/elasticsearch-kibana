@@ -28,14 +28,15 @@ istio:
   enabled: true
 
 bbtests:
-  scripts:
-    image: registry1.dso.mil/ironbank/stedolan/jq:1.6
+  cypress:
+    artifacts: true
     envs:
-      es_host: "http://{{ Release.Name }}-es-http:9200"
-      desired_version: "{{ .Values.elasticsearch.version }}"
+      
+      cypress_url: "https://{{ Release.Name }}-es-http:9200"
     secretEnvs:
-      - name: ELASTIC_PASSWORD
+      - name: cypress_secretkey
         valueFrom:
           secretKeyRef:
-            name: {{ .Release.Name }}-es-elastic-user
+            name: "{{ .Release.Name }}-es-elastic-user"
             key: password
+     
