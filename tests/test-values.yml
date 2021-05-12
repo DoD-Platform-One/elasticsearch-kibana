@@ -37,7 +37,7 @@ bbtests:
         valueFrom:
           secretKeyRef:
             name: "logging-ek-es-elastic-user"
-            key: password
+            key: elastic
   scripts:
     image: registry1.dso.mil/ironbank/stedolan/jq:1.6
     envs:
@@ -48,5 +48,5 @@ bbtests:
         valueFrom:
           secretKeyRef:
             name: "logging-ek-es-elastic-user"
-            key: password
+            key: elastic
 
