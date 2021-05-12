@@ -2,7 +2,7 @@ describe("Basic Kibana", function () {
   it("Check Kibana UI is accessible", function () {
     cy.visit(Cypress.env('kibana_url'))
     cy.title().should("eq", "Elastic")
-    cy.wait(10000)
+    cy.wait(6000)
     cy.get('input[name="username"]', { timeout: 15000 })
       .type("elastic")
     cy.get('input[name="password"]').type(Cypress.env('elastic_password'))
