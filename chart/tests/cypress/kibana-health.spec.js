@@ -3,12 +3,8 @@ describe("Basic Kibana", function () {
     cy.visit(Cypress.env('kibana_url'))
     cy.title().should("eq", "Elastic")
     cy.get("input[name=username]", { timeout: 15000 })
-      .should("be.visible")
       .type("elastic")
-      .should("have.value", "elastic");
-    cy.get("input[name=password]")
-      .type(Cypress.env('elastic_password'))
-      .should("have.value", Cypress.env("password"));
+    cy.get("input[name=password]").type(Cypress.env('elastic_password'))
     cy.get('button.[type=submit]').click({ force: true });
     Cypress.on("uncaught:exception", (err, runnable) => {
       // returning false here prevents Cypress from
