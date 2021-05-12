@@ -11,7 +11,7 @@ describe("Basic Kibana", function () {
     // Verify the app redirected you to the homepage
     cy.location("pathname", { timeout: 10000 }).should("eq", "/app/home");
   });
-
+  //Going any further leads to Kibana not loading properly, probably because of browser within Cypress, shows "Kibana did not load properly. Check the server output for more information"
   /*it("Visit Discover Page", function () {
     cy.contains("Add sample data", { timeout: 15000 })
       .should("be.visible")

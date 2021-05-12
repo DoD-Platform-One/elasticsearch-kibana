@@ -32,25 +32,3 @@ if [ ! ${desired_version} ==  ${elasticsearch_version} ]; then
   exit 1
 fi
 echo "Test 3 Success: Elasticsearch version matches."
-
-echo "Checking Elasticsearch Indexes..."
-indices_response=$(curl -sSku "elastic:${ELASTIC_PASSWORD}" "${elasticsearch_host}/_cluster/stats" 2>/dev/null)
-indices_present=$(echo ${records_response} | jq '.indices.count' | xargs)
-if [ ! ${indices_present} -gt 0 ]; then
-  echo "Test 3 Failure: Elasticsearch does not have any indices."
-  echo "Debug information (metrics response):"
-  echo "${indices_response}" | jq
-  exit 1
-fi
-echo "Test 4 Success: Elasticsearch has ${indices_present} indices."
-
-echo "Checking Elasticsearch Documents..."
-docs_response=$(curl -sSku "elastic:${ELASTIC_PASSWORD}" "${elasticsearch_host}/_cluster/stats" 2>/dev/null)
-docs_present=$(echo ${records_response} | jq '.indices.docs.count' | xargs)
-if [ ! ${docs_present} -gt 0 ]; then
-  echo "Test 3 Failure: Elasticsearch does not have any documents."
-  echo "Debug information (metrics response):"
-  echo "${docs_response}" | jq
-  exit 1
-fi
-echo "Test 5 Success: Elasticsearch has ${docs_present} documents."
