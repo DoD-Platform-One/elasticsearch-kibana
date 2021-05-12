@@ -31,10 +31,9 @@ bbtests:
   cypress:
     artifacts: true
     envs:
-      
-      cypress_url: "https://{{ Release.Name }}-es-http:9200"
+      kibana_url: "https://{{ Release.Name }}-kb-http:5601"
     secretEnvs:
-      - name: cypress_secretkey
+      - name: elastic_password
         valueFrom:
           secretKeyRef:
             name: "{{ .Release.Name }}-es-elastic-user"

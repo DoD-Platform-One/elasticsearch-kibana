@@ -1,14 +1,14 @@
 describe("Basic Kibana", function () {
   it("Check Kibana UI is accessible", function () {
     //cy.visit( 'https://elasticsearch-kibana-kb-http:5601/login?next=%2F')
-    cy.visit(Cypress.env("url") + "/login?next=%2F");
+    cy.visit(Cypress.env("kibana_url") + "/login?next=%2F");
     cy.title().should("eq", "Elastic");
     cy.get("input[name=username]", { timeout: 15000 })
       .should("be.visible")
       .type("elastic")
       .should("have.value", "elastic");
     cy.get("input[name=password]")
-      .type(Cypress.env("password"))
+      .type(Cypress.env("elastic_password"))
       .should("have.value", Cypress.env("password"));
 
     cy.get("form").submit();
