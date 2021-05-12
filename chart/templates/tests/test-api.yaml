@@ -1,13 +1,14 @@
-{{- include "bb-test-lib.script-runner.overrides" (list . "elasticsearch-kibana-test.script-runner") }}
-{{- define "elasticsearch-kibana-test.script-runner" }}
-metadata:
-  labels:
-    {{ include "elasticsearch.labels" . | nindent 4 }}
-{{- end }}
----
 {{- include "bb-test-lib.script-configmap.overrides" (list . "elasticsearch-kibana-test.script-configmap") }}
 {{- define "elasticsearch-kibana-test.script-configmap" }}
 metadata:
   labels:
     {{ include "elasticsearch.labels" . | nindent 4 }}
 {{- end }}
+---
+{{- include "bb-test-lib.script-runner.overrides" (list . "elasticsearch-kibana-test.script-runner") -}}
+{{- define "elasticsearch-kibana-test.script-runner" -}}
+metadata:
+  labels:
+    {{ include "elasticsearch.labels" . | nindent 4 }}
+{{- end }}
+
