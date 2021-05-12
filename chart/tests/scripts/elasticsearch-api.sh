@@ -12,8 +12,8 @@ fi
 echo "Test 1 Success: Elasticsearch is up."
 
 echo "Hitting Elasticsearch API endpoint..."
-health_response=$(curl -sS -ku "elastic:${ELASTIC_PASSWORD}" "${elasticsearch_host}/_cluster/health?pretty" &>/dev/null)
-elasticsearch_health$(echo ${health_response} | jq '.status' | xargs)
+health_response=$(curl -sSku "elastic:${ELASTIC_PASSWORD}" "${elasticsearch_host}/_cluster/health?pretty" &>/dev/null)
+elasticsearch_health=$(echo ${health_response} | jq '.status' | xargs)
 if [[ ${elasticsearch_health} != "green" ]]; then
   echo "Test 2 Failure: Elasticsearch is not Healthy."
   echo "Debug information (curl response):"
