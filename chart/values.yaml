@@ -203,17 +203,6 @@ elasticsearch:
 istio:
   # Toggle istio interaction
   enabled: false
-  virtualService:
-    enabled: true
-    annotations: {}
-    labels: {}
-    gateways:
-      - istio-system/main
-    hosts:
-      -  kibana.{{ .Values.hostname }}
-    service: ""
-    port: ""
-
   kibana:
     # Toggle vs creation
     enabled: true
@@ -223,7 +212,6 @@ istio:
       - istio-system/main
     hosts:
       - kibana.{{ .Values.hostname }}
-elasticsearchRootCreds: default-minio-creds-secret
 
 
 # Toggle and configure SSO with Keycloak
