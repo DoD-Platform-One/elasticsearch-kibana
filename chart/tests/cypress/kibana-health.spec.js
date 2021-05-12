@@ -12,7 +12,7 @@ describe("Basic Kibana", function () {
     cy.location("pathname", { timeout: 10000 }).should("eq", "/app/home");
   });
 
-  it("Visit Discover Page", function () {
+  /*it("Visit Discover Page", function () {
     cy.contains("Add sample data", { timeout: 15000 })
       .should("be.visible")
       .click()
@@ -22,5 +22,5 @@ describe("Basic Kibana", function () {
     cy.get
     cy.get('button[id="130fa6f1-b35f-11eb-a21c-079e4de1ead6Title"]', { timeout: 15000 }).click();
     cy.title().should("eq", "Discover - Elastic");
-  });
+  });*/
 });
