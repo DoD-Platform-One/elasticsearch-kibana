@@ -38,4 +38,8 @@ bbtests:
           secretKeyRef:
             name: "logging-ek-es-elastic-user"
             key: password
-     
+  scripts:
+    image: registry1.dso.mil/ironbank/stedolan/jq:1.6
+    envs:
+      elasticsearch_host: "http://{{ .Release.Name }}.{{ .Release.Namespace }}.svc.cluster.local:9200"
+      desired_version: "{{ .Values.elasticsearch.version }}"
