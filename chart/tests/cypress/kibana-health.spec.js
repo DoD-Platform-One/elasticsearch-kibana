@@ -10,7 +10,7 @@ describe("Basic Kibana", function () {
       .type(Cypress.env('elastic_password'))
       .should("have.value", Cypress.env("password"));
 
-    cy.get('button.[type=submit]').click()
+    cy.get('button.[data-test-subj="loginSubmit"]').click()
     Cypress.on("uncaught:exception", (err, runnable) => {
       // returning false here prevents Cypress from
       // failing the test
