@@ -31,7 +31,7 @@ bbtests:
   cypress:
     artifacts: true
     envs:
-      cypress_kibana_url: "https://logging-ek-kb-http:5601/login"
+      cypress_kibana_url: "http://logging-ek-kb-http:5601/login"
     secretEnvs:
       - name: cypress_elastic_password
         valueFrom:
