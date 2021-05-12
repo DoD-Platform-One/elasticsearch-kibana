@@ -11,13 +11,13 @@ describe("Basic Kibana", function () {
     // Verify the app redirected you to the homepage
     cy.location("pathname", { timeout: 10000 }).should("eq", "/app/home");
 
-    cy.contains("Try our sample data", { timeout: 15000 })
+    cy.contains("Add sample data", { timeout: 15000 })
       .should("be.visible")
       .click();
     cy.get("button.euiHeaderSectionItem__button", { timeout: 15000 })
       .first()
       .click();
-    cy.contains("Discover", { timeout: 15000 }).click();
-    cy.title().should("eq", "Index patterns - Elastic");
+    cy.get('button[title="Discover"]', { timeout: 15000 }).click();
+    cy.title().should("eq", "Discover - Elastic");
   });
 });
