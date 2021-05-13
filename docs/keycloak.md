@@ -90,6 +90,7 @@ To set up role mappings and fully enable SSO:
  - Go to Management -> Stack Management -> Security -> Role Mappings
  - Create the desired role 
     - For development the following settings will make everyone a super user. Roles: Superuser, Mapping rules: groups = *
+    - NOTE: for integration other oauth providers (such as google), you may need to adjust this role mapping to something like `username = *`
  - You should now be able to login to Kibana with Keycloak realm users
 
 ## Dev Reference Resources

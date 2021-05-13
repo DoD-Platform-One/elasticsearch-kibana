@@ -30,27 +30,8 @@ spec:
       node.store.allow_mmap: true
       xpack.ml.enabled: false
       xpack.security.authc.token.enabled: true
-      {{- with $.Values.sso }}
-      {{- if .enabled }}
-      xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
-        order: 2
-        rp.client_id: {{ .client_id }}
-        rp.response_type: code
-        rp.redirect_uri: "https://{{ template "redirect_url" $ }}/api/security/oidc/callback"
-        rp.signature_algorithm: RS256
-        rp.requested_scopes:
-          - openid
-        op.authorization_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/auth"
-        op.token_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/token"
-        op.jwkset_path: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/certs"
-        op.userinfo_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/userinfo"
-        op.endsession_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/logout"
-        op.issuer: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}"
-        rp.post_logout_redirect_uri: "https://{{ template "redirect_url" $ }}/logged_out"
-        claims.principal: preferred_username
-        claims.groups: groups
-        claims.mail: email
-      {{- end }}
+      {{- if $.Values.sso.enabled }}
+      {{ include "oidc" $ | indent 6 }}
       {{- end }}
     volumeClaimTemplates:
       - metadata:
@@ -73,6 +54,9 @@ spec:
           traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
+          sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
+          values/checksum: {{ include "oidc" $ | sha256sum }}
+
       spec:
         {{- if .securityContext }}
         securityContext:
@@ -135,27 +119,8 @@ spec:
       node.store.allow_mmap: true
       xpack.ml.enabled: false
       xpack.security.authc.token.enabled: true
-      {{- with $.Values.sso }}
-      {{- if .enabled }}
-      xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
-        order: 2
-        rp.client_id: {{ .client_id }}
-        rp.response_type: code
-        rp.redirect_uri: "https://{{ template "redirect_url" $ }}/api/security/oidc/callback"
-        rp.signature_algorithm: RS256
-        rp.requested_scopes:
-          - openid
-        op.authorization_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/auth"
-        op.token_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/token"
-        op.jwkset_path: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/certs"
-        op.userinfo_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/userinfo"
-        op.endsession_endpoint: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}/protocol/openid-connect/logout"
-        op.issuer: "https://{{ .oidc.host }}/auth/realms/{{ .oidc.realm }}"
-        rp.post_logout_redirect_uri: "https://{{ template "redirect_url" $ }}/logged_out"
-        claims.principal: preferred_username
-        claims.groups: groups
-        claims.mail: email
-      {{- end }}
+      {{- if $.Values.sso.enabled }}
+      {{ include "oidc" $ | indent 6 }}
       {{- end }}
 
     volumeClaimTemplates:
@@ -179,7 +144,8 @@ spec:
           traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
-
+          sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
+          values/checksum: {{ include "oidc" $ | sha256sum }}
       spec:
         {{- if .securityContext }}
         securityContext:
