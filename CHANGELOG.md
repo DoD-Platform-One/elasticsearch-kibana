@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.1.10-bb.0] - 2021-05-11
+### Added
+- Moved elasticsearch oidc realm definition into a helper function
+- Exposed default keycloak values as fields which can be overridden
+- Added pod annotations to force ES restarts in the event the `sso-secret` or oidc realm definition change
+- Added support for specifying `sso.certificate_authorities`
+
 ## [0.1.9-bb.0] - 2021-04-19
 ### Added
 - Adding volume and volumeMounts declaration support for Kibana and Elasticsearch resources

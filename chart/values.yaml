@@ -228,6 +228,28 @@ sso:
     host: login.dso.mil
     realm: baby-yoda
 
+  # additional fields (required for SSO - default templates for keycloak)
+  issuer: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"
+  auth_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth"
+  token_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token"
+  userinfo_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"
+  jwkset_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs"
+  claims_principal: "preferred_username"
+  requested_scopes: 
+    - openid
+
+  # additional fields (required for keycloak - may be optional for other providers)
+  signature_algorithm: "RS256"
+  endsession_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"
+  claims_group: "groups"
+  claims_mail: "email"
+
+  # additional fields (required for google - may be optional for other providers)
+  claims_principal_pattern: ""
+
+  # additional fields not used by keycloak or google
+  cert_authorities: []
+
 # Toggle this to turn off Kibana's built in auth and only allow SSO
 # Role mappings for SSO groups must be set up and SSO enabled before doing this
 kibanaBasicAuth:
