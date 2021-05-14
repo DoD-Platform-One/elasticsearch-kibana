@@ -66,12 +66,12 @@ spec:
       automountServiceAccountToken: true
       {{- end }}
       {{- with .Values.kibana }}
-        {{- if .nodeSelector }}
-        nodeSelector:
-          {{ toYaml .nodeSelector | nindent 10 }}
-        {{- end }}
-        {{- if .affinity }}
-        affinity:
-          {{ toYaml .affinity | nindent 10 }}
-        {{- end }}
+      {{- if .nodeSelector }}
+      nodeSelector:
+        {{- toYaml .nodeSelector | nindent 8 }}
+      {{- end }}
+      {{- if .affinity }}
+      affinity:
+        {{- toYaml .affinity | nindent 8 }}
+      {{- end }}
       {{- end }}

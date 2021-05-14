@@ -65,11 +65,11 @@ spec:
 
         {{- if .nodeSelector }}
         nodeSelector:
-          {{ toYaml .nodeSelector | nindent 10 }}
+          {{- toYaml .nodeSelector | nindent 10 }}
         {{- end }}
         {{- if .affinity }}
         affinity:
-          {{ toYaml .affinity | nindent 10 }}
+          {{- toYaml .affinity | nindent 10 }}
         {{- end }}
 
         {{- if .initContainers }}
@@ -154,11 +154,11 @@ spec:
 
         {{- if .nodeSelector }}
         nodeSelector:
-          {{ toYaml .nodeSelector | nindent 10 }}
+          {{- toYaml .nodeSelector | nindent 10 }}
         {{- end }}
         {{- if .affinity }}
         affinity:
-          {{ toYaml .affinity | nindent 10 }}
+          {{- toYaml .affinity | nindent 10 }}
         {{- end }}
 
         {{- if .initContainers }}
