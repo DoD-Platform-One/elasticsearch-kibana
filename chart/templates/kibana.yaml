@@ -15,7 +15,6 @@ spec:
       oidc.oidc1:
         enabled: true
         order: 0
-        description: {{ print "Log in with " .oidc.realm }}
         realm: {{ .oidc.realm }}
       {{- if $.Values.kibanaBasicAuth.enabled }}
       basic.basic1:
