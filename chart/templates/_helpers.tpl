@@ -74,7 +74,7 @@ xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
     {{- range .requested_scopes }}
     - {{ . | quote }}
     {{- end }}
-  rp.redirect_uri: "https://{{ template "redirect_url" $ }}/api/security/v1/oidc"
+  rp.redirect_uri: "https://{{ template "redirect_url" $ }}/api/security/oidc/callback"
   rp.post_logout_redirect_uri: "https://{{ template "redirect_url" $ }}/logged_out"
   op.issuer: {{ tpl .issuer $ }}
   op.authorization_endpoint: {{ tpl .auth_url $ }}

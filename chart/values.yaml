@@ -244,10 +244,8 @@ sso:
   claims_group: "groups"
   claims_mail: "email"
 
-  # additional fields (required for google - may be optional for other providers)
+  # additional fields
   claims_principal_pattern: ""
-
-  # additional fields not used by keycloak or google
   cert_authorities: []
 
 # Toggle this to turn off Kibana's built in auth and only allow SSO
