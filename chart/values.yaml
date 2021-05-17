@@ -1,10 +1,15 @@
+# -- Domain used for BigBang created exposed services.
 hostname: bigbang.dev
 
+# -- Enable BigBang specific autoRollingUpgrade support, more info in package README.md.
+autoRollingUpgrade:
+  enabled: true
+
 kibana:
-  version: 7.9.2
+  version: 7.10.2
   image:
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
-    tag: 7.9.2
+    tag: 7.10.2
 
   # Number of Kibana replicas
   count: 3
@@ -55,10 +60,10 @@ kibana:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
 elasticsearch:
-  version: 7.9.2
+  version: 7.10.0
   image:
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
-    tag: 7.9.2
+    tag: 7.10.0
 
   imagePullSecrets: [ ] 
 

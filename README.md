@@ -84,6 +84,18 @@ kubectl get secrets -n logging logging-ek-es-elastic-user -o go-template='{{.dat
 
 Please always check [CHANGELOG](./CHANGELOG.md) before upgrading to a new chart version.
 
+## Big Bang Specific Configuration
+
+#### AutoRollingUpgrade
+
+BigBang's chart for elasticsearch-kibana comes with the following variable `autoRollingUpgrade` and when enabled checks for minor version changes in the Elasticsearch and Kibana resource and automatically does the following in accordance with Elastic's [Rolling Upgrades documentation](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/rolling-upgrades.html#_upgrading_your_cluster):
+
+1. Annotate the Kibana resource to temporarily disconnect it from the ECK-Operator's control. This is because Kibana can only be upgraded once Elasticsearch is upgraded and of Green Health status. More can be read about excluding elastic resource from being managed by the operator [here](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-upgrading-eck.html).
+2. Shard allocation is disabled on the Elasticsearch cluster.
+3. Stop of non-essential indexing and running a synced flush.
+4. Re-enable shard allocation once Elasticsearch is showing Green Health status on the new version.
+5. Annotate the Kibana resource to allow it to be managed by the ECK-Operator again, at which point a new Kibana Deployment will rollout.
+
 ## Configuration
 
 | Parameter                                    | Description                                                                                                                                        | Default                                                               |
@@ -104,6 +116,7 @@ Please always check [CHANGELOG](./CHANGELOG.md) before upgrading to a new chart 
 | `securityContext`                            | Allows you to set the [securityContext][] for the container                                                                                        | see [values](./chart/values.yaml)                                     |
 | `sso`                                        | Configurable SSO integration with OIDC                                                                                                             | see [values](./chart/values.yaml) & [documentation](docs/keycloak.md) |
 | `{kibana\|elasticsearch}.version`             | Configurable version setting for the eck-operator to handle the version of kibana or elasticsearch                                                 | `7.9.2`                                                               |
+| `autoRollingUpgrade`                          | Boolean setting to enable BigBang job to perform an Elastic [Rolling Upgrade][]                                                                    | `true`
 
 [antiAffinity]: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
 [imagePullSecrets]: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-pod-that-uses-your-secret
@@ -111,3 +124,4 @@ Please always check [CHANGELOG](./CHANGELOG.md) before upgrading to a new chart 
 [persistence]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistent-volumes
 [resources]: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
 [securityContext]: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
+[Rolling Upgrade]: https://www.elastic.co/guide/en/elasticsearch/reference/7.10/rolling-upgrades.html#_upgrading_your_cluster

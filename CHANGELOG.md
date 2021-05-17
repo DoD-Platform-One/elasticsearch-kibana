@@ -3,7 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
-## [0.1.10-bb.2] - 2021-05-17
+
+## [0.1.11-bb.0] - 2021-05-17
+### Changed
+- Updating Kibana and Elasticsearch versions to 7.10
+### Added
+- autoRollingUpgrade job, value toggle, and Documentation along with Troubleshooting ECK upgrades.
+
+## [0.1.10-bb.2] - 2021-05-14
 ### Added
 - Bug and stability fix for 0.1.10-bb.0 tag
 
