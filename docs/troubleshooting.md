@@ -20,11 +20,11 @@ kubectl get elasticsearches -A
   ```
   {"log.level":"info","@timestamp":"2021-04-16T20:57:24.771Z","log.logger":"driver","message":"Cannot restart some nodes for upgrade at this time","service.version":"1.3.0+6db1914b","service.type":"eck","ecs.version":"1.4.0","namespace":"logging","es_name":"logging-ek","failed_predicates":{"...":["logging-ek-es-data-0","logging-ek-es-master-0"]}}
   ```
-  Manually delete the pods mentioned in the log, eg: "logging-ek-es-data-0" & "logging-ek-es-master-0" in this case.
+  Manually delete the pods mentioned in the log, eg: starting with "logging-ek-es-data-0" & then "logging-ek-es-master-0" if it still isn't terminating after data is 2/2 Ready.
 
 - If Elasticsearch has upgraded and showing Green/Yellow Health status but new Kibana pods are stuck at 1/2 check the logs for Kibana and Elasticsearch:
   ```bash
-  kubectl logs logging-ek-kb-XXXXXXXXX-XXXXX -n logging -c kibana
+  kubectl logs -l common.k8s.elastic.co/type=kibana -n logging -c kibana
   kubectl logs logging-ek-es-data-0 -n logging -c elasticsearch
   ```
   If Kibana shows the following logs:
