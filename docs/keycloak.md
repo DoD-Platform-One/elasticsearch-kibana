@@ -79,6 +79,44 @@ Make sure that you have enabled an enterprise license via the operator - this ca
 
 NOTE: Local development makes use of login.dsop.io and the necessary values are committed in the values.yaml files in each repo.
 
+#### OIDC Custom CA
+
+Elasticsearch can be configured to point to specific files to trust with an OIDC auth connection, here is an example when using Big Bang to deploy elasticsearch-kibana, assuming you are populating a secret named "oidc-ca-cert" in the same namespace, with a key of `ca.crt` and value of a single PEM encoded certificate:
+
+```yaml
+logging:
+  values:
+    elasticsearch:
+      master:
+        volumes:
+        - name: cert
+          secret:
+            secretName: oidc-ca-cert
+            defaultMode: 0644
+        volumeMounts:
+        - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
+          name: cert
+          subPath: ca.crt
+          readOnly: true
+      data:
+        volumes:
+        - name: cert
+          secret:
+            secretName: oidc-ca-cert
+            defaultMode: 0644
+        volumeMounts:
+        - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
+          name: cert
+          subPath: ca.crt
+          readOnly: true
+    sso:
+      cert_authorities: ["/usr/share/elasticsearch/config/oidc/ca.crt"]
+```
+
+NOTE: Only Elasticsearch contains the SSO configuration, no need to add volumes/Mounts to Kibana via values.
+
+NOTE: The path for the cert authority can be any path on the container as long as it's not overwriting an existing file, the path above is an example that has been used for testing.
+
 ### Kibana Configuration
 
 Kibana requires no additional helm values changes, since all of the above will incorporate the necessary Kibana changes.
