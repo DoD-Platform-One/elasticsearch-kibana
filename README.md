@@ -9,6 +9,7 @@
 - [Enterprise License](#enterprise-license)
 - [Elastic Password](#elastic-password)
 - [Upgrading](#upgrading)
+- [BigBang Specifics](#big-bang-specific-configuration)
 - [Configuration](#configuration)
 - [Kibana Metrics](docs/prometheus.md)
 - [Kibana ECK Integration](docs/elastic.md)
@@ -90,15 +91,19 @@ Please always check [CHANGELOG](./CHANGELOG.md) before upgrading to a new chart 
 
 BigBang's chart for elasticsearch-kibana comes with the following variable `autoRollingUpgrade` and when enabled checks for minor version changes in the Elasticsearch and Kibana resource and automatically does the following in accordance with Elastic's [Rolling Upgrades documentation](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/rolling-upgrades.html#_upgrading_your_cluster):
 
-1. Annotate the Kibana resource to temporarily disconnect it from the ECK-Operator's control. This is because Kibana can only be upgraded once Elasticsearch is upgraded and of Green Health status. More can be read about excluding elastic resource from being managed by the operator [here](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-upgrading-eck.html).
+1. Annotate the Kibana resource to temporarily disconnect it from the ECK-Operator's control and delete the Kibana deployment. This is because Kibana can only be upgraded once Elasticsearch is upgraded and of Green Health status. Kibana has a high probability of issues if it is not stopped while Elasticsearch is ApplyingChanges.
 2. Shard allocation is disabled on the Elasticsearch cluster.
-3. Stop of non-essential indexing and running a synced flush.
+3. Stop of non-essential indexing and performing a synced-flush.
 4. Re-enable shard allocation once Elasticsearch is showing Green Health status on the new version.
 5. Annotate the Kibana resource to allow it to be managed by the ECK-Operator again, at which point a new Kibana Deployment will rollout.
 
-## Configuration
+* More can be read about excluding elastic resource from being managed by the operator [here](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-upgrading-eck.html).
+* You can keep an eye on this upgrade by viewing the health of the Elasticsearch installation being upgraded `kubectl get elasticsearch -A` (will list all Elasticsearches in the cluster, upgrading ones will show ApplyingChanges).
+* You can view the logs of the rolling-upgrade job running in the same namespace as your elasticsearch-kibana package installation, which will be in the format of `bb-logging-ek-upgrade-XXXXX`. The container will print progress and what it may be waiting on.
+* Each Elasticsearch node will restart one by one (controlled by the ECK-Operator) and once ES is healthy, Kibana will re-deploy via one of the last functions of the rolling-upgrade job.
+* BigBang flux values have the HelmRelease timeout for the EK package set at 20 minutes. If you have a cluster with more than 8 nodes you should up the timeout accordingly via the `logging.flux.timeout` Value. Each Elasticsearch node takes about 2-2.5 minutes to restart.
 
-| Parameter                                    | Description                                                                                                                                        | Default                                                               |
+
 |----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
 | `elasticsearch.{master\|data}.antiAffinity`   | Configurable options are "soft" and "hard" [antiAffinity][]                                                                                        | `""`                                                                  |
 | `elasticsearch.{master\|data}.count`          | Kubernetes replica count for the Deployment (i.e. how many pods for elasticsearch nodes)                                                           | `3`                                                                   |
