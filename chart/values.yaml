@@ -257,3 +257,9 @@ sso:
 # Role mappings for SSO groups must be set up and SSO enabled before doing this
 kibanaBasicAuth:
   enabled: true
+
+networkPolicies:
+  enabled: false
+  ingressLabels: 
+    app: istio-ingressgateway
+    istio: ingressgateway

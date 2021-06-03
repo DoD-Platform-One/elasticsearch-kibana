@@ -27,7 +27,11 @@ elasticsearch:
 istio:
   enabled: true
 
+networkPolicies:
+  enabled: true
+
 bbtests:
+  enabled: true
   cypress:
     artifacts: true
     envs:
