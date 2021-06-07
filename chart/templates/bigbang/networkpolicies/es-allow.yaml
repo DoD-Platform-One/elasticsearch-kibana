@@ -42,4 +42,27 @@ spec:
       common.k8s.elastic.co/type: elasticsearch
   policyTypes:
   - Ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: es-communication-mattermost
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          app.kubernetes.io/name: mattermost
+      podSelector:
+        matchLabels:
+          app: mattermost
+    ports:
+    - port: 9200
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      common.k8s.elastic.co/type: elasticsearch
+  policyTypes:
+  - Ingress
 {{- end }}
