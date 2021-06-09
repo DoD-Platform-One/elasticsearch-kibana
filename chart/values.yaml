@@ -263,3 +263,8 @@ networkPolicies:
   ingressLabels: 
     app: istio-ingressgateway
     istio: ingressgateway
+
+upgradeJob:
+  image:
+    repository: registry1.dso.mil/ironbank/gitlab/gitlab/kubectl
+    tag: 13.9.0
