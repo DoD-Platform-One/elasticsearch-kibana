@@ -67,7 +67,7 @@ spec:
       serviceAccountName: {{ .Release.Name }}-bb-upgrade
       containers:
         - name: bb-{{ .Release.Name }}-upgrade
-          image: registry1.dso.mil/ironbank/gitlab/gitlab/kubectl:13.9.0
+          image: {{ $.Values.upgradeJob.image.repository }}:{{ $.Values.upgradeJob.image.tag }}
           command:
             - /bin/bash
             - -ec
