@@ -81,7 +81,7 @@ spec:
                 curl -XPOST -ku "elastic:$elastic" "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_flush/synced?pretty"
                 export ES_DESIRED_VERSION="7.10.*"
                 echo "Rolling Upgrade Prep Commands Completed"
-              else if [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == 7.10.* ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.version}') == 7.12.* ]]; then
+              elif [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == 7.10.* ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.version}') == 7.12.* ]]; then
                 echo "Running Rolling Upgrade Prep Commands"
                 kubectl annotate --overwrite kibana {{ .Release.Name }} -n {{ .Release.Namespace }} 'eck.k8s.elastic.co/managed=false'
                 kubectl delete deployment -l kibana.k8s.elastic.co/name={{ .Release.Name }},common.k8s.elastic.co/type=kibana -n {{ .Release.Namespace }}
@@ -95,7 +95,7 @@ spec:
                 exit 0
               fi
 
-              until [[ $( kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.phase}' ) == "Ready" ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == $ES_DESIRED_VERSION ]]; do
+              until [[ $( kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.phase}' ) == "Ready" ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == "$ES_DESIRED_VERSION" ]]; do
                 echo "ES cluster not Ready" && sleep 10;
               done
 
