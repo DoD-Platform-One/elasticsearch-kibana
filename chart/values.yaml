@@ -6,10 +6,10 @@ autoRollingUpgrade:
   enabled: true
 
 kibana:
-  version: 7.10.2
+  version: 7.12.0
   image:
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
-    tag: 7.10.2
+    tag: 7.12.0
 
   # Number of Kibana replicas
   count: 3
@@ -60,10 +60,10 @@ kibana:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
 elasticsearch:
-  version: 7.10.0
+  version: 7.12.0
   image:
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
-    tag: 7.10.0
+    tag: 7.12.0
 
   imagePullSecrets: [ ] 
 
