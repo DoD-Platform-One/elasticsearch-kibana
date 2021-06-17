@@ -97,8 +97,8 @@ spec:
                 exit 0
               fi
 
-              until [[ $( kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.phase}' ) == "Ready" ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == "$ES_DESIRED_VERSION" ]]; do
-                echo "ES cluster not Ready" && sleep 10;
+              until [[ $( kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.phase}' ) == "Ready" ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == $ES_DESIRED_VERSION ]]; do
+                echo "ES cluster version $ES_DESIRED_VERSION not yet Ready" && sleep 10;
               done
 
               if [ $( curl -ku "elastic:$elastic" -k "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_cluster/settings?pretty" | yq r - persistent.cluster.routing.allocation.enable ) == "primaries" ]; then
