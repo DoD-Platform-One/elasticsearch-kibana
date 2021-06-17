@@ -5,7 +5,6 @@ metadata:
   name: allow-to-istio-ingressgateway
   namespace: {{ .Release.Namespace }}
 spec:
-  podSelector: {}
   policyTypes:
     - Ingress
   ingress:
