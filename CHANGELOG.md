@@ -8,7 +8,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Network Policy templates.
   - Adding in Release.Namespace allow to Elasticsearch
-  - Adding egress to everything besides AWS API
 ### Changed
 - Network Policy Template fixes.
   - Syntax fix on podSelector in istio specific Network Policy.

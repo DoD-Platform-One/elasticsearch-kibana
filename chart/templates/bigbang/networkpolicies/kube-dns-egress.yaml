@@ -2,16 +2,16 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-all-egress
+  name: allow-dns-egress
   namespace: {{ .Release.Namespace }}
 spec:
   egress:
   - to:
-    - ipBlock:
-        cidr: 0.0.0.0/0
-        # ONLY Block requests to AWS metadata IP
-        except:
-        - 169.254.169.254/32
+    - namespaceSelector: {}
+    ports:
+    - port: 53
+      protocol: UDP
+
   podSelector: {}
   policyTypes:
   - Egress
