@@ -4,6 +4,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.14-bb.1] - 2021-06-17
+### Added
+- Network Policy templates.
+  - In Namespace allow to Elasticsearch
+  - Wide open Egress for SSO when SSO is enabled
+### Changed
+- Network Policy Template fixes.
+  - Syntax fix on podSelector in istio specific Network Policy.
+
 ## [0.1.14-bb.0] - 2021-06-08
 ### Added
 - UpgradeJob image. Allow for overrides
