@@ -84,22 +84,3 @@ spec:
   policyTypes:
   - Ingress
 {{- end }}
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: es-communication-in-namespace
-  namespace: {{ .Release.Namespace }}
-spec:
-  ingress:
-  - from:
-    - podSelector: {}
-    ports:
-    - port: 9200
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      common.k8s.elastic.co/type: elasticsearch
-  policyTypes:
-  - Ingress
-{{- end }}
