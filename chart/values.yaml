@@ -267,6 +267,8 @@ networkPolicies:
   ingressLabels: 
     app: istio-ingressgateway
     istio: ingressgateway
+  # See `kubectl cluster-info` and then resolve to IP
+  controlPlaneCidr: 0.0.0.0/0
 
 upgradeJob:
   image:
