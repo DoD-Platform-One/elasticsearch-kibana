@@ -84,7 +84,7 @@ metadata:
     "helm.sh/hook-weight": "-5"
 spec:
   backoffLimit: 3
-  ttlSecondsAfterFinished: 300
+  ttlSecondsAfterFinished: 480
   template:
     metadata:
       name: bb-{{ .Release.Name }}-upgrade
