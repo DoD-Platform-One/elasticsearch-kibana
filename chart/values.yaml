@@ -141,7 +141,6 @@ elasticsearch:
   # Values for data node sets
   data:
     initContainers: []
-    # add an init container that adjusts the kernel setting for elastic
     # add an init container that adjusts the kernel setting for elastic.
     # NB:  This creates a privileged init container and runs a non-ironbank image. 
     # It is safer to adjust the AMI for the nodes to include this kernel setting.
