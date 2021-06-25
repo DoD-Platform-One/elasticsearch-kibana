@@ -1,4 +1,31 @@
 {{- if .Values.autoRollingUpgrade.enabled }}
+{{- if .Values.networkPolicies.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-egress-upgrade-job
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": post-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+spec:
+  egress:
+  - to:
+    - ipBlock:
+        cidr: {{ .Values.networkPolicies.controlPlaneCidr }}
+        {{- if eq .Values.networkPolicies.controlPlaneCidr "0.0.0.0/0" }}
+        # ONLY Block requests to AWS metadata IP
+        except:
+        - 169.254.169.254/32
+        {{- end }}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: bigbang-ek-upgrade-job
+  policyTypes:
+  - Egress
+{{- end }}
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -7,7 +34,7 @@ metadata:
   annotations:
     "helm.sh/hook": post-upgrade
     "helm.sh/hook-weight": "-10"
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
@@ -17,7 +44,7 @@ metadata:
   annotations:
     "helm.sh/hook": post-upgrade
     "helm.sh/hook-weight": "-10"
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
 rules:
 - apiGroups: ["elasticsearch.k8s.elastic.co"]
   resources: ["elasticsearches"]
@@ -37,7 +64,7 @@ metadata:
   annotations:
     "helm.sh/hook": post-upgrade
     "helm.sh/hook-weight": "-10"
-    "helm.sh/hook-delete-policy": hook-succeeded
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -57,12 +84,14 @@ metadata:
     "helm.sh/hook-weight": "-5"
 spec:
   backoffLimit: 3
-  ttlSecondsAfterFinished: 300
+  ttlSecondsAfterFinished: 480
   template:
     metadata:
       name: bb-{{ .Release.Name }}-upgrade
       annotations:
         sidecar.istio.io/inject: 'false'
+      labels:
+        app.kubernetes.io/name: bigbang-ek-upgrade-job
     spec:
       serviceAccountName: {{ .Release.Name }}-bb-upgrade
       containers:
@@ -79,14 +108,24 @@ spec:
                 
                 curl -XPUT -ku "elastic:$elastic" "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_cluster/settings?pretty" -H 'Content-Type: application/json' -d' { "persistent": { "cluster.routing.allocation.enable": "primaries" } }'
                 curl -XPOST -ku "elastic:$elastic" "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_flush/synced?pretty"
+                export ES_DESIRED_VERSION="7.10.*"
+                echo "Rolling Upgrade Prep Commands Completed"
+              elif [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == 7.10.* ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.version}') == 7.12.* ]]; then
+                echo "Running Rolling Upgrade Prep Commands"
+                kubectl annotate --overwrite kibana {{ .Release.Name }} -n {{ .Release.Namespace }} 'eck.k8s.elastic.co/managed=false'
+                kubectl delete deployment -l kibana.k8s.elastic.co/name={{ .Release.Name }},common.k8s.elastic.co/type=kibana -n {{ .Release.Namespace }}
+                
+                curl -XPUT -ku "elastic:$elastic" "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_cluster/settings?pretty" -H 'Content-Type: application/json' -d' { "persistent": { "cluster.routing.allocation.enable": "primaries" } }'
+                curl -XPOST -ku "elastic:$elastic" "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_flush/synced?pretty"
+                export ES_DESIRED_VERSION="7.12.*"
                 echo "Rolling Upgrade Prep Commands Completed"
               else
                 echo "No Upgrade Prep Necessary :D"
                 exit 0
               fi
 
-              until [[ $( kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.phase}' ) == "Ready" ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == 7.10.* ]]; do
-                echo "ES cluster not Ready" && sleep 10;
+              until [[ $( kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.phase}' ) == "Ready" ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == $ES_DESIRED_VERSION ]]; do
+                echo "ES cluster version $ES_DESIRED_VERSION not yet Ready" && sleep 10;
               done
 
               if [ $( curl -ku "elastic:$elastic" -k "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_cluster/settings?pretty" | yq r - persistent.cluster.routing.allocation.enable ) == "primaries" ]; then

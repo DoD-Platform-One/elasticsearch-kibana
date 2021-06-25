@@ -4,6 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.15-bb.0] - 2021-06-22
+### Changed
+- Upgrade to version 7.12.0 of Kibana and Elasticsearch
+- Tweaks to autoRollingUpgrade job to allow for transition from 7.10 to 7.12 .
+
 ## [0.1.14-bb.1] - 2021-06-17
 ### Added
 - Network Policy templates.
