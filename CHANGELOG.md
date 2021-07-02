@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.15-bb.1] - 2021-07-02
+### Added
+- Network policy to allow prometheus scraping of istio envoy sidecar.
+
 ## [0.1.15-bb.0] - 2021-06-22
 ### Changed
 - Upgrade to version 7.12.0 of Kibana and Elasticsearch
