@@ -1,6 +1,9 @@
 #!/bin/bash
 set -ex
 
+# Give it some time for networking to be ready
+sleep 15
+
 echo "Hitting Elasticsearch API endpoint..."
 curl -skISu "elastic:${ELASTIC_PASSWORD}" "${elasticsearch_host}/" &>/dev/null || export ES_DOWN="true"
 if [[ ${ES_DOWN} == "true" ]]; then
