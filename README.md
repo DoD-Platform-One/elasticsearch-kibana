@@ -29,6 +29,8 @@
 
 The ECK Operator must be deployed beforehand in order to leverage the `Elasticsearch` and `Kibana` custom resources.  You can use the full [BigBang](https://repo1.dso.mil/platform-one/big-bang/bigbang) solution or the individual [eck operator chart](https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator).
 
+Elastic requires that the vm.max_map_count be set to `vm.max_map_count=262144`. This is best set via sysctl on the nodes themselves before installation. If this is not possible an alternative method of setting this value is available [here](https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana/-/tree/main/docs/sysctls.md).
+
 ## Iron Bank
 
 You can `pull` the registry1 image(s) [here](https://registry1.dso.mil/harbor/projects/3/repositories/elastic%2Felasticsearch%2Felasticsearch) and view the container approval [here](https://ironbank.dso.mil/ironbank/repomap/elastic/elasticsearch).

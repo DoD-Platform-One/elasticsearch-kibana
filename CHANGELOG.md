@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.16-bb.0] - 2021-07-012
+### Changed
+- Switched to usage of non-default service account for all created pods
+### Added
+- Serviceaccounts are created by the chart, one for elastic one for kibana
+- Serviceaccount names can be set via values `kibana.serviceAccountName` and `elasticsearch.serviceAccountName`
+
 ## [0.1.15-bb.1] - 2021-07-02
 ### Added
 - Network policy to allow prometheus scraping of istio envoy sidecar.
