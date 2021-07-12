@@ -72,6 +72,8 @@ spec:
           {{- toYaml .affinity | nindent 10 }}
         {{- end }}
 
+        serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+
         {{- if .initContainers }}
         initContainers:
         {{ toYaml .initContainers | nindent 10 }}
@@ -160,6 +162,8 @@ spec:
         affinity:
           {{- toYaml .affinity | nindent 10 }}
         {{- end }}
+
+        serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
 
         {{- if .initContainers }}
         initContainers:

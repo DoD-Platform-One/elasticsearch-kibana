@@ -39,6 +39,7 @@ spec:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
+      serviceAccountName: {{ .Values.kibana.serviceAccountName }}
       {{- if .Values.kibana.securityContext }}
       securityContext:
       {{- toYaml .Values.kibana.securityContext | nindent 8 }}
