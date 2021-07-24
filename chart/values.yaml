@@ -280,3 +280,5 @@ upgradeJob:
   image:
     repository: registry1.dso.mil/ironbank/big-bang/base
     tag: 8.4
+
+openshift: false
