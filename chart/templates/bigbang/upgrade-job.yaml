@@ -119,6 +119,15 @@ spec:
                 curl -XPOST -ku "elastic:$elastic" "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_flush/synced?pretty"
                 export ES_DESIRED_VERSION="7.12.*"
                 echo "Rolling Upgrade Prep Commands Completed"
+              elif [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == 7.12.* ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.version}') == 7.13.* ]]; then
+                echo "Running Rolling Upgrade Prep Commands"
+                kubectl annotate --overwrite kibana {{ .Release.Name }} -n {{ .Release.Namespace }} 'eck.k8s.elastic.co/managed=false'
+                kubectl delete deployment -l kibana.k8s.elastic.co/name={{ .Release.Name }},common.k8s.elastic.co/type=kibana -n {{ .Release.Namespace }}
+                
+                curl -XPUT -ku "elastic:$elastic" "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_cluster/settings?pretty" -H 'Content-Type: application/json' -d' { "persistent": { "cluster.routing.allocation.enable": "primaries" } }'
+                curl -XPOST -ku "elastic:$elastic" "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_flush/synced?pretty"
+                export ES_DESIRED_VERSION="7.13.*"
+                echo "Rolling Upgrade Prep Commands Completed"
               else
                 echo "No Upgrade Prep Necessary :D"
                 exit 0
@@ -128,7 +137,7 @@ spec:
                 echo "ES cluster version $ES_DESIRED_VERSION not yet Ready" && sleep 10;
               done
 
-              if [ $( curl -ku "elastic:$elastic" -k "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_cluster/settings?pretty" | yq r - persistent.cluster.routing.allocation.enable ) == "primaries" ]; then
+              if [[ $( curl -ku "elastic:$elastic" -k "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_cluster/settings?pretty" | jq '.persistent.cluster.routing.allocation.enable' | tr -d '"' ) == "primaries" ]]; then
                 echo "Running Post-Upgrade Commands"
                 curl -XPUT -ku "elastic:$elastic" "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_cluster/settings?pretty" -H 'Content-Type: application/json' -d' { "persistent": { "cluster.routing.allocation.enable": null } }'
                 until [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.health}') == "green" ]]; do

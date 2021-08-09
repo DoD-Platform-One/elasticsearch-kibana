@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.1.18-bb.0] - 2021-08-09
+### Changed
+- upgrade-job template syntax and support for 7.12 > 7.13 Elasticsearch upgrades
+- Update Elasticsearch to version 7.13.4 to address ESA-2021-16
+
 ## [0.1.17-bb.2] - 2021-08-09
 ### Added
 - Resource limits and requests.
