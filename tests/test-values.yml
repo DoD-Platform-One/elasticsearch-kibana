@@ -3,6 +3,13 @@ kibana:
   - name: private-registry-mil
 
   count: 1
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 1
+    limits:
+      memory: 1Gi
+      cpu: 1
 
 elasticsearch:
   imagePullSecrets:
@@ -11,18 +18,24 @@ elasticsearch:
   master:
     count: 1
     resources:
+      requests:
+        memory: 2Gi
+        cpu: 1
       limits:
         cpu: 1
-        memory: 3Gi
+        memory: 2Gi
 
   data:
     count: 1
     persistence:
       storageClassName: ""
     resources:
+      requests:
+        memory: 2Gi
+        cpu: 1
       limits:
         cpu: 1
-        memory: 3Gi
+        memory: 2Gi
 
 istio:
   enabled: true
