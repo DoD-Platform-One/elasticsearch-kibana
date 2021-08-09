@@ -24,13 +24,13 @@ kibana:
 
   imagePullSecrets: [ ]
 
-  resources: {}
-    # requests:
-    #   memory: 1Gi
-    #   cpu: 0.5
-    # limits:
-    #   memory: 2Gi
-    #   cpu: 2
+  resources:
+    requests:
+      memory: 2Gi
+      cpu: 2
+    limits:
+      memory: 2Gi
+      cpu: 2
 
   volumes: []
 
@@ -131,13 +131,13 @@ elasticsearch:
     persistence:
       storageClassName: ""
       size: 5Gi
-    resources: {}
-      # limits:
-      #   cpu: 2
-      #   memory: 4Gi
-      # requests:
-      #   cpu: 1
-      #   memory: 2Gi
+    resources:
+      limits:
+        cpu: 2
+        memory: 4Gi
+      requests:
+        cpu: 2
+        memory: 4Gi
     heap:
       # Xms
       min: 1g
@@ -202,13 +202,13 @@ elasticsearch:
     persistence:
       storageClassName: ""
       size: 100Gi
-    resources: {}
-#      limits:
-#        cpu: 4
-#        memory: 4Gi
-#      requests:
-#        cpu: 2
-#        memory: 2Gi
+    resources:
+      limits:
+        cpu: 4
+        memory: 4Gi
+      requests:
+        cpu: 4
+        memory: 4Gi
     heap:
       # Xms
       min: 1g
