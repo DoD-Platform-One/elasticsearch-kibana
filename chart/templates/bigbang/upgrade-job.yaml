@@ -151,6 +151,13 @@ spec:
                 echo "No post-upgrade commands necessary"
                 exit 0
               fi
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
           envFrom:
             - secretRef:
                 name: {{ .Release.Name }}-es-elastic-user
