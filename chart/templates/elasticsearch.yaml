@@ -26,9 +26,9 @@ spec:
       node.data: false
       node.ingest: false
       node.master: true
-      node.ml: false
+      node.ml: {{ .config.node-ml }}
       node.store.allow_mmap: true
-      xpack.ml.enabled: false
+      xpack.ml.enabled: {{ .config.xpack-ml-enabled }}
       xpack.security.authc.token.enabled: true
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
@@ -117,9 +117,9 @@ spec:
       node.data: true
       node.ingest: true
       node.master: false
-      node.ml: false
+      node.ml: {{ .config.node-ml }}
       node.store.allow_mmap: true
-      xpack.ml.enabled: false
+      xpack.ml.enabled: {{ .config.xpack-ml-enabled }}
       xpack.security.authc.token.enabled: true
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
