@@ -144,8 +144,8 @@ elasticsearch:
       # Xmx
       max: 1g
     config:
-      node-ml: false
-      xpack-ml-enabled: false
+      node_ml: false
+      xpack_ml_enabled: false
 
   # Values for data node sets
   data:
@@ -218,8 +218,8 @@ elasticsearch:
       # Xmx
       max: 1g
     config:
-      node-ml: false
-      xpack-ml-enabled: false
+      node_ml: false
+      xpack_ml_enabled: false
 
 istio:
   # Toggle istio interaction
