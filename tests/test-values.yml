@@ -24,6 +24,11 @@ elasticsearch:
       limits:
         cpu: 1
         memory: 2Gi
+    heap:
+      # Xms
+      min: 1g
+      # Xmx
+      max: 1g
 
   data:
     count: 1
@@ -36,6 +41,11 @@ elasticsearch:
       limits:
         cpu: 1
         memory: 2Gi
+    heap:
+      # Xms
+      min: 1g
+      # Xmx
+      max: 1g
 
 istio:
   enabled: true

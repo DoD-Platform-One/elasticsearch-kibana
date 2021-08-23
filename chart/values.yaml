@@ -140,7 +140,7 @@ elasticsearch:
         memory: 4Gi
     heap:
       # Xms
-      min: 1g
+      min: 2g
       # Xmx
       max: 1g
     config:
@@ -214,12 +214,16 @@ elasticsearch:
         memory: 4Gi
     heap:
       # Xms
-      min: 1g
+      min: 2g
       # Xmx
+<<<<<<< HEAD
       max: 1g
     config:
       node_ml: false
       xpack_ml_enabled: false
+=======
+      max: 2g
+>>>>>>> ea4fab9... heap values increased in values and test-values
 
 istio:
   # Toggle istio interaction
