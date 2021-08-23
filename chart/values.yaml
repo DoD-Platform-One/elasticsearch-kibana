@@ -140,9 +140,9 @@ elasticsearch:
         memory: 4Gi
     heap:
       # Xms
-      min: 1g
+      min: 2g
       # Xmx
-      max: 1g
+      max: 2g
 
   # Values for data node sets
   data:
@@ -211,9 +211,9 @@ elasticsearch:
         memory: 4Gi
     heap:
       # Xms
-      min: 1g
+      min: 2g
       # Xmx
-      max: 1g
+      max: 2g
 
 istio:
   # Toggle istio interaction
