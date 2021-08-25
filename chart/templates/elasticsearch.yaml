@@ -26,9 +26,9 @@ spec:
       node.data: false
       node.ingest: false
       node.master: true
-      node.ml: {{ .config.node_ml }}
+      node.ml: false
       node.store.allow_mmap: true
-      xpack.ml.enabled: {{ .config.xpack_ml_enabled }}
+      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
       xpack.security.authc.token.enabled: true
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
@@ -117,9 +117,9 @@ spec:
       node.data: true
       node.ingest: true
       node.master: false
-      node.ml: {{ .config.node_ml }}
+      node.ml: false
       node.store.allow_mmap: true
-      xpack.ml.enabled: {{ .config.xpack_ml_enabled }}
+      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
       xpack.security.authc.token.enabled: true
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
@@ -194,4 +194,282 @@ spec:
       {{- if $.Values.istio.enabled }}
         automountServiceAccountToken: true
       {{- end }}
+  {{- end }}
+
+  #
+  # Ingest Nodes
+  #
+  {{- if .Values.elasticsearch.ingest.enabled }}
+  {{- with .Values.elasticsearch.ingest }}
+  - name: ingest
+    count: {{ .count }}
+
+    config:
+      index.store.type: mmapfs
+      node.data: false
+      node.ingest: true
+      node.master: false
+      node.ml: false
+      node.store.allow_mmap: true
+      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
+      xpack.security.authc.token.enabled: true
+      {{- if $.Values.sso.enabled }}
+      {{ include "oidc" $ | indent 6 }}
+      {{- end }}
+
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-ingest
+      spec:
+        resources:
+          requests:
+            storage: {{ .persistence.size }}
+        accessModes:
+        - ReadWriteOnce
+        {{- if .persistence.storageClassName }}
+        storageClassName: {{ .persistence.storageClassName }}
+        {{- end }}
+
+    podTemplate:
+      metadata:
+        annotations:
+          prometheus.istio.io/merge-metrics: "false"
+          sidecar.istio.io/rewriteAppHTTPProbers: "true"
+          traffic.sidecar.istio.io/includeInboundPorts: "*"
+          traffic.sidecar.istio.io/excludeInboundPorts: "9300"
+          traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
+          sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
+          values/checksum: {{ include "oidc" $ | sha256sum }}
+      spec:
+        {{- if .securityContext }}
+        securityContext:
+        {{- toYaml .securityContext | nindent 10 }}
+        {{- end }}
+
+        {{- if .nodeSelector }}
+        nodeSelector:
+          {{- toYaml .nodeSelector | nindent 10 }}
+        {{- end }}
+        {{- if .affinity }}
+        affinity:
+          {{- toYaml .affinity | nindent 10 }}
+        {{- end }}
+
+        serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+
+        {{- if .initContainers }}
+        initContainers:
+        {{ toYaml .initContainers | nindent 10 }}
+        {{- end }}
+        containers:
+          - name: elasticsearch
+            env:
+              - name: ES_JAVA_OPTS
+                value: "-Xms{{ .heap.min }} -Xmx{{ .heap.max }}"
+            resources:
+              {{- toYaml .resources | nindent 14 }}
+            lifecycle:
+              {{- toYaml .lifecycle | nindent 14 }}
+            {{- if .volumeMounts }}
+            volumeMounts:
+            {{- toYaml .volumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if .volumes }}
+        volumes:
+        {{- toYaml .volumes | nindent 8 }}
+        {{- end }}
+        {{- with $.Values.elasticsearch.imagePullSecrets }}
+        imagePullSecrets:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+
+      {{- if $.Values.istio.enabled }}
+        automountServiceAccountToken: true
+      {{- end }}
+  {{- end }}
+  {{- end }}
+
+  #
+  # ML Nodes
+  #
+  {{- if .Values.elasticsearch.ml.enabled }}
+  {{- with .Values.elasticsearch.ml }}
+  - name: ml
+    count: {{ .count }}
+
+    config:
+      index.store.type: mmapfs
+      node.data: false
+      node.ingest: false
+      node.master: false
+      node.ml: true
+      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
+      node.store.allow_mmap: true
+      xpack.security.authc.token.enabled: true
+      {{- if $.Values.sso.enabled }}
+      {{ include "oidc" $ | indent 6 }}
+      {{- end }}
+
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-ml
+      spec:
+        resources:
+          requests:
+            storage: {{ .persistence.size }}
+        accessModes:
+        - ReadWriteOnce
+        {{- if .persistence.storageClassName }}
+        storageClassName: {{ .persistence.storageClassName }}
+        {{- end }}
+
+    podTemplate:
+      metadata:
+        annotations:
+          prometheus.istio.io/merge-metrics: "false"
+          sidecar.istio.io/rewriteAppHTTPProbers: "true"
+          traffic.sidecar.istio.io/includeInboundPorts: "*"
+          traffic.sidecar.istio.io/excludeInboundPorts: "9300"
+          traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
+          sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
+          values/checksum: {{ include "oidc" $ | sha256sum }}
+      spec:
+        {{- if .securityContext }}
+        securityContext:
+        {{- toYaml .securityContext | nindent 10 }}
+        {{- end }}
+
+        {{- if .nodeSelector }}
+        nodeSelector:
+          {{- toYaml .nodeSelector | nindent 10 }}
+        {{- end }}
+        {{- if .affinity }}
+        affinity:
+          {{- toYaml .affinity | nindent 10 }}
+        {{- end }}
+        serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+
+        {{- if .initContainers }}
+        initContainers:
+        {{ toYaml .initContainers | nindent 10 }}
+        {{- end }}
+        containers:
+          - name: elasticsearch
+            env:
+              - name: ES_JAVA_OPTS
+                value: "-Xms{{ .heap.min }} -Xmx{{ .heap.max }}"
+            resources:
+              {{- toYaml .resources | nindent 14 }}
+            lifecycle:
+              {{- toYaml .lifecycle | nindent 14 }}
+            {{- if .volumeMounts }}
+            volumeMounts:
+            {{- toYaml .volumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if .volumes }}
+        volumes:
+        {{- toYaml .volumes | nindent 8 }}
+        {{- end }}
+        {{- with $.Values.elasticsearch.imagePullSecrets }}
+        imagePullSecrets:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        
+      {{- if $.Values.istio.enabled }}
+        automountServiceAccountToken: true
+      {{- end }}
+  {{- end }}
+  {{- end }}
+
+  #
+  # Coordinating Nodes
+  #
+  {{- if .Values.elasticsearch.coord.enabled }}
+  {{- with .Values.elasticsearch.coord }}
+  - name: coord
+    count: {{ .count }}
+
+    config:
+      index.store.type: mmapfs
+      node.data: false
+      node.ingest: false
+      node.master: false
+      node.ml: false
+      node.store.allow_mmap: true
+      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
+      xpack.security.authc.token.enabled: true
+      {{- if $.Values.sso.enabled }}
+      {{ include "oidc" $ | indent 6 }}
+      {{- end }}
+
+    volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-coord
+      spec:
+        resources:
+          requests:
+            storage: {{ .persistence.size }}
+        accessModes:
+        - ReadWriteOnce
+        {{- if .persistence.storageClassName }}
+        storageClassName: {{ .persistence.storageClassName }}
+        {{- end }}
+
+    podTemplate:
+      metadata:
+        annotations:
+          prometheus.istio.io/merge-metrics: "false"
+          sidecar.istio.io/rewriteAppHTTPProbers: "true"
+          traffic.sidecar.istio.io/includeInboundPorts: "*"
+          traffic.sidecar.istio.io/excludeInboundPorts: "9300"
+          traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
+          sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
+          values/checksum: {{ include "oidc" $ | sha256sum }}
+      spec:
+        {{- if .securityContext }}
+        securityContext:
+        {{- toYaml .securityContext | nindent 10 }}
+        {{- end }}
+
+        {{- if .nodeSelector }}
+        nodeSelector:
+          {{- toYaml .nodeSelector | nindent 10 }}
+        {{- end }}
+        {{- if .affinity }}
+        affinity:
+          {{- toYaml .affinity | nindent 10 }}
+        {{- end }}
+
+        serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+
+        {{- if .initContainers }}
+        initContainers:
+        {{ toYaml .initContainers | nindent 10 }}
+        {{- end }}
+        containers:
+          - name: elasticsearch
+            env:
+              - name: ES_JAVA_OPTS
+                value: "-Xms{{ .heap.min }} -Xmx{{ .heap.max }}"
+            resources:
+              {{- toYaml .resources | nindent 14 }}
+            lifecycle:
+              {{- toYaml .lifecycle | nindent 14 }}
+            {{- if .volumeMounts }}
+            volumeMounts:
+            {{- toYaml .volumeMounts | nindent 12 }}
+            {{- end }}
+        {{- if .volumes }}
+        volumes:
+        {{- toYaml .volumes | nindent 8 }}
+        {{- end }}
+        {{- with $.Values.elasticsearch.imagePullSecrets }}
+        imagePullSecrets:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
+        
+      {{- if $.Values.istio.enabled }}
+        automountServiceAccountToken: true
+      {{- end }}
+  {{- end }}
   {{- end }}

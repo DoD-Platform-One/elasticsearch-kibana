@@ -10,7 +10,7 @@
 - [Elastic Password](#elastic-password)
 - [Upgrading](#upgrading)
 - [BigBang Specifics](#big-bang-specific-configuration)
-- [Configuration](#configuration)
+- [Configuration Values](#Values)
 - [Kibana Metrics](docs/prometheus.md)
 - [Kibana ECK Integration](docs/elastic.md)
 - [Kibana SSO Integration](docs/keycloak.md)
@@ -105,27 +105,46 @@ BigBang's chart for elasticsearch-kibana comes with the following variable `auto
 * Each Elasticsearch node will restart one by one (controlled by the ECK-Operator) and once ES is healthy, Kibana will re-deploy via one of the last functions of the rolling-upgrade job.
 * BigBang flux values have the HelmRelease timeout for the EK package set at 20 minutes. If you have a cluster with more than 8 nodes you should up the timeout accordingly via the `logging.flux.timeout` Value. Each Elasticsearch node takes about 2-2.5 minutes to restart.
 
+#### Node Types (Roles)
 
+BigBang's chart for Elasticsearch Kibana allows configuration for the following types of nodes within an Elasticsearch cluster:
+  - master
+  - data
+  - ml
+  - ingest
+  - coordinating
+
+  Only the first two nodes (master & data) are required and enabled by default.
+
+## Values
+
+| Parameter                                    | Description                                                                                                                                        | Default                                                               |
 |----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| `elasticsearch.{master\|data}.antiAffinity`   | Configurable options are "soft" and "hard" [antiAffinity][]                                                                                        | `""`                                                                  |
-| `elasticsearch.{master\|data}.count`          | Kubernetes replica count for the Deployment (i.e. how many pods for elasticsearch nodes)                                                           | `3`                                                                   |
-| `elasticsearch.heap`                         | Configurable setting for java [JVM heap](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-jvm-heap-size.html) min + max amount             | `1g`                                                                  |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.affinity`   | Configurable options are "soft" and "hard" [antiAffinity][]                                                                                        | `""`                                                                  |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.count`          | Kubernetes replica count for the Deployment (i.e. how many pods for elasticsearch nodes)                                                           | see [values](./chart/values.yaml)                                                                   |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.heap`                         | Configurable setting for java [JVM heap](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-jvm-heap-size.html) min + max amount             | `2g`                                                                  |
 | `{kibana\|elasticsearch}.imagePullSecrets`    | Configuration for [imagePullSecrets][] so that you can use a private registry for your image                                                       | `[ ]`                                                                 |
 | `{kibana\|elasticsearch}.image.repository`    | The image repository URL                                                                                                                           | see [values](./chart/values.yaml)                                     |
 | `{kibana\|elasticsearch}.image.tag`           | Configurable tag applied to the image.                                                                                                             | `7.9.2`                                                               |
-| `elasticsearch.{master\|data}.initContainers` | Allows for creation of an initContainer for the Elasticsearch Master or Data nodes. Kibana initContainer support coming soon                       | `[]`                                                                  |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.initContainers` | Allows for creation of an initContainer for the Elasticsearch Master or Data nodes. Kibana initContainer support coming soon                       | `[]`                                                                  |
 | `istio`                                      | Configurable istio VirtualService for Kibana external access                                                                                       | see [values](./chart/values.yaml)                                     |
 | `kibanaBasicAuth`                            | Configurable setting for Kibana to enable/disable basic authentication support for the UI                                                          | `enabled: true`                                                       |
-| `elasticsearch.{master\|data}.nodeAffinity`   | Configurable [nodeAffinity][] applied to master or data nodes to run on specific nodes                                                             | `{}`                                                                  |
-| `elasticsearch.{master\|data}.nodeSelector`   | Configurable [nodeSelector][] so that you can target specific nodes for your Kibana instances                                                      | `{}`                                                                  |
-| `elasticsearch.{master\|data}.persistence`    | Configurable [persistence][] for persistent volume storage, can set storageClassName and size                                                      | see [values](./chart/values.yaml)                                     |
-| `{kibana\|elasticsearch}.resources`           | Allows you to set the [resources][] for the indivudial Deployments, kibana, es master and es data                                                  | see [values](./chart/values.yaml)                                     |
-| `securityContext`                            | Allows you to set the [securityContext][] for the container                                                                                        | see [values](./chart/values.yaml)                                     |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.nodeAffinity`   | Configurable [nodeAffinity][] applied to master or data nodes to run on specific nodes                                                             | `{}`                                                                  |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.nodeSelector`   | Configurable [nodeSelector][] so that you can target specific nodes for your Kibana instances                                                      | `{}`                                                                  |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.persistence`    | Configurable [persistence][] for persistent volume storage, can set storageClassName and size                                                      | see [values](./chart/values.yaml)                                     |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.resources`           | Allows you to set the [resources][] for the indivudial Deployments for Elasticsearch nodes                                                  | see [values](./chart/values.yaml)                                     |
+| `kibana.resources`           | Allows you to set the [resources][] for the Deployment of Kibana                                                | see [values](./chart/values.yaml)                                     |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.securityContext`                            | Allows you to set the [securityContext][] for the elasticsearch node pods                                                                                        | see [values](./chart/values.yaml)                                     |
+| `kibana.securityContext`                            | Allows you to set the [securityContext][] for the kibana pods pods                                                                                        | see [values](./chart/values.yaml)                                     |
+| `elasticsearch.{master\|data\|ingest\|coord\|ml}.lifecycle`           | Allows you to set the [containerLifecycleHooks][] for the indivudial Deployments for Elasticsearch nodes                                                | see [values](./chart/values.yaml)                                     |
+| `elasticsearch.{ingest\|coord\|ml}.enabled`           | Boolean to enable the different types of nodes within an Elasticsearch stack                                                   | `false`                                     |
 | `sso`                                        | Configurable SSO integration with OIDC                                                                                                             | see [values](./chart/values.yaml) & [documentation](docs/keycloak.md) |
 | `{kibana\|elasticsearch}.version`             | Configurable version setting for the eck-operator to handle the version of kibana or elasticsearch                                                 | `7.9.2`                                                               |
-| `autoRollingUpgrade`                          | Boolean setting to enable BigBang job to perform an Elastic [Rolling Upgrade][]                                                                    | `true`
+| `autoRollingUpgrade.enabled`                          | Boolean setting to enable BigBang job to perform an Elastic [Rolling Upgrade][]                                                          | `true` |
+| `openshift` | Boolean setting if deploying on Openshift | `false` |
 
 [antiAffinity]: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+[containerLifecycleHooks]: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks
 [imagePullSecrets]: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-pod-that-uses-your-secret
 [nodeSelector]: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
 [persistence]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistent-volumes
