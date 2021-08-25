@@ -143,9 +143,6 @@ elasticsearch:
       min: 2g
       # Xmx
       max: 2g
-    config:
-      node_ml: false
-      xpack_ml_enabled: false
 
   # Values for data node sets
   data:
@@ -217,9 +214,225 @@ elasticsearch:
       min: 2g
       # Xmx
       max: 2g
-    config:
-      node_ml: false
-      xpack_ml_enabled: false
+
+  #
+  # Ingest
+  #
+  # Values for ingest node sets
+  ingest:
+    enabled: false
+    initContainers: []
+    # add an init container that adjusts the kernel setting for elastic
+    # - name: sysctl
+    #   securityContext:
+    #     privileged: true
+    #   image: busybox
+    #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+
+    # Add ability customize the security context for 
+    # fixing user or group.  
+    securityContext: 
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+
+    volumes: []
+      # - name: cert
+      #   secret:
+      #     secretName: cert
+      #     defaultMode: 0644
+  
+    volumeMounts: []
+      # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
+      #   name: cert
+      #   subPath: ca.crt
+      #   readOnly: true
+
+    affinity: {}
+      # podAntiAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     - topologyKey: "kubernetes.io/hostname"
+      #       labelSelector:
+      #         matchLabels:
+      #           dont-schedule-with: elastic-data
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #     - matchExpressions:
+      #       - key: node-type
+      #         operator: In
+      #         values:
+      #         - "elastic-data"
+
+    nodeSelector: {}
+      # node-type: elastic-data
+    lifecycle: {}
+      # preStop:
+      #   exec:
+      #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
+
+    count: 1
+    persistence:
+      storageClassName: ""
+      size: 100Gi
+    resources:
+      limits:
+        cpu: 4
+        memory: 4Gi
+      requests:
+        cpu: 4
+        memory: 4Gi
+    heap:
+      # Xms
+      min: 2g
+      # Xmx
+      max: 2g
+
+  #
+  # ML 
+  #
+  # Values for data node sets
+  ml:
+    enabled: false
+    initContainers: []
+    # add an init container that adjusts the kernel setting for elastic
+    # - name: sysctl
+    #   securityContext:
+    #     privileged: true
+    #   image: busybox
+    #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+
+    # Add ability customize the security context for 
+    # fixing user or group.  
+    securityContext: 
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+
+    volumes: []
+      # - name: cert
+      #   secret:
+      #     secretName: cert
+      #     defaultMode: 0644
+  
+    volumeMounts: []
+      # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
+      #   name: cert
+      #   subPath: ca.crt
+      #   readOnly: true
+
+    affinity: {}
+      # podAntiAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     - topologyKey: "kubernetes.io/hostname"
+      #       labelSelector:
+      #         matchLabels:
+      #           dont-schedule-with: elastic-data
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #     - matchExpressions:
+      #       - key: node-type
+      #         operator: In
+      #         values:
+      #         - "elastic-data"
+
+    nodeSelector: {}
+      # node-type: elastic-data
+    lifecycle: {}
+      # preStop:
+      #   exec:
+      #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
+
+    count: 1
+    persistence:
+      storageClassName: ""
+      size: 100Gi
+    resources:
+      limits:
+        cpu: 4
+        memory: 4Gi
+      requests:
+        cpu: 4
+        memory: 4Gi
+    heap:
+      # Xms
+      min: 2g
+      # Xmx
+      max: 2g
+
+  #
+  # Coordinating
+  #
+  # Values for coordinating node sets
+  coord:
+    enabled: false
+    initContainers: []
+    # add an init container that adjusts the kernel setting for elastic
+    # - name: sysctl
+    #   securityContext:
+    #     privileged: true
+    #   image: busybox
+    #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+
+    # Add ability customize the security context for 
+    # fixing user or group.  
+    securityContext: 
+      runAsUser: 1000
+      runAsGroup: 1000
+      fsGroup: 1000
+
+    volumes: []
+      # - name: cert
+      #   secret:
+      #     secretName: cert
+      #     defaultMode: 0644
+  
+    volumeMounts: []
+      # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
+      #   name: cert
+      #   subPath: ca.crt
+      #   readOnly: true
+
+    affinity: {}
+      # podAntiAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     - topologyKey: "kubernetes.io/hostname"
+      #       labelSelector:
+      #         matchLabels:
+      #           dont-schedule-with: elastic-data
+      # nodeAffinity:
+      #   requiredDuringSchedulingIgnoredDuringExecution:
+      #     nodeSelectorTerms:
+      #     - matchExpressions:
+      #       - key: node-type
+      #         operator: In
+      #         values:
+      #         - "elastic-data"
+
+    nodeSelector: {}
+      # node-type: elastic-data
+    lifecycle: {}
+      # preStop:
+      #   exec:
+      #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
+
+    count: 1
+    persistence:
+      storageClassName: ""
+      size: 100Gi
+    resources:
+      limits:
+        cpu: 4
+        memory: 4Gi
+      requests:
+        cpu: 4
+        memory: 4Gi
+    heap:
+      # Xms
+      min: 2g
+      # Xmx
+      max: 2g
 
 istio:
   # Toggle istio interaction
