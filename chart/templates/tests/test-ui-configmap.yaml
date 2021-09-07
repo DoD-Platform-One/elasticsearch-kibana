@@ -1,11 +1,11 @@
-{{- include "bb-test-lib.cypress-configmap.overrides" (list . "elasticsearch-kibana-test.cypress-configmap") }}
+{{- include "gluon.tests.cypress-configmap.overrides" (list . "elasticsearch-kibana-test.cypress-configmap") }}
 {{- define "elasticsearch-kibana-test.cypress-configmap" }}
 metadata:
   labels:
     {{ include "elasticsearch.labels" . | nindent 4 }}
 {{- end }}
 ---
-{{- include "bb-test-lib.cypress-runner.overrides" (list . "elasticsearch-kibana-test.cypress-runner") -}}
+{{- include "gluon.tests.cypress-runner.overrides" (list . "elasticsearch-kibana-test.cypress-runner") -}}
 {{- define "elasticsearch-kibana-test.cypress-runner" -}}
 metadata:
   labels:
