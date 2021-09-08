@@ -77,4 +77,3 @@ bbtests:
           secretKeyRef:
             name: "logging-ek-es-elastic-user"
             key: elastic
-
