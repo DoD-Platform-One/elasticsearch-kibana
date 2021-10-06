@@ -1,6 +1,10 @@
 apiVersion: v2
 name: logging
+<<<<<<< HEAD
 version: 0.1.21-bb.3
+=======
+version: 0.1.21-bb.1
+>>>>>>> a92ffb2 (re-added chart and changelog)
 appVersion: 7.13.4
 dependencies:
   - name: gluon

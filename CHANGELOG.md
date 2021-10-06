@@ -17,6 +17,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ## [0.1.21-bb.0] - 2021-09-07
 ### Changed
+- Removed annotation for istio sidecar injection
+
+## [0.1.21-bb.0] - 2021-09-07
+### Changed
 - Migrated from bb-test-lib to gluon
 
 ## [0.1.20-bb.0] - 2021-08-24
