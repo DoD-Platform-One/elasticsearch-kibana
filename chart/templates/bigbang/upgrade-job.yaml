@@ -170,4 +170,8 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       restartPolicy: OnFailure
+      {{- if .Values.istio.enabled }}
+      echo "Terminating istio sidecar container..."
+      curl -X POST http://localhost:15020/quitquitquit
+      {{- end }}
 {{- end }}
