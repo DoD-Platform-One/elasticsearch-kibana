@@ -88,6 +88,8 @@ spec:
   template:
     metadata:
       name: bb-{{ .Release.Name }}-upgrade
+      annotations:
+        sidecar.istio.io/inject: 'false'
       labels:
         app.kubernetes.io/name: bigbang-ek-upgrade-job
     spec:
