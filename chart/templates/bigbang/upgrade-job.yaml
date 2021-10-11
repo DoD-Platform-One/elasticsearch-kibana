@@ -88,8 +88,6 @@ spec:
   template:
     metadata:
       name: bb-{{ .Release.Name }}-upgrade
-      annotations:
-        sidecar.istio.io/inject: 'false'
       labels:
         app.kubernetes.io/name: bigbang-ek-upgrade-job
     spec:
@@ -136,6 +134,12 @@ spec:
               until [[ $( kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.phase}' ) == "Ready" ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == $ES_DESIRED_VERSION ]]; do
                 echo "ES cluster version $ES_DESIRED_VERSION not yet Ready" && sleep 10;
               done
+
+              {{- if .Values.istio.enabled }}
+              echo "Terminating istio sidecar container..."
+              curl -X POST http://localhost:15020/quitquitquit
+              {{- end }}
+
 
               if [[ $( curl -ku "elastic:$elastic" -k "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc:9200/_cluster/settings?pretty" | jq '.persistent.cluster.routing.allocation.enable' | tr -d '"' ) == "primaries" ]]; then
                 echo "Running Post-Upgrade Commands"
