@@ -27,10 +27,10 @@ kibana:
   resources:
     requests:
       memory: 2Gi
-      cpu: 2
+      cpu: 1
     limits:
       memory: 2Gi
-      cpu: 2
+      cpu: 1
 
   volumes: []
 
@@ -133,10 +133,10 @@ elasticsearch:
       size: 5Gi
     resources:
       limits:
-        cpu: 2
+        cpu: 1
         memory: 4Gi
       requests:
-        cpu: 2
+        cpu: 1
         memory: 4Gi
     heap:
       # Xms
@@ -204,10 +204,10 @@ elasticsearch:
       size: 100Gi
     resources:
       limits:
-        cpu: 4
+        cpu: 1
         memory: 4Gi
       requests:
-        cpu: 4
+        cpu: 1
         memory: 4Gi
     heap:
       # Xms
@@ -277,10 +277,10 @@ elasticsearch:
       size: 100Gi
     resources:
       limits:
-        cpu: 4
+        cpu: 1
         memory: 4Gi
       requests:
-        cpu: 4
+        cpu: 1
         memory: 4Gi
     heap:
       # Xms
@@ -350,10 +350,10 @@ elasticsearch:
       size: 100Gi
     resources:
       limits:
-        cpu: 4
+        cpu: 1
         memory: 4Gi
       requests:
-        cpu: 4
+        cpu: 1
         memory: 4Gi
     heap:
       # Xms
@@ -423,10 +423,10 @@ elasticsearch:
       size: 100Gi
     resources:
       limits:
-        cpu: 4
+        cpu: 1
         memory: 4Gi
       requests:
-        cpu: 4
+        cpu: 1
         memory: 4Gi
     heap:
       # Xms
