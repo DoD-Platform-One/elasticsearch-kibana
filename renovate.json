@@ -4,13 +4,9 @@
     "dependencyDashboard": "true",
     "dependencyDashboardAutoclose": "true",
     "dependencyDashboardHeader": "- [ ] Sync upstream helm chart version with updated dependencies.",
-    "dependencyDashboardTitle": "Renovate: Upgrade ElasticSearch Kibana Package Dependencies",
-    "dependencyDashboardLabels": ["elasticsearch", "renovate", "kind::chore", "team::execution"],
+    "dependencyDashboardTitle": "Renovate: Upgrade Elastic Search Package Dependencies",
     "draftPR": true,
-    "enabledManagers": ["helm-values", "regex"],
-    "labels": ["elasticsearch","Big Bang Add Ons","Package Sustainment","kind::chore", "renovate"],
-    "ignorePaths": ["**/chart/deps/**", "**/.gitlab-ci.yml", "chart/requirements.yaml"],  
-    "separateMajorMinor": "false",
+    "labels": ["elasticsearch","Big Bang Core","Package Sustainment","kind::chore"],
     "packageRules": [
       {
         "matchDatasources": ["docker"],
@@ -19,12 +15,13 @@
       }
     ],
     "regexManagers": [
-        {
-            "fileMatch": ["^chart/values\\.yaml$"],
-            "matchStrings": [
-                "image:\\s+repository:\\s+[^/]+/(?<depName>.+)\\s+tag:\\s+(?<currentValue>-community)"
-            ],
-            "datasourceTemplate": "docker"
-        }
+      {
+        "fileMatch": ["^chart/values\\.yaml$"],
+        "matchStrings": [
+           "tag:\\s+(?<currentValue>.+)"
+        ],
+        "depNameTemplate": "ironbank/elastic/elasticsearch",
+        "datasourceTemplate": "docker"
+      }
     ]
-}
+  }
