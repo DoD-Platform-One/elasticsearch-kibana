@@ -1,0 +1,27 @@
+{
+    "baseBranches": ["main"],
+    "configWarningReuseIssue": false,
+    "dependencyDashboard": "true",
+    "dependencyDashboardAutoclose": "true",
+    "dependencyDashboardHeader": "- [ ] Sync upstream helm chart version with updated dependencies.",
+    "dependencyDashboardTitle": "Renovate: Upgrade Elastic Search Package Dependencies",
+    "draftPR": true,
+    "labels": ["elasticsearch","Big Bang Core","Package Sustainment","kind::chore"],
+    "packageRules": [
+      {
+        "matchDatasources": ["docker"],
+        "groupName": "Ironbank",
+        "registryUrls": ["https://registry1.dso.mil"]
+      }
+    ],
+    "regexManagers": [
+      {
+        "fileMatch": ["^chart/values\\.yaml$"],
+        "matchStrings": [
+           "tag:\\s+(?<currentValue>.+)"
+        ],
+        "depNameTemplate": "ironbank/elastic/elasticsearch",
+        "datasourceTemplate": "docker"
+      }
+    ]
+  }
