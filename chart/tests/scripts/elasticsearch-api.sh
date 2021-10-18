@@ -5,7 +5,7 @@ set -ex
 sleep 15
 
 echo "Hitting Elasticsearch API endpoint..."
-curl -skISu "elastic:${ELASTIC_PASSWORD}" "${elasticsearch_host}/" &>/dev/null || export ES_DOWN="true"
+curl --retry-delay 5 --retry-max-time 600 --retry 60 --retry-connrefused -skISu "elastic:${ELASTIC_PASSWORD}" "${elasticsearch_host}/" &>/dev/null || export ES_DOWN="true"
 if [[ ${ES_DOWN} == "true" ]]; then
   echo "Test 1 Failure: Cannot hit Elasticsearch endpoint."
   echo "Debug information (curl response):"
