@@ -18,4 +18,29 @@ spec:
   egress:
   - {}
 {{- end }}
+{{- if and .Values.networkPolicies.enabled .Values.bbtests.enabled }}
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: es-helm-test
+  namespace: {{ .Release.Namespace }}
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          helm-test: enabled
+      podSelector:
+        matchLabels:
+          helm-test: enabled
+    ports:
+    - port: 9200
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      common.k8s.elastic.co/type: elasticsearch
+  policyTypes:
+  - Ingress
+{{- end }}
 {{- end }}
