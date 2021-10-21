@@ -436,7 +436,7 @@ elasticsearch:
 
 istio:
   # Toggle istio interaction
-  enabled: true
+  enabled: false
   kibana:
     # Toggle vs creation
     enabled: true
