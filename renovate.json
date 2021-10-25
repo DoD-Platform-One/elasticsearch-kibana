@@ -5,6 +5,7 @@
     "dependencyDashboardAutoclose": "true",
     "dependencyDashboardHeader": "- [ ] Sync upstream helm chart version with updated dependencies.",
     "dependencyDashboardTitle": "Renovate: Upgrade Elastic Search Package Dependencies",
+    "dependencyDashboardLabels": ["elasticsearch","renovate","Package Sustainment"],
     "draftPR": true,
     "labels": ["elasticsearch","Big Bang Core","Package Sustainment","kind::chore"],
     "packageRules": [
