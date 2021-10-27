@@ -148,9 +148,8 @@ spec:
                 echo "No post-upgrade commands necessary"
                 exit 0
               fi
-              {{- if and .Values.istio.enabled (eq .Values.istio.injection "enabled") }}
-              x=$(echo $?);curl -fsI -X POST http://localhost:15020/quitquitquit && exit $x;
-              {{- end }} 
+              echo "Testing bash ability to get values"
+              echo "{{ .Values.istio.enabled }}"
           resources:
             requests:
               cpu: 100m
