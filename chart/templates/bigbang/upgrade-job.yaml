@@ -128,8 +128,10 @@ spec:
                 echo "Rolling Upgrade Prep Commands Completed"
               else
                 echo "No Upgrade Prep Necessary :D"
-                echo "Testing bash ability to get values"
-                echo "{{ .Values.istio.enabled }}"
+                echo "Killing Istio Sidecar"
+                if {{ .Values.istio.enabled }}
+                  curl -X POST http://localhost:15020/quitquitquit
+                fi
                 exit 0
               fi
 
