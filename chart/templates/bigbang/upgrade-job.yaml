@@ -146,10 +146,18 @@ spec:
                 done
                 kubectl annotate kibana {{ .Release.Name }} -n {{ .Release.Namespace }} 'eck.k8s.elastic.co/managed-'
                 echo "Post-Upgrade Commands completed"
+                echo "Killing Istio Sidecar"
+                if {{ .Values.istio.enabled }}; then
+                  curl -X POST http://localhost:15020/quitquitquit
+                fi
                 exit 0
               else
                 kubectl annotate kibana {{ .Release.Name }} -n {{ .Release.Namespace }} 'eck.k8s.elastic.co/managed-'
                 echo "No post-upgrade commands necessary"
+                echo "Killing Istio Sidecar"
+                if {{ .Values.istio.enabled }}; then
+                  curl -X POST http://localhost:15020/quitquitquit
+                fi
                 exit 0
               fi
           resources:
