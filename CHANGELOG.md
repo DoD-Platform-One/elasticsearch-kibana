@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.1.21-bb.3] - 2021-10-21
 ### Changed
 - Updated Upgrade Job to work with Istio Injection
+- Added kill istio sidecar line
 
 ## [0.1.21-bb.2] - 2021-10-14
 ### Changed
