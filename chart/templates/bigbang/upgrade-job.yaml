@@ -128,6 +128,8 @@ spec:
                 echo "Rolling Upgrade Prep Commands Completed"
               else
                 echo "No Upgrade Prep Necessary :D"
+                echo "Testing bash ability to get values"
+                echo "{{ .Values.istio.enabled }}"
                 exit 0
               fi
 
@@ -148,8 +150,6 @@ spec:
                 echo "No post-upgrade commands necessary"
                 exit 0
               fi
-              echo "Testing bash ability to get values"
-              echo "{{ .Values.istio.enabled }}"
           resources:
             requests:
               cpu: 100m
