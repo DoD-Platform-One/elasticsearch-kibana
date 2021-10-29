@@ -99,6 +99,7 @@ spec:
             - /bin/bash
             - -ec
             - |
+              echo "{{ .Values.istio.injection }}"
               if [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == 7.9.* ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.version}') == 7.10.* ]]; then
                 echo "Running Rolling Upgrade Prep Commands"
                 kubectl annotate --overwrite kibana {{ .Release.Name }} -n {{ .Release.Namespace }} 'eck.k8s.elastic.co/managed=false'
