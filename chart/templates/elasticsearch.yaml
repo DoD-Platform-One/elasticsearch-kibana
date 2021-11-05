@@ -73,6 +73,10 @@ spec:
         {{- end }}
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        updateStrategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 1
 
         {{- if .initContainers }}
         initContainers:
@@ -164,6 +168,10 @@ spec:
         {{- end }}
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        updateStrategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 1
 
         {{- if .initContainers }}
         initContainers:
@@ -348,6 +356,10 @@ spec:
           {{- toYaml .affinity | nindent 10 }}
         {{- end }}
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        updateStrategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 1
 
         {{- if .initContainers }}
         initContainers:
@@ -441,6 +453,11 @@ spec:
         {{- end }}
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        updateStrategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 1
+        
 
         {{- if .initContainers }}
         initContainers:

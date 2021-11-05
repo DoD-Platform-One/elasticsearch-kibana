@@ -44,6 +44,10 @@ spec:
       securityContext:
       {{- toYaml .Values.kibana.securityContext | nindent 8 }}
       {{- end }}
+      updateStrategy:
+          type: RollingUpdate
+          rollingUpdate:
+            maxUnavailable: 1
       containers:
         - name: kibana
           resources:
