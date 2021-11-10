@@ -1,6 +1,6 @@
 kibana:
   imagePullSecrets:
-  - name: private-registry-mil
+  - name: private-registry
 
   count: 1
   resources:
@@ -13,7 +13,7 @@ kibana:
 
 elasticsearch:
   imagePullSecrets:
-  - name: private-registry-mil
+  - name: private-registry
 
   master:
     count: 1
