@@ -45,9 +45,9 @@ spec:
       {{- toYaml .Values.kibana.securityContext | nindent 8 }}
       {{- end }}
       updateStrategy:
-          type: {{ .rollingUpdate }}
-          rollingUpdate:
-            maxUnavailable: {{ .maxUnavailable }}
+        type: {{ .rollingUpdate }}
+        rollingUpdate:
+          maxUnavailable: {{ .maxUnavailable }}
       containers:
         - name: kibana
           resources:
