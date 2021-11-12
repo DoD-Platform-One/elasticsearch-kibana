@@ -73,10 +73,11 @@ spec:
         {{- end }}
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        
+        {{- if .updateStrategy }}
         updateStrategy:
-          type: {{ .rollingUpdate }}
-          rollingUpdate:
-            maxUnavailable: {{ .maxUnavailable }}
+          {{- toYaml .updateStrategy | nindent 10 }}
+        {{- end }}
 
         {{- if .initContainers }}
         initContainers:
@@ -168,10 +169,11 @@ spec:
         {{- end }}
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+
+        {{- if .updateStrategy }}
         updateStrategy:
-          type: {{ .rollingUpdate }}
-          rollingUpdate:
-            maxUnavailable: {{ .maxUnavailable }}
+          {{- toYaml .updateStrategy | nindent 10 }}
+        {{- end }}
 
         {{- if .initContainers }}
         initContainers:
@@ -356,10 +358,10 @@ spec:
           {{- toYaml .affinity | nindent 10 }}
         {{- end }}
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        {{- if .updateStrategy }}
         updateStrategy:
-          type: {{ .rollingUpdate }}
-          rollingUpdate:
-            maxUnavailable: {{ .maxUnavailable }}
+          {{- toYaml .updateStrategy | nindent 10 }}
+        {{- end }}
 
         {{- if .initContainers }}
         initContainers:
@@ -453,10 +455,10 @@ spec:
         {{- end }}
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        {{- if .updateStrategy }}
         updateStrategy:
-          type: {{ .rollingUpdate }}
-          rollingUpdate:
-            maxUnavailable: {{ .maxUnavailable }}
+          {{- toYaml .updateStrategy | nindent 10 }}
+        {{- end }}
         
 
         {{- if .initContainers }}
