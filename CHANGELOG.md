@@ -4,7 +4,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
-## [0.1.21-bb.4] - 2021-11-04
+## [0.1.22-bb.0] - 2021-11-15
 
 ### Changed
 
