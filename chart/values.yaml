@@ -17,6 +17,11 @@ kibana:
   # Name for serviceAccount to use, will be autocreated
   serviceAccountName: "logging-kibana"
 
+  updateStrategy:
+    type: rollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+
   securityContext: 
     runAsUser: 1000
     runAsGroup: 1000
@@ -91,6 +96,11 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+
+    updateStrategy:
+      type: rollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
 
     volumes: []
     # - name: cert
@@ -308,6 +318,12 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+    
+
+    updateStrategy:
+      type: rollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
 
     volumes: []
       # - name: cert
@@ -381,6 +397,11 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+
+    updateStrategy:
+      type: rollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
 
     volumes: []
       # - name: cert
