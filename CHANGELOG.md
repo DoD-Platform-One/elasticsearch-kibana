@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.1.23-bb.0] - 2021-11-04
+### Added
+- Added values support for imagePullPolicy in Elasticsearch
+- Added values support for imagePullPolicy in Kibana
+- Updated README.md with override values for imagePullPolicy
+- Updated README.md to standardized Big Bang README
+
 ## [0.1.22-bb.0] - 2021-11-15
 
 ### Changed

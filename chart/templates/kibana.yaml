@@ -58,6 +58,7 @@ spec:
           volumeMounts:
           {{- toYaml .Values.kibana.volumeMounts | nindent 10 }}
           {{- end }}
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
       {{- if .Values.kibana.volumes }}
       volumes:
       {{- toYaml .Values.kibana.volumes | nindent 6 }}
