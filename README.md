@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.1.22-bb.0](https://img.shields.io/badge/Version-0.1.21--bb.4-informational?style=flat-square) ![AppVersion: 7.13.4](https://img.shields.io/badge/AppVersion-7.13.4-informational?style=flat-square)
+![Version: 0.1.23-bb.0](https://img.shields.io/badge/Version-0.1.23--bb.0-informational?style=flat-square) ![AppVersion: 7.13.4](https://img.shields.io/badge/AppVersion-7.13.4-informational?style=flat-square)
 
 ## Learn More
 * [Application Overview](docs/overview.md)
@@ -30,6 +30,7 @@ helm install logging chart/
 |-----|------|---------|-------------|
 | hostname | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
 | autoRollingUpgrade | object | `{"enabled":true}` | Enable BigBang specific autoRollingUpgrade support, more info in package README.md. |
+| imagePullPolicy | string | `"IfNotPresent"` |  |
 | kibana.version | string | `"7.12.0"` |  |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` |  |
 | kibana.image.tag | string | `"7.12.0"` |  |
