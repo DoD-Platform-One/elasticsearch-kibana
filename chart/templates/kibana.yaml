@@ -8,9 +8,9 @@ spec:
   count: {{ .Values.kibana.count }}
   image: {{ .Values.kibana.image.repository }}:{{ .Values.kibana.image.tag }}
 
-  {{- with .Values.sso }}
-  {{- if .enabled }}
   config:
+    {{- with .Values.sso }}
+    {{- if .enabled }}
     xpack.security.authc.providers:
       oidc.oidc1:
         enabled: true
@@ -21,8 +21,16 @@ spec:
         enabled: true
         order: 1
       {{- end }}
-  {{- end }}
-  {{- end }}
+    {{- end }}
+    {{- end }}
+    server:
+      {{- if .Values.kibana.host }}
+      publicBaseUrl: "https://{{ .Values.kibana.host }}"
+      {{- else if .Values.istio.kibana.hosts }}
+      publicBaseUrl: "https://{{ tpl (index .Values.istio.kibana.hosts 0) $ }}"
+      {{- else }}
+      publicBaseUrl: "https://kibana.bigbang.dev"
+      {{- end }}
 
   elasticsearchRef:
     name: {{ .Release.Name }}
