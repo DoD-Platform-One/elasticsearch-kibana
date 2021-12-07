@@ -32,7 +32,6 @@ spec:
       publicBaseUrl: "https://kibana.bigbang.dev"
       {{- end }}
 
-
   elasticsearchRef:
     name: {{ .Release.Name }}
 
