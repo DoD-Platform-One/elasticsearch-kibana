@@ -34,6 +34,7 @@ helm install logging chart/
 | kibana.version | string | `"7.14.0"` |  |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` |  |
 | kibana.image.tag | string | `"7.14.0"` |  |
+| kibana.host | string | `""` |  |
 | kibana.count | int | `3` |  |
 | kibana.serviceAccountName | string | `"logging-kibana"` |  |
 | kibana.updateStrategy.type | string | `"rollingUpdate"` |  |

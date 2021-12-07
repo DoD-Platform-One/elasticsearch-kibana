@@ -21,11 +21,16 @@ Elastic/Kibana is a Big Bang built/maintained chart. The below details the steps
 NOTE: For these testing steps it is good to do them on both a clean install and an upgrade. For clean install, point logging to your branch. For an upgrade do an install with logging pointing to the latest tag, then perform a helm upgrade with logging pointing to your branch.
 
 You will want to install with:
-- Logging (elastic, eck operator, and fluentbit), Istio and Monitoring packages enabled
+- Logging (elastic, eck operator, and fluentbit), and Istio packages enabled
 - Istio enabled
 - [Dev SSO values](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/chart/dev-sso-values.yaml) for Logging
 
 Testing Steps:
-- TBD
+- Ensure all pods go to running (NOTE: this is especially important for the upgrade testing since Big Bang has an "auto rolling upgrade" job in place)
+- Login to Kibana without SSO, using the password in the `logging-ek-es-elastic-user` secret and username `elastic`
+- Navigate to https://kibana.bigbang.dev/app/management/security/role_mappings and add a role mapping for SSO logins (name: sso, roles: superuser, mapping rules: username=*)
+- Logout and attempt to perform an SSO login with your login.dso.mil credentials
+- Navigate to https://kibana.bigbang.dev/app/management/kibana/indexPatterns and add an index pattern for `logstash-*`
+- Navigate to `Analytics` -> `Discover` and validate that pod logs are appearing in the `logstash` index pattern
 
 When in doubt with any testing or upgrade steps ask one of the CODEOWNERS for assistance.

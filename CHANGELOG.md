@@ -10,6 +10,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Updated Renovate to pick up changes for `version` values and `appVersion`
 ### Added
 - Document for how to complete a package update
+- New `kibana.host` value for overriding new `publicBaseUrl` config value for Kibana
 
 ## [0.1.23-bb.0] - 2021-11-04
 ### Added

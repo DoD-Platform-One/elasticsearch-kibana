@@ -14,6 +14,9 @@ kibana:
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     tag: 7.14.0
 
+  # Only required if not using istio for ingress
+  host: ""
+
   # Number of Kibana replicas
   count: 3
 
