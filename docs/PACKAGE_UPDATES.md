@@ -4,7 +4,7 @@ Elastic/Kibana is a Big Bang built/maintained chart. The below details the steps
 
 1. Ensure that newest elastic/kibana images are compatible. If possible the image tags should be the same, although patch version differences are OK.
 
-2. Checkout the `renovate/ironbank` branch. This branch will already have the updates you need for the images.
+2. Checkout the `renovate/ironbank` branch. This branch should already have the updates you need for the images, `elasticsearch.version`, `kibana.version` and `appVersion` in `Chart.yaml`. Validate that the `version` values are equal to their respective `image.tag` value and that the `appVersion` is equal to the elasticsearch version.
 
 3. Modify the `version` in `Chart.yaml`. Since this is an upstream chart you should bump the versioning following semver, and append `-bb.0`. In general for new elastic/kibana versions this will mean bumping the minor version (i.e. `0.1.2-bb.0` to `0.2.0-bb.0`).
 

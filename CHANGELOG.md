@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ## [0.2.0-bb.0] - 2021-12-07
 ### Changed
 - Updated to latest Ironbank images (`7.14.0` for Kibana, `7.14.1` for Elastic)
+- Updated Renovate to pick up changes for `version` values and `appVersion`
 ### Added
 - Document for how to complete a package update
 
