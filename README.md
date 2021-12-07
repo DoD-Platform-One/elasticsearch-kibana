@@ -1,153 +1,194 @@
-# Elasticsearch-Kibana Documentation
- 
-# Table of Contents
-- [Overview](docs/overview.md)
-- [Development](#elasticsearch-kibana)
-- [Prerequisites](#pre-requisites)
-- [IronBank Images](#iron-bank)
-- [Deployment](#deployment)
-- [Enterprise License](#enterprise-license)
-- [Elastic Password](#elastic-password)
-- [Upgrading](#upgrading)
-- [BigBang Specifics](#big-bang-specific-configuration)
-- [Configuration Values](#Values)
-- [Kibana Metrics](docs/prometheus.md)
-- [Kibana ECK Integration](docs/elastic.md)
-- [Kibana SSO Integration](docs/keycloak.md)
-- [Troubleshooting](docs/troubleshooting.md)
-- [Backup and recovery](docs/backup.md)
+# logging
 
----
+![Version: 0.1.23-bb.0](https://img.shields.io/badge/Version-0.1.23--bb.0-informational?style=flat-square) ![AppVersion: 7.13.4](https://img.shields.io/badge/AppVersion-7.13.4-informational?style=flat-square)
 
-# elasticsearch-kibana
-
-- Thin chart wrapper around a deployment of Elasticsearch and Kibana using the [ECK Operator](https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator).
-- This chart is owned by Big Bang and does not point to an upstream chart provided by Elastic or another vendor.
-- Open an [issue](https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana/-/issues) if you would like to request a feature or submit an issue that needs to be fixed/addressed.
+## Learn More
+* [Application Overview](docs/overview.md)
+* [Other Documentation](docs/)
 
 ## Pre-Requisites
 
-The ECK Operator must be deployed beforehand in order to leverage the `Elasticsearch` and `Kibana` custom resources.  You can use the full [BigBang](https://repo1.dso.mil/platform-one/big-bang/bigbang) solution or the individual [eck operator chart](https://repo1.dso.mil/platform-one/big-bang/apps/core/eck-operator).
+* Kubernetes Cluster deployed
+* Kubernetes config installed in `~/.kube/config`
+* Helm installed
 
-Elastic requires that the vm.max_map_count be set to `vm.max_map_count=262144`. This is best set via sysctl on the nodes themselves before installation. If this is not possible an alternative method of setting this value is available [here](https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana/-/tree/main/docs/sysctls.md).
+Install Helm
 
-## Iron Bank
-
-You can `pull` the registry1 image(s) [here](https://registry1.dso.mil/harbor/projects/3/repositories/elastic%2Felasticsearch%2Felasticsearch) and view the container approval [here](https://ironbank.dso.mil/ironbank/repomap/elastic/elasticsearch).
+https://helm.sh/docs/intro/install/
 
 ## Deployment
+
+* Clone down the repository
+* cd into directory
 ```bash
-git clone https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana.git
-cd elasticsearch-kibana
-helm install elasticsearch-kibana chart --debug -n logging --create-namespace -f chart/values.yaml
+helm install logging chart/
 ```
-
-## Enterprise License
-
-If you want to experiment with enterprise features for development, you can toggle on a trial license. This is done in the [BigBang](https://repo1.dso.mil/platform-one/big-bang/bigbang) values as shown below:
-
-```yaml
-logging:
-  license:
-    trial: true
-```
-
-For production, if you want enterprise features you will need to add your license in the BigBang values as shown below:
-
-```yaml
-logging:
-  license:
-    trial: false
-    keyJSON: |
-      {"license":
-        {"uid":....
-        }
-      }
-```
-
-NOTE: You can also squash the license onto a single line as follows, but ensure no quotes are present and you turn it into a multiline value with a Helm pipe:
-
-```yaml
-logging:
-  license:
-    trial: false
-    keyJSON: |
-      {"license":{"uid":....}}
-```
-
-## Elastic Password
-
-The default "admin" `elastic` user has its password stored in a secret. To login initially and set up additional users or SSO (see [the Keycloak doc](./docs/keycloak.md)) you need to get this password:
-
-```bash
-kubectl get secrets -n logging logging-ek-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
-```
-
-## Upgrading
-
-Please always check [CHANGELOG](./CHANGELOG.md) before upgrading to a new chart version.
-
-## Big Bang Specific Configuration
-
-#### AutoRollingUpgrade
-
-BigBang's chart for elasticsearch-kibana comes with the following variable `autoRollingUpgrade` and when enabled checks for minor version changes in the Elasticsearch and Kibana resource and automatically does the following in accordance with Elastic's [Rolling Upgrades documentation](https://www.elastic.co/guide/en/elasticsearch/reference/7.x/rolling-upgrades.html#_upgrading_your_cluster):
-
-1. Annotate the Kibana resource to temporarily disconnect it from the ECK-Operator's control and delete the Kibana deployment. This is because Kibana can only be upgraded once Elasticsearch is upgraded and of Green Health status. Kibana has a high probability of issues if it is not stopped while Elasticsearch is ApplyingChanges.
-2. Shard allocation is disabled on the Elasticsearch cluster.
-3. Stop of non-essential indexing and performing a synced-flush.
-4. Re-enable shard allocation once Elasticsearch is showing Green Health status on the new version.
-5. Annotate the Kibana resource to allow it to be managed by the ECK-Operator again, at which point a new Kibana Deployment will rollout.
-
-* More can be read about excluding elastic resource from being managed by the operator [here](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-upgrading-eck.html).
-* You can keep an eye on this upgrade by viewing the health of the Elasticsearch installation being upgraded `kubectl get elasticsearch -A` (will list all Elasticsearches in the cluster, upgrading ones will show ApplyingChanges).
-* You can view the logs of the rolling-upgrade job running in the same namespace as your elasticsearch-kibana package installation, which will be in the format of `bb-logging-ek-upgrade-XXXXX`. The container will print progress and what it may be waiting on.
-* Each Elasticsearch node will restart one by one (controlled by the ECK-Operator) and once ES is healthy, Kibana will re-deploy via one of the last functions of the rolling-upgrade job.
-* BigBang flux values have the HelmRelease timeout for the EK package set at 20 minutes. If you have a cluster with more than 8 nodes you should up the timeout accordingly via the `logging.flux.timeout` Value. Each Elasticsearch node takes about 2-2.5 minutes to restart.
-
-#### Node Types (Roles)
-
-BigBang's chart for Elasticsearch Kibana allows configuration for the following types of nodes within an Elasticsearch cluster:
-  - master
-  - data
-  - ml
-  - ingest
-  - coordinating
-
-  Only the first two nodes (master & data) are required and enabled by default.
 
 ## Values
 
-| Parameter                                    | Description                                                                                                                                        | Default                                                               |
-|----------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------|
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.affinity`   | Configurable options are "soft" and "hard" [antiAffinity][]                                                                                        | `""`                                                                  |
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.count`          | Kubernetes replica count for the Deployment (i.e. how many pods for elasticsearch nodes)                                                           | see [values](./chart/values.yaml)                                                                   |
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.heap`                         | Configurable setting for java [JVM heap](https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-jvm-heap-size.html) min + max amount             | `2g`                                                                  |
-| `{kibana\|elasticsearch}.imagePullSecrets`    | Configuration for [imagePullSecrets][] so that you can use a private registry for your image                                                       | `[ ]`                                                                 |
-| `{kibana\|elasticsearch}.image.repository`    | The image repository URL                                                                                                                           | see [values](./chart/values.yaml)                                     |
-| `{kibana\|elasticsearch}.image.tag`           | Configurable tag applied to the image.                                                                                                             | `7.9.2`                                                               |
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.initContainers` | Allows for creation of an initContainer for the Elasticsearch Master or Data nodes. Kibana initContainer support coming soon                       | `[]`                                                                  |
-| `istio`                                      | Configurable istio VirtualService for Kibana external access                                                                                       | see [values](./chart/values.yaml)                                     |
-| `kibanaBasicAuth`                            | Configurable setting for Kibana to enable/disable basic authentication support for the UI                                                          | `enabled: true`                                                       |
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.nodeAffinity`   | Configurable [nodeAffinity][] applied to master or data nodes to run on specific nodes                                                             | `{}`                                                                  |
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.nodeSelector`   | Configurable [nodeSelector][] so that you can target specific nodes for your Kibana instances                                                      | `{}`                                                                  |
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.persistence`    | Configurable [persistence][] for persistent volume storage, can set storageClassName and size                                                      | see [values](./chart/values.yaml)                                     |
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.resources`           | Allows you to set the [resources][] for the indivudial Deployments for Elasticsearch nodes                                                  | see [values](./chart/values.yaml)                                     |
-| `kibana.resources`           | Allows you to set the [resources][] for the Deployment of Kibana                                                | see [values](./chart/values.yaml)                                     |
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.securityContext`                            | Allows you to set the [securityContext][] for the elasticsearch node pods                                                                                        | see [values](./chart/values.yaml)                                     |
-| `kibana.securityContext`                            | Allows you to set the [securityContext][] for the kibana pods pods                                                                                        | see [values](./chart/values.yaml)                                     |
-| `elasticsearch.{master\|data\|ingest\|coord\|ml}.lifecycle`           | Allows you to set the [containerLifecycleHooks][] for the indivudial Deployments for Elasticsearch nodes                                                | see [values](./chart/values.yaml)                                     |
-| `elasticsearch.{ingest\|coord\|ml}.enabled`           | Boolean to enable the different types of nodes within an Elasticsearch stack                                                   | `false`                                     |
-| `sso`                                        | Configurable SSO integration with OIDC                                                                                                             | see [values](./chart/values.yaml) & [documentation](docs/keycloak.md) |
-| `{kibana\|elasticsearch}.version`             | Configurable version setting for the eck-operator to handle the version of kibana or elasticsearch                                                 | `7.9.2`                                                               |
-| `autoRollingUpgrade.enabled`                          | Boolean setting to enable BigBang job to perform an Elastic [Rolling Upgrade][]                                                          | `true` |
-| `openshift` | Boolean setting if deploying on Openshift | `false` |
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| hostname | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
+| autoRollingUpgrade | object | `{"enabled":true}` | Enable BigBang specific autoRollingUpgrade support, more info in package README.md. |
+| imagePullPolicy | string | `"IfNotPresent"` |  |
+| kibana.version | string | `"7.12.0"` |  |
+| kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` |  |
+| kibana.image.tag | string | `"7.12.0"` |  |
+| kibana.count | int | `3` |  |
+| kibana.serviceAccountName | string | `"logging-kibana"` |  |
+| kibana.updateStrategy.type | string | `"rollingUpdate"` |  |
+| kibana.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
+| kibana.securityContext.runAsUser | int | `1000` |  |
+| kibana.securityContext.runAsGroup | int | `1000` |  |
+| kibana.securityContext.fsGroup | int | `1000` |  |
+| kibana.imagePullSecrets | list | `[]` |  |
+| kibana.resources.requests.memory | string | `"2Gi"` |  |
+| kibana.resources.requests.cpu | int | `1` |  |
+| kibana.resources.limits.memory | string | `"2Gi"` |  |
+| kibana.resources.limits.cpu | int | `1` |  |
+| kibana.volumes | list | `[]` |  |
+| kibana.volumeMounts | list | `[]` |  |
+| kibana.affinity | object | `{}` |  |
+| kibana.nodeSelector | object | `{}` |  |
+| kibana.lifecycle | object | `{}` |  |
+| elasticsearch.version | string | `"7.13.4"` |  |
+| elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` |  |
+| elasticsearch.image.tag | string | `"7.13.4"` |  |
+| elasticsearch.imagePullSecrets | list | `[]` |  |
+| elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` |  |
+| elasticsearch.master.initContainers | list | `[]` |  |
+| elasticsearch.master.securityContext.runAsUser | int | `1000` |  |
+| elasticsearch.master.securityContext.runAsGroup | int | `1000` |  |
+| elasticsearch.master.securityContext.fsGroup | int | `1000` |  |
+| elasticsearch.master.updateStrategy.type | string | `"rollingUpdate"` |  |
+| elasticsearch.master.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
+| elasticsearch.master.volumes | list | `[]` |  |
+| elasticsearch.master.volumeMounts | list | `[]` |  |
+| elasticsearch.master.affinity | object | `{}` |  |
+| elasticsearch.master.nodeSelector | object | `{}` |  |
+| elasticsearch.master.lifecycle | object | `{}` |  |
+| elasticsearch.master.count | int | `3` |  |
+| elasticsearch.master.persistence.storageClassName | string | `""` |  |
+| elasticsearch.master.persistence.size | string | `"5Gi"` |  |
+| elasticsearch.master.resources.limits.cpu | int | `1` |  |
+| elasticsearch.master.resources.limits.memory | string | `"4Gi"` |  |
+| elasticsearch.master.resources.requests.cpu | int | `1` |  |
+| elasticsearch.master.resources.requests.memory | string | `"4Gi"` |  |
+| elasticsearch.master.heap.min | string | `"2g"` |  |
+| elasticsearch.master.heap.max | string | `"2g"` |  |
+| elasticsearch.data.initContainers | list | `[]` |  |
+| elasticsearch.data.securityContext.runAsUser | int | `1000` |  |
+| elasticsearch.data.securityContext.runAsGroup | int | `1000` |  |
+| elasticsearch.data.securityContext.fsGroup | int | `1000` |  |
+| elasticsearch.data.volumes | list | `[]` |  |
+| elasticsearch.data.volumeMounts | list | `[]` |  |
+| elasticsearch.data.affinity | object | `{}` |  |
+| elasticsearch.data.nodeSelector | object | `{}` |  |
+| elasticsearch.data.lifecycle | object | `{}` |  |
+| elasticsearch.data.count | int | `4` |  |
+| elasticsearch.data.persistence.storageClassName | string | `""` |  |
+| elasticsearch.data.persistence.size | string | `"100Gi"` |  |
+| elasticsearch.data.resources.limits.cpu | int | `1` |  |
+| elasticsearch.data.resources.limits.memory | string | `"4Gi"` |  |
+| elasticsearch.data.resources.requests.cpu | int | `1` |  |
+| elasticsearch.data.resources.requests.memory | string | `"4Gi"` |  |
+| elasticsearch.data.heap.min | string | `"2g"` |  |
+| elasticsearch.data.heap.max | string | `"2g"` |  |
+| elasticsearch.ingest.enabled | bool | `false` |  |
+| elasticsearch.ingest.initContainers | list | `[]` |  |
+| elasticsearch.ingest.securityContext.runAsUser | int | `1000` |  |
+| elasticsearch.ingest.securityContext.runAsGroup | int | `1000` |  |
+| elasticsearch.ingest.securityContext.fsGroup | int | `1000` |  |
+| elasticsearch.ingest.volumes | list | `[]` |  |
+| elasticsearch.ingest.volumeMounts | list | `[]` |  |
+| elasticsearch.ingest.affinity | object | `{}` |  |
+| elasticsearch.ingest.nodeSelector | object | `{}` |  |
+| elasticsearch.ingest.lifecycle | object | `{}` |  |
+| elasticsearch.ingest.count | int | `1` |  |
+| elasticsearch.ingest.persistence.storageClassName | string | `""` |  |
+| elasticsearch.ingest.persistence.size | string | `"100Gi"` |  |
+| elasticsearch.ingest.resources.limits.cpu | int | `1` |  |
+| elasticsearch.ingest.resources.limits.memory | string | `"4Gi"` |  |
+| elasticsearch.ingest.resources.requests.cpu | int | `1` |  |
+| elasticsearch.ingest.resources.requests.memory | string | `"4Gi"` |  |
+| elasticsearch.ingest.heap.min | string | `"2g"` |  |
+| elasticsearch.ingest.heap.max | string | `"2g"` |  |
+| elasticsearch.ml.enabled | bool | `false` |  |
+| elasticsearch.ml.initContainers | list | `[]` |  |
+| elasticsearch.ml.securityContext.runAsUser | int | `1000` |  |
+| elasticsearch.ml.securityContext.runAsGroup | int | `1000` |  |
+| elasticsearch.ml.securityContext.fsGroup | int | `1000` |  |
+| elasticsearch.ml.updateStrategy.type | string | `"rollingUpdate"` |  |
+| elasticsearch.ml.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
+| elasticsearch.ml.volumes | list | `[]` |  |
+| elasticsearch.ml.volumeMounts | list | `[]` |  |
+| elasticsearch.ml.affinity | object | `{}` |  |
+| elasticsearch.ml.nodeSelector | object | `{}` |  |
+| elasticsearch.ml.lifecycle | object | `{}` |  |
+| elasticsearch.ml.count | int | `1` |  |
+| elasticsearch.ml.persistence.storageClassName | string | `""` |  |
+| elasticsearch.ml.persistence.size | string | `"100Gi"` |  |
+| elasticsearch.ml.resources.limits.cpu | int | `1` |  |
+| elasticsearch.ml.resources.limits.memory | string | `"4Gi"` |  |
+| elasticsearch.ml.resources.requests.cpu | int | `1` |  |
+| elasticsearch.ml.resources.requests.memory | string | `"4Gi"` |  |
+| elasticsearch.ml.heap.min | string | `"2g"` |  |
+| elasticsearch.ml.heap.max | string | `"2g"` |  |
+| elasticsearch.coord.enabled | bool | `false` |  |
+| elasticsearch.coord.initContainers | list | `[]` |  |
+| elasticsearch.coord.securityContext.runAsUser | int | `1000` |  |
+| elasticsearch.coord.securityContext.runAsGroup | int | `1000` |  |
+| elasticsearch.coord.securityContext.fsGroup | int | `1000` |  |
+| elasticsearch.coord.updateStrategy.type | string | `"rollingUpdate"` |  |
+| elasticsearch.coord.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
+| elasticsearch.coord.volumes | list | `[]` |  |
+| elasticsearch.coord.volumeMounts | list | `[]` |  |
+| elasticsearch.coord.affinity | object | `{}` |  |
+| elasticsearch.coord.nodeSelector | object | `{}` |  |
+| elasticsearch.coord.lifecycle | object | `{}` |  |
+| elasticsearch.coord.count | int | `1` |  |
+| elasticsearch.coord.persistence.storageClassName | string | `""` |  |
+| elasticsearch.coord.persistence.size | string | `"100Gi"` |  |
+| elasticsearch.coord.resources.limits.cpu | int | `1` |  |
+| elasticsearch.coord.resources.limits.memory | string | `"4Gi"` |  |
+| elasticsearch.coord.resources.requests.cpu | int | `1` |  |
+| elasticsearch.coord.resources.requests.memory | string | `"4Gi"` |  |
+| elasticsearch.coord.heap.min | string | `"2g"` |  |
+| elasticsearch.coord.heap.max | string | `"2g"` |  |
+| istio.enabled | bool | `false` |  |
+| istio.kibana.enabled | bool | `true` |  |
+| istio.kibana.annotations | object | `{}` |  |
+| istio.kibana.labels | object | `{}` |  |
+| istio.kibana.gateways[0] | string | `"istio-system/main"` |  |
+| istio.kibana.hosts[0] | string | `"kibana.{{ .Values.hostname }}"` |  |
+| sso.enabled | bool | `false` |  |
+| sso.redirect_url | string | `""` |  |
+| sso.client_id | string | `"platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana"` |  |
+| sso.client_secret | string | `""` | OIDC client secret, can be empty for public client |
+| sso.oidc.host | string | `"login.dso.mil"` |  |
+| sso.oidc.realm | string | `"baby-yoda"` |  |
+| sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` |  |
+| sso.auth_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth"` |  |
+| sso.token_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token"` |  |
+| sso.userinfo_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"` |  |
+| sso.jwkset_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs"` |  |
+| sso.claims_principal | string | `"preferred_username"` |  |
+| sso.requested_scopes[0] | string | `"openid"` |  |
+| sso.signature_algorithm | string | `"RS256"` |  |
+| sso.endsession_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"` |  |
+| sso.claims_group | string | `"groups"` |  |
+| sso.claims_mail | string | `"email"` |  |
+| sso.claims_principal_pattern | string | `""` |  |
+| sso.cert_authorities | list | `[]` |  |
+| kibanaBasicAuth.enabled | bool | `true` |  |
+| networkPolicies.enabled | bool | `false` |  |
+| networkPolicies.ingressLabels.app | string | `"istio-ingressgateway"` |  |
+| networkPolicies.ingressLabels.istio | string | `"ingressgateway"` |  |
+| networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` |  |
+| upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` |  |
+| upgradeJob.image.tag | float | `8.4` |  |
+| openshift | bool | `false` |  |
 
-[antiAffinity]: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
-[containerLifecycleHooks]: https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks
-[imagePullSecrets]: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-pod-that-uses-your-secret
-[nodeSelector]: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
-[persistence]: https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistent-volumes
-[resources]: https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
-[securityContext]: https://kubernetes.io/docs/tasks/configure-pod-container/security-context/#set-the-security-context-for-a-pod
-[Rolling Upgrade]: https://www.elastic.co/guide/en/elasticsearch/reference/7.10/rolling-upgrades.html#_upgrading_your_cluster
+## Contributing
+
+Please see the [contributing guide](./CONTRIBUTING.md) if you are interested in contributing.

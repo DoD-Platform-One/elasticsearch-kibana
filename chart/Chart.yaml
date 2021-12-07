@@ -1,6 +1,6 @@
 apiVersion: v2
 name: logging
-version: 0.1.21-bb.3
+version: 0.1.23-bb.0
 appVersion: 7.13.4
 dependencies:
   - name: gluon

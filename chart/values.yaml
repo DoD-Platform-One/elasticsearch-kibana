@@ -5,6 +5,9 @@ hostname: bigbang.dev
 autoRollingUpgrade:
   enabled: true
 
+# Pull Policy for all non-init containers in this package
+imagePullPolicy: IfNotPresent
+
 kibana:
   version: 7.12.0
   image:
@@ -16,6 +19,11 @@ kibana:
 
   # Name for serviceAccount to use, will be autocreated
   serviceAccountName: "logging-kibana"
+
+  updateStrategy:
+    type: rollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
 
   securityContext: 
     runAsUser: 1000
@@ -91,6 +99,11 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+
+    updateStrategy:
+      type: rollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
 
     volumes: []
     # - name: cert
@@ -308,6 +321,12 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+    
+
+    updateStrategy:
+      type: rollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
 
     volumes: []
       # - name: cert
@@ -381,6 +400,11 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+
+    updateStrategy:
+      type: rollingUpdate
+      rollingUpdate:
+        maxUnavailable: 1
 
     volumes: []
       # - name: cert

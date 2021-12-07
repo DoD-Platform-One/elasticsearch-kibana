@@ -73,6 +73,11 @@ spec:
         {{- end }}
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        
+        {{- if .updateStrategy }}
+        updateStrategy:
+          {{- toYaml .updateStrategy | nindent 10 }}
+        {{- end }}
 
         {{- if .initContainers }}
         initContainers:
@@ -91,6 +96,7 @@ spec:
             volumeMounts:
             {{- toYaml .volumeMounts | nindent 12 }}
             {{- end }}
+            imagePullPolicy: {{ $.Values.imagePullPolicy }}
         {{- if .volumes }}
         volumes:
         {{- toYaml .volumes | nindent 8 }}
@@ -99,7 +105,6 @@ spec:
         imagePullSecrets:
         {{- toYaml . | nindent 10 }}
         {{- end }}
-
         {{- if $.Values.istio.enabled }}
         automountServiceAccountToken: true
       {{- end }}
@@ -165,6 +170,11 @@ spec:
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
 
+        {{- if .updateStrategy }}
+        updateStrategy:
+          {{- toYaml .updateStrategy | nindent 10 }}
+        {{- end }}
+
         {{- if .initContainers }}
         initContainers:
         {{ toYaml .initContainers | nindent 10 }}
@@ -182,6 +192,7 @@ spec:
             volumeMounts:
             {{- toYaml .volumeMounts | nindent 12 }}
             {{- end }}
+            imagePullPolicy: {{ $.Values.imagePullPolicy }}
         {{- if .volumes }}
         volumes:
         {{- toYaml .volumes | nindent 8 }}
@@ -190,7 +201,6 @@ spec:
         imagePullSecrets:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-
       {{- if $.Values.istio.enabled }}
         automountServiceAccountToken: true
       {{- end }}
@@ -274,6 +284,7 @@ spec:
             volumeMounts:
             {{- toYaml .volumeMounts | nindent 12 }}
             {{- end }}
+            imagePullPolicy: {{ $.Values.imagePullPolicy }}
         {{- if .volumes }}
         volumes:
         {{- toYaml .volumes | nindent 8 }}
@@ -282,7 +293,6 @@ spec:
         imagePullSecrets:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-
       {{- if $.Values.istio.enabled }}
         automountServiceAccountToken: true
       {{- end }}
@@ -348,6 +358,10 @@ spec:
           {{- toYaml .affinity | nindent 10 }}
         {{- end }}
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        {{- if .updateStrategy }}
+        updateStrategy:
+          {{- toYaml .updateStrategy | nindent 10 }}
+        {{- end }}
 
         {{- if .initContainers }}
         initContainers:
@@ -366,6 +380,7 @@ spec:
             volumeMounts:
             {{- toYaml .volumeMounts | nindent 12 }}
             {{- end }}
+            imagePullPolicy: {{ $.Values.imagePullPolicy }}
         {{- if .volumes }}
         volumes:
         {{- toYaml .volumes | nindent 8 }}
@@ -374,7 +389,6 @@ spec:
         imagePullSecrets:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        
       {{- if $.Values.istio.enabled }}
         automountServiceAccountToken: true
       {{- end }}
@@ -441,6 +455,11 @@ spec:
         {{- end }}
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
+        {{- if .updateStrategy }}
+        updateStrategy:
+          {{- toYaml .updateStrategy | nindent 10 }}
+        {{- end }}
+        
 
         {{- if .initContainers }}
         initContainers:
@@ -459,6 +478,7 @@ spec:
             volumeMounts:
             {{- toYaml .volumeMounts | nindent 12 }}
             {{- end }}
+            imagePullPolicy: {{ $.Values.imagePullPolicy }}
         {{- if .volumes }}
         volumes:
         {{- toYaml .volumes | nindent 8 }}
@@ -467,7 +487,6 @@ spec:
         imagePullSecrets:
           {{- toYaml . | nindent 10 }}
         {{- end }}
-        
       {{- if $.Values.istio.enabled }}
         automountServiceAccountToken: true
       {{- end }}
