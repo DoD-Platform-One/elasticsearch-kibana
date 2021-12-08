@@ -8,13 +8,15 @@ Elastic/Kibana is a Big Bang built/maintained chart. The below details the steps
 
 3. Modify the `version` in `Chart.yaml`. Since this is an upstream chart you should bump the versioning following semver, and append `-bb.0`. In general for new elastic/kibana versions this will mean bumping the minor version (i.e. `0.1.2-bb.0` to `0.2.0-bb.0`).
 
-4. Update `CHANGELOG.md` adding an entry for the new version and noting all changes (at minimum should include `Updated Jaeger to x.x.x`).
+4. Update `CHANGELOG.md` adding an entry for the new version and noting all changes (at minimum should include `Updated Elastic/Kibana to x.x.x`).
 
 5. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md).
 
-6. Push up your changes, validate that CI passes. If there are any failures follow the information in the pipeline to make the necessary updates and reach out to the team if needed.
+6. If this is a new minor version of Elastic you will likely need to add a new section to `chart/templates/bigbang/upgrade-job.yaml` for the new version upgrade. Follow the existing examples to update the job to support upgrades between old version -> new version.
 
-7. Perform the steps below for manual testing. CI provides a good set of basic smoke tests but it is beneficial to run some additional checks.
+7. Push up your changes, validate that CI passes. If there are any failures follow the information in the pipeline to make the necessary updates and reach out to the team if needed.
+
+8. Perform the steps below for manual testing. CI provides a good set of basic smoke tests but it is beneficial to run some additional checks.
 
 # Manual Testing for Updates
 
