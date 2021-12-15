@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.2.0-bb.0](https://img.shields.io/badge/Version-0.2.0--bb.0-informational?style=flat-square) ![AppVersion: 7.14.1](https://img.shields.io/badge/AppVersion-7.14.1-informational?style=flat-square)
+![Version: 0.3.0-bb.0](https://img.shields.io/badge/Version-0.3.0--bb.0-informational?style=flat-square) ![AppVersion: 7.16.1](https://img.shields.io/badge/AppVersion-7.16.1-informational?style=flat-square)
 
 ## Learn More
 * [Application Overview](docs/overview.md)
@@ -31,9 +31,9 @@ helm install logging chart/
 | hostname | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
 | autoRollingUpgrade | object | `{"enabled":true}` | Enable BigBang specific autoRollingUpgrade support, more info in package README.md. |
 | imagePullPolicy | string | `"IfNotPresent"` |  |
-| kibana.version | string | `"7.14.0"` |  |
+| kibana.version | string | `"7.16.1"` |  |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` |  |
-| kibana.image.tag | string | `"7.14.0"` |  |
+| kibana.image.tag | string | `"7.16.1"` |  |
 | kibana.host | string | `""` |  |
 | kibana.count | int | `3` |  |
 | kibana.serviceAccountName | string | `"logging-kibana"` |  |
@@ -52,9 +52,9 @@ helm install logging chart/
 | kibana.affinity | object | `{}` |  |
 | kibana.nodeSelector | object | `{}` |  |
 | kibana.lifecycle | object | `{}` |  |
-| elasticsearch.version | string | `"7.14.1"` |  |
+| elasticsearch.version | string | `"7.16.1"` |  |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` |  |
-| elasticsearch.image.tag | string | `"7.14.1"` |  |
+| elasticsearch.image.tag | string | `"7.16.1"` |  |
 | elasticsearch.imagePullSecrets | list | `[]` |  |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` |  |
 | elasticsearch.master.initContainers | list | `[]` |  |
