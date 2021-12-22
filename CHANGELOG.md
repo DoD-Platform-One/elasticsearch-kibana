@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.3.0-bb.1] - 2021-12-16
+### Added
+- Added a check to the cypress test to look for log entries coming in from the various other components. This check can be toggled by setting the cypress_expect_logs env variable to true/false, and should be disabled in cases where no log entries are expected like package tests.
+- Misc. updates to the cypress test.
+- Updated gluon to 0.2.4.
+
 ## [0.3.0-bb.0] - 2021-12-15
 ### Changed
 - Updated to latest Ironbank images (`7.16.1`)

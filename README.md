@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.3.0-bb.0](https://img.shields.io/badge/Version-0.3.0--bb.0-informational?style=flat-square) ![AppVersion: 7.16.1](https://img.shields.io/badge/AppVersion-7.16.1-informational?style=flat-square)
+![Version: 0.3.0-bb.1](https://img.shields.io/badge/Version-0.3.0--bb.1-informational?style=flat-square) ![AppVersion: 7.16.1](https://img.shields.io/badge/AppVersion-7.16.1-informational?style=flat-square)
 
 ## Learn More
 * [Application Overview](docs/overview.md)

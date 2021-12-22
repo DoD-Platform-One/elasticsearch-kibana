@@ -1,8 +1,8 @@
 apiVersion: v2
 name: logging
-version: 0.3.0-bb.0
+version: 0.3.0-bb.1
 appVersion: 7.16.1
 dependencies:
   - name: gluon
-    version: 0.2.3
+    version: "0.2.4"
     repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
