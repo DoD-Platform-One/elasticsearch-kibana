@@ -62,6 +62,12 @@ kibana:
     #         operator: In
     #         values:
     #         - "kibana"
+  
+  tolerations: []
+    # - key: "workload"
+    #   operator: "Equal"
+    #   value: "kibana"
+    #   effect: "NoSchedule"
 
   nodeSelector: {}
     # node-type: kibana
@@ -135,6 +141,12 @@ elasticsearch:
       #         operator: In
       #         values:
       #         - "elastic-master"
+    
+    tolerations: []
+      # - key: "workload"
+      #   operator: "Equal"
+      #   value: "elasticsearch"
+      #   effect: "NoSchedule"
 
     nodeSelector: {}
       # node-type: elastic-master
@@ -206,6 +218,12 @@ elasticsearch:
       #         operator: In
       #         values:
       #         - "elastic-data"
+    
+    tolerations: []
+      # - key: "workload"
+      #   operator: "Equal"
+      #   value: "elastic-data"
+      #   effect: "NoSchedule"
 
     nodeSelector: {}
       # node-type: elastic-data
@@ -279,6 +297,12 @@ elasticsearch:
       #         operator: In
       #         values:
       #         - "elastic-data"
+    
+    tolerations: []
+      # - key: "workload"
+      #   operator: "Equal"
+      #   value: "elastic-data"
+      #   effect: "NoSchedule"
 
     nodeSelector: {}
       # node-type: elastic-data
@@ -358,6 +382,12 @@ elasticsearch:
       #         operator: In
       #         values:
       #         - "elastic-data"
+    
+    tolerations: []
+      # - key: "workload"
+      #   operator: "Equal"
+      #   value: "elastic-ml"
+      #   effect: "NoSchedule"
 
     nodeSelector: {}
       # node-type: elastic-data
@@ -436,6 +466,12 @@ elasticsearch:
       #         operator: In
       #         values:
       #         - "elastic-data"
+    
+    tolerations: []
+      # - key: "workload"
+      #   operator: "Equal"
+      #   value: "elastic-coord"
+      #   effect: "NoSchedule"
 
     nodeSelector: {}
       # node-type: elastic-data

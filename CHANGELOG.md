@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.4.0-bb.0] - 2021-12-22
+### Added
+- Added values support for tolerations in Elasticsearch
+- Added values support for tolerations in Kibana
+- Updated README.md with override values for tolerations
+
 ## [0.3.0-bb.1] - 2021-12-16
 ### Added
 - Added a check to the cypress test to look for log entries coming in from the various other components. This check can be toggled by setting the cypress_expect_logs env variable to true/false, and should be disabled in cases where no log entries are expected like package tests.
@@ -20,6 +26,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Document for how to complete a package update
 - New `kibana.host` value for overriding new `publicBaseUrl` config value for Kibana
+
+## [0.1.24-bb.0] - 2021-11-17
+### Added
+- Added values support for tolerations in Elasticsearch
+- Added values support for tolerations in Kibana
+- Updated README.md with override values for tolerations
+
+## [0.1.24-bb.0] - 2021-11-17
+### Added
+- Added values support for tolerations in Elasticsearch
+- Added values support for tolerations in Kibana
+- Updated README.md with override values for tolerations
 
 ## [0.1.23-bb.0] - 2021-11-04
 ### Added

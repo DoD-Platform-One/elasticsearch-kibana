@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.3.0-bb.1](https://img.shields.io/badge/Version-0.3.0--bb.1-informational?style=flat-square) ![AppVersion: 7.16.1](https://img.shields.io/badge/AppVersion-7.16.1-informational?style=flat-square)
+![Version: 0.4.0-bb.0](https://img.shields.io/badge/Version-0.4.0--bb.0-informational?style=flat-square) ![AppVersion: 7.16.1](https://img.shields.io/badge/AppVersion-7.16.1-informational?style=flat-square)
 
 ## Learn More
 * [Application Overview](docs/overview.md)
@@ -50,6 +50,7 @@ helm install logging chart/
 | kibana.volumes | list | `[]` |  |
 | kibana.volumeMounts | list | `[]` |  |
 | kibana.affinity | object | `{}` |  |
+| kibana.tolerations | list | `[]` |  |
 | kibana.nodeSelector | object | `{}` |  |
 | kibana.lifecycle | object | `{}` |  |
 | elasticsearch.version | string | `"7.16.1"` |  |
@@ -66,6 +67,7 @@ helm install logging chart/
 | elasticsearch.master.volumes | list | `[]` |  |
 | elasticsearch.master.volumeMounts | list | `[]` |  |
 | elasticsearch.master.affinity | object | `{}` |  |
+| elasticsearch.master.tolerations | list | `[]` |  |
 | elasticsearch.master.nodeSelector | object | `{}` |  |
 | elasticsearch.master.lifecycle | object | `{}` |  |
 | elasticsearch.master.count | int | `3` |  |
@@ -84,6 +86,7 @@ helm install logging chart/
 | elasticsearch.data.volumes | list | `[]` |  |
 | elasticsearch.data.volumeMounts | list | `[]` |  |
 | elasticsearch.data.affinity | object | `{}` |  |
+| elasticsearch.data.tolerations | list | `[]` |  |
 | elasticsearch.data.nodeSelector | object | `{}` |  |
 | elasticsearch.data.lifecycle | object | `{}` |  |
 | elasticsearch.data.count | int | `4` |  |
@@ -103,6 +106,7 @@ helm install logging chart/
 | elasticsearch.ingest.volumes | list | `[]` |  |
 | elasticsearch.ingest.volumeMounts | list | `[]` |  |
 | elasticsearch.ingest.affinity | object | `{}` |  |
+| elasticsearch.ingest.tolerations | list | `[]` |  |
 | elasticsearch.ingest.nodeSelector | object | `{}` |  |
 | elasticsearch.ingest.lifecycle | object | `{}` |  |
 | elasticsearch.ingest.count | int | `1` |  |
@@ -124,6 +128,7 @@ helm install logging chart/
 | elasticsearch.ml.volumes | list | `[]` |  |
 | elasticsearch.ml.volumeMounts | list | `[]` |  |
 | elasticsearch.ml.affinity | object | `{}` |  |
+| elasticsearch.ml.tolerations | list | `[]` |  |
 | elasticsearch.ml.nodeSelector | object | `{}` |  |
 | elasticsearch.ml.lifecycle | object | `{}` |  |
 | elasticsearch.ml.count | int | `1` |  |
@@ -145,6 +150,7 @@ helm install logging chart/
 | elasticsearch.coord.volumes | list | `[]` |  |
 | elasticsearch.coord.volumeMounts | list | `[]` |  |
 | elasticsearch.coord.affinity | object | `{}` |  |
+| elasticsearch.coord.tolerations | list | `[]` |  |
 | elasticsearch.coord.nodeSelector | object | `{}` |  |
 | elasticsearch.coord.lifecycle | object | `{}` |  |
 | elasticsearch.coord.count | int | `1` |  |
