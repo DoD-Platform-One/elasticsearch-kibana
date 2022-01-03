@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.4.0-bb.0](https://img.shields.io/badge/Version-0.4.0--bb.0-informational?style=flat-square) ![AppVersion: 7.16.1](https://img.shields.io/badge/AppVersion-7.16.1-informational?style=flat-square)
+![Version: 0.5.0-bb.0](https://img.shields.io/badge/Version-0.5.0--bb.0-informational?style=flat-square) ![AppVersion: 7.16.1](https://img.shields.io/badge/AppVersion-7.16.1-informational?style=flat-square)
 
 ## Learn More
 * [Application Overview](docs/overview.md)
@@ -49,6 +49,7 @@ helm install logging chart/
 | kibana.resources.limits.cpu | int | `1` |  |
 | kibana.volumes | list | `[]` |  |
 | kibana.volumeMounts | list | `[]` |  |
+| kibana.podAnnotations | object | `{}` |  |
 | kibana.affinity | object | `{}` |  |
 | kibana.tolerations | list | `[]` |  |
 | kibana.nodeSelector | object | `{}` |  |
@@ -66,6 +67,7 @@ helm install logging chart/
 | elasticsearch.master.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
 | elasticsearch.master.volumes | list | `[]` |  |
 | elasticsearch.master.volumeMounts | list | `[]` |  |
+| elasticsearch.master.podAnnotations | object | `{}` |  |
 | elasticsearch.master.affinity | object | `{}` |  |
 | elasticsearch.master.tolerations | list | `[]` |  |
 | elasticsearch.master.nodeSelector | object | `{}` |  |
@@ -85,6 +87,7 @@ helm install logging chart/
 | elasticsearch.data.securityContext.fsGroup | int | `1000` |  |
 | elasticsearch.data.volumes | list | `[]` |  |
 | elasticsearch.data.volumeMounts | list | `[]` |  |
+| elasticsearch.data.podAnnotations | object | `{}` |  |
 | elasticsearch.data.affinity | object | `{}` |  |
 | elasticsearch.data.tolerations | list | `[]` |  |
 | elasticsearch.data.nodeSelector | object | `{}` |  |
@@ -105,6 +108,7 @@ helm install logging chart/
 | elasticsearch.ingest.securityContext.fsGroup | int | `1000` |  |
 | elasticsearch.ingest.volumes | list | `[]` |  |
 | elasticsearch.ingest.volumeMounts | list | `[]` |  |
+| elasticsearch.ingest.podAnnotations | object | `{}` |  |
 | elasticsearch.ingest.affinity | object | `{}` |  |
 | elasticsearch.ingest.tolerations | list | `[]` |  |
 | elasticsearch.ingest.nodeSelector | object | `{}` |  |
@@ -127,6 +131,7 @@ helm install logging chart/
 | elasticsearch.ml.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
 | elasticsearch.ml.volumes | list | `[]` |  |
 | elasticsearch.ml.volumeMounts | list | `[]` |  |
+| elasticsearch.ml.podAnnotations | object | `{}` |  |
 | elasticsearch.ml.affinity | object | `{}` |  |
 | elasticsearch.ml.tolerations | list | `[]` |  |
 | elasticsearch.ml.nodeSelector | object | `{}` |  |
@@ -149,6 +154,7 @@ helm install logging chart/
 | elasticsearch.coord.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
 | elasticsearch.coord.volumes | list | `[]` |  |
 | elasticsearch.coord.volumeMounts | list | `[]` |  |
+| elasticsearch.coord.podAnnotations | object | `{}` |  |
 | elasticsearch.coord.affinity | object | `{}` |  |
 | elasticsearch.coord.tolerations | list | `[]` |  |
 | elasticsearch.coord.nodeSelector | object | `{}` |  |

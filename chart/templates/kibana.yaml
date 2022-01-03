@@ -44,8 +44,10 @@ spec:
 
   podTemplate:
     metadata:
+      {{- if .Values.kibana.podAnnotations }}
       annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+        {{- toYaml .Values.kibana.podAnnotations | nindent 8 }}
+      {{- end }}
     spec:
       serviceAccountName: {{ .Values.kibana.serviceAccountName }}
       {{- if .Values.kibana.securityContext }}

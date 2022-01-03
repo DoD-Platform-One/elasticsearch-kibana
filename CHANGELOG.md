@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+
+## [0.5.0-bb.0] - 2021-12-30
+### Added
+- Added values support for podAnnotations in Elasticsearch
+- Added values support for podAnnotations in Kibana
+
 ## [0.4.0-bb.0] - 2021-12-22
 ### Added
 - Added values support for tolerations in Elasticsearch
