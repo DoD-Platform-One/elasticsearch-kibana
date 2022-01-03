@@ -47,6 +47,9 @@ kibana:
 
   volumeMounts: []
 
+  podAnnotations: {}
+    # bigbang.dev/istioVersion: 1.10.3
+
   affinity: {}
     # podAntiAffinity:
     #   requiredDuringSchedulingIgnoredDuringExecution:
@@ -126,6 +129,9 @@ elasticsearch:
     #   subPath: ca.crt
     #   readOnly: true
 
+    podAnnotations: {}
+      # bigbang.dev/istioVersion: 1.10.3
+
     affinity: {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
@@ -202,6 +208,9 @@ elasticsearch:
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
+
+    podAnnotations: {}
+      # bigbang.dev/istioVersion: 1.10.3
 
     affinity: {}
       # podAntiAffinity:
@@ -281,6 +290,9 @@ elasticsearch:
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
+
+    podAnnotations: {}
+      # bigbang.dev/istioVersion: 1.10.3
 
     affinity: {}
       # podAntiAffinity:
@@ -367,6 +379,9 @@ elasticsearch:
       #   subPath: ca.crt
       #   readOnly: true
 
+    podAnnotations: {}
+      # bigbang.dev/istioVersion: 1.10.3
+
     affinity: {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
@@ -450,6 +465,9 @@ elasticsearch:
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
+
+    podAnnotations: {}
+      # bigbang.dev/istioVersion: 1.10.3
 
     affinity: {}
       # podAntiAffinity:

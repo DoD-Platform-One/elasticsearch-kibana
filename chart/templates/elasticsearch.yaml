@@ -50,12 +50,14 @@ spec:
       metadata:
         annotations:
           prometheus.istio.io/merge-metrics: "false"
-          sidecar.istio.io/rewriteAppHTTPProbers: "true"
           traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
           values/checksum: {{ include "oidc" $ | sha256sum }}
+        {{- if .podAnnotations }}
+          {{- toYaml .podAnnotations | nindent 10 }}
+        {{- end }}
 
       spec:
         {{- if .securityContext }}
@@ -151,12 +153,15 @@ spec:
       metadata:
         annotations:
           prometheus.istio.io/merge-metrics: "false"
-          sidecar.istio.io/rewriteAppHTTPProbers: "true"
           traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
           values/checksum: {{ include "oidc" $ | sha256sum }}
+        {{- if .podAnnotations }}
+          {{- toYaml .podAnnotations | nindent 10 }}
+        {{- end }}
+
       spec:
         {{- if .securityContext }}
         securityContext:
@@ -252,12 +257,15 @@ spec:
       metadata:
         annotations:
           prometheus.istio.io/merge-metrics: "false"
-          sidecar.istio.io/rewriteAppHTTPProbers: "true"
           traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
           values/checksum: {{ include "oidc" $ | sha256sum }}
+        {{- if .podAnnotations }}
+          {{- toYaml .podAnnotations | nindent 10 }}
+        {{- end }}
+
       spec:
         {{- if .securityContext }}
         securityContext:
@@ -349,12 +357,15 @@ spec:
       metadata:
         annotations:
           prometheus.istio.io/merge-metrics: "false"
-          sidecar.istio.io/rewriteAppHTTPProbers: "true"
           traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
           values/checksum: {{ include "oidc" $ | sha256sum }}
+        {{- if .podAnnotations }}
+          {{- toYaml .podAnnotations | nindent 10 }}
+        {{- end }}
+
       spec:
         {{- if .securityContext }}
         securityContext:
@@ -449,12 +460,15 @@ spec:
       metadata:
         annotations:
           prometheus.istio.io/merge-metrics: "false"
-          sidecar.istio.io/rewriteAppHTTPProbers: "true"
           traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
           values/checksum: {{ include "oidc" $ | sha256sum }}
+        {{- if .podAnnotations }}
+          {{- toYaml .podAnnotations | nindent 10 }}
+        {{- end }}
+
       spec:
         {{- if .securityContext }}
         securityContext:
