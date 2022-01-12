@@ -582,3 +582,28 @@ upgradeJob:
     tag: 8.4
 
 openshift: false
+
+bbtests:
+  enabled: false
+  cypress:
+    artifacts: true
+    envs:
+      cypress_expect_logs: "false"
+      cypress_kibana_url: "https://logging-ek-kb-http:5601/login"
+    secretEnvs:
+      - name: cypress_elastic_password
+        valueFrom:
+          secretKeyRef:
+            name: "logging-ek-es-elastic-user"
+            key: elastic
+  scripts:
+    image: registry1.dso.mil/ironbank/stedolan/jq:1.6
+    envs:
+      elasticsearch_host: "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"
+      desired_version: "{{ .Values.elasticsearch.version }}"
+    secretEnvs:
+      - name: ELASTIC_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: "logging-ek-es-elastic-user"
+            key: elastic
