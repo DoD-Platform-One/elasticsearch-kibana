@@ -9,10 +9,10 @@ autoRollingUpgrade:
 imagePullPolicy: IfNotPresent
 
 kibana:
-  version: 7.16.1
+  version: 7.16.2
   image:
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
-    tag: 7.16.1
+    tag: 7.16.2
 
   # Only required if not using istio for ingress
   host: ""
@@ -83,10 +83,10 @@ kibana:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
 elasticsearch:
-  version: 7.16.1
+  version: 7.16.2
   image:
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
-    tag: 7.16.1
+    tag: 7.16.2
 
   imagePullSecrets: [ ] 
 
