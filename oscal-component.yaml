@@ -1,0 +1,74 @@
+component-definition:
+  uuid: 72C2F3CA-4959-4267-A634-D50ED41ECBC3
+  metadata: 
+    title: Elasticsearch and Kibana Component
+    last-modified: '2021-10-19T12:00:00Z'
+    version: 20211019
+    oscal-version: 1.0.0
+    parties:
+      # Should be consistent across all of the packages, but where is ground truth?
+    - uuid: 72134592-08C2-4A77-ABAD-C880F109367A 
+      type: organization
+      name: Platform One
+      links:
+      - href: <https://p1.dso.mil>
+        rel: website
+  components: # for BB, this would be all the pieces of big bang
+  - uuid: BE039F48-F418-4D86-BD5F-8CE8CBEAD91E
+    type: software
+    title: Elasticsearch and Kibana
+    description: |
+      Deployment of Elasticsearch and Kibana for logging stack
+    purpose: Provides storage and UI for log aggregation in the cluster
+    responsible-roles:
+    - role-id: provider
+      party-uuid: 72134592-08C2-4A77-ABAD-C880F109367A # matches parties entry for p1
+    control-implementations:
+    - uuid: 5108E5FC-C45F-477B-A542-9C5611A92485
+      source: https://raw.githubusercontent.com/usnistgov/oscal-content/master/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+      description:
+        Controls implemented by authservice for inheritance by applications
+      implemented-requirements:
+      - uuid: 31ED9374-C146-4B40-ABD5-537B24DBDCEF
+        control-id: ac-6.9
+        description: >-
+          Elasticsearch stores and aggregates privilege function calls collected by fluentbt.
+      - uuid: 373074CC-F1EA-40CB-AD17-DB8F199D0600
+        control-id: au-4
+        description: >-
+          Underlying log storage is elastically scaleable.
+      - uuid: 90FFF3BA-3E88-47AD-88B7-B50A92833A45
+        control-id: au-5
+        description: >-
+          Kibana has the ability to alert based on events discovered in Elastic indecies
+      - uuid: 3230D443-A18C-4F9B-A0DE-DC89CE5D01C8
+        control-id: au-5.1
+        description: >-
+          Authservice allows the use of an extenrral idtntiy OIDC provider for application login
+          by configuring filter chain matching for hostname (headers) for applications.  This control can then
+          be inherited by the Identity Provider
+      - uuid: 98DE555D-1B90-475F-9C2E-954438172B39
+        control-id: au-9
+        description: >-
+          Kibana provides ability to use Role Based Access Control to allow for the indexes that store
+          audit logs to be restricted to just cluster administrators
+      - uuid: 6ED4D692-F65F-40AB-AC3F-C056C2F41BD9
+        control-id: au-9.4
+        description: >-
+          Kibana provides ability to use Role Based Access Control to allow for the indexes that store
+          audit logs to be restricted to just cluster administrators
+
+  back-matter: 
+    resources:
+    - uuid: 97FF87A0-EB34-4001-839A-32FF0815D896
+      title: Elasticsearch
+      rlinks:
+      - href: https://www.elastic.co/what-is/elasticsearch
+    - uuid: 97FF87A0-EB34-4001-839A-32FF0815D896
+      title: Kibana
+      rlinks:
+      - href: https://www.elastic.co/kibana/
+    - uuid: B66A99BD-680E-48AF-B81B-D2113155331E
+      title: Big Bang Elasticsearch-Kibana package
+      rlinks:
+        - href: https://repo1.dso.mil/platform-one/big-bang/apps/core/elasticsearch-kibana
