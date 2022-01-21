@@ -1,5 +1,6 @@
 apiVersion: v2
 name: logging
+description: Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 version: 0.6.0-bb.1
 appVersion: 7.16.2
 dependencies:
