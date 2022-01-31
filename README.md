@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.6.0-bb.1](https://img.shields.io/badge/Version-0.6.0--bb.1-informational?style=flat-square) ![AppVersion: 7.16.2](https://img.shields.io/badge/AppVersion-7.16.2-informational?style=flat-square)
+![Version: 0.6.0-bb.2](https://img.shields.io/badge/Version-0.6.0--bb.2-informational?style=flat-square) ![AppVersion: 7.16.2](https://img.shields.io/badge/AppVersion-7.16.2-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 

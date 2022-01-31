@@ -58,6 +58,24 @@
       "depNameTemplate": "ironbank/elastic/kibana/kibana",
       "datasourceTemplate": "docker",
       "registryUrlTemplate": "https://registry1.dso.mil"
+    },
+    {
+      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "matchStrings": [
+         "- Elasticsearch:\\s+(?<currentValue>.+)"
+      ],
+      "depNameTemplate": "ironbank/elastic/elasticsearch/elasticsearch",
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "https://registry1.dso.mil"
+    },
+    {
+      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "matchStrings": [
+         "- Kibana:\\s+(?<currentValue>.+)"
+      ],
+      "depNameTemplate": "ironbank/elastic/kibana/kibana",
+      "datasourceTemplate": "docker",
+      "registryUrlTemplate": "https://registry1.dso.mil"
     }
   ]
 }
