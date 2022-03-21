@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Updated chart version to `0.7.0-bb.0`
 - Updated image tags and version to `7.17.1`
+- Updated `upgrade-job.yaml` to fascilitate rolling updates from `7.16.*` to `7.17.*`
 
 ## [0.6.0-bb.2] - 2022-01-31
 ### Added
