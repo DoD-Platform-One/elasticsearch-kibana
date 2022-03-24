@@ -5,6 +5,7 @@
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
 ## Learn More
+
 * [Application Overview](docs/overview.md)
 * [Other Documentation](docs/)
 
@@ -16,12 +17,13 @@ Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Ins
 
 Install Helm
 
-https://helm.sh/docs/intro/install/
+<https://helm.sh/docs/intro/install/>
 
 ## Deployment
 
 * Clone down the repository
 * cd into directory
+
 ```bash
 helm install logging chart/
 ```
@@ -31,14 +33,14 @@ helm install logging chart/
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | hostname | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
-| autoRollingUpgrade | object | `{"enabled":true}` | Enable BigBang specific autoRollingUpgrade support, more info in package README.md. |
-| imagePullPolicy | string | `"IfNotPresent"` |  |
+| autoRollingUpgrade | object | `{"enabled":true}` | Enable BigBang specific autoRollingUpgrade support, more information in package README.md. |
+| imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
 | kibana.version | string | `"7.17.1"` |  |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` |  |
 | kibana.image.tag | string | `"7.17.1"` |  |
-| kibana.host | string | `""` |  |
-| kibana.count | int | `3` |  |
-| kibana.serviceAccountName | string | `"logging-kibana"` |  |
+| kibana.host | string | `""` | Only required if not using Istio for ingress. |
+| kibana.count | int | `3` | Number of Kibana replicas |
+| kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
 | kibana.updateStrategy.type | string | `"rollingUpdate"` |  |
 | kibana.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
 | kibana.securityContext.runAsUser | int | `1000` |  |
@@ -60,49 +62,9 @@ helm install logging chart/
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` |  |
 | elasticsearch.image.tag | string | `"7.17.1"` |  |
 | elasticsearch.imagePullSecrets | list | `[]` |  |
-| elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` |  |
-| elasticsearch.master.initContainers | list | `[]` |  |
-| elasticsearch.master.securityContext.runAsUser | int | `1000` |  |
-| elasticsearch.master.securityContext.runAsGroup | int | `1000` |  |
-| elasticsearch.master.securityContext.fsGroup | int | `1000` |  |
-| elasticsearch.master.updateStrategy.type | string | `"rollingUpdate"` |  |
-| elasticsearch.master.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
-| elasticsearch.master.volumes | list | `[]` |  |
-| elasticsearch.master.volumeMounts | list | `[]` |  |
-| elasticsearch.master.podAnnotations | object | `{}` |  |
-| elasticsearch.master.affinity | object | `{}` |  |
-| elasticsearch.master.tolerations | list | `[]` |  |
-| elasticsearch.master.nodeSelector | object | `{}` |  |
-| elasticsearch.master.lifecycle | object | `{}` |  |
-| elasticsearch.master.count | int | `3` |  |
-| elasticsearch.master.persistence.storageClassName | string | `""` |  |
-| elasticsearch.master.persistence.size | string | `"5Gi"` |  |
-| elasticsearch.master.resources.limits.cpu | int | `1` |  |
-| elasticsearch.master.resources.limits.memory | string | `"4Gi"` |  |
-| elasticsearch.master.resources.requests.cpu | int | `1` |  |
-| elasticsearch.master.resources.requests.memory | string | `"4Gi"` |  |
-| elasticsearch.master.heap.min | string | `"2g"` |  |
-| elasticsearch.master.heap.max | string | `"2g"` |  |
-| elasticsearch.data.initContainers | list | `[]` |  |
-| elasticsearch.data.securityContext.runAsUser | int | `1000` |  |
-| elasticsearch.data.securityContext.runAsGroup | int | `1000` |  |
-| elasticsearch.data.securityContext.fsGroup | int | `1000` |  |
-| elasticsearch.data.volumes | list | `[]` |  |
-| elasticsearch.data.volumeMounts | list | `[]` |  |
-| elasticsearch.data.podAnnotations | object | `{}` |  |
-| elasticsearch.data.affinity | object | `{}` |  |
-| elasticsearch.data.tolerations | list | `[]` |  |
-| elasticsearch.data.nodeSelector | object | `{}` |  |
-| elasticsearch.data.lifecycle | object | `{}` |  |
-| elasticsearch.data.count | int | `4` |  |
-| elasticsearch.data.persistence.storageClassName | string | `""` |  |
-| elasticsearch.data.persistence.size | string | `"100Gi"` |  |
-| elasticsearch.data.resources.limits.cpu | int | `1` |  |
-| elasticsearch.data.resources.limits.memory | string | `"4Gi"` |  |
-| elasticsearch.data.resources.requests.cpu | int | `1` |  |
-| elasticsearch.data.resources.requests.memory | string | `"4Gi"` |  |
-| elasticsearch.data.heap.min | string | `"2g"` |  |
-| elasticsearch.data.heap.max | string | `"2g"` |  |
+| elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
+| elasticsearch.master | object | `{"affinity":{},"count":3,"heap":{"max":"2g","min":"2g"},"initContainers":[],"lifecycle":{},"nodeSelector":{},"persistence":{"size":"5Gi","storageClassName":""},"podAnnotations":{},"resources":{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}},"securityContext":{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000},"tolerations":[],"updateStrategy":{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"},"volumeMounts":[],"volumes":[]}` | Values for master node sets. |
+| elasticsearch.data | object | `{"affinity":{},"count":4,"heap":{"max":"2g","min":"2g"},"initContainers":[],"lifecycle":{},"nodeSelector":{},"persistence":{"size":"100Gi","storageClassName":""},"podAnnotations":{},"resources":{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}},"securityContext":{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000},"tolerations":[],"volumeMounts":[],"volumes":[]}` | Values for data node sets. |
 | elasticsearch.ingest.enabled | bool | `false` |  |
 | elasticsearch.ingest.initContainers | list | `[]` |  |
 | elasticsearch.ingest.securityContext.runAsUser | int | `1000` |  |
@@ -170,36 +132,23 @@ helm install logging chart/
 | elasticsearch.coord.resources.requests.memory | string | `"4Gi"` |  |
 | elasticsearch.coord.heap.min | string | `"2g"` |  |
 | elasticsearch.coord.heap.max | string | `"2g"` |  |
-| istio.enabled | bool | `false` |  |
-| istio.kibana.enabled | bool | `true` |  |
+| istio.enabled | bool | `false` | Toggle istio interaction. |
+| istio.kibana.enabled | bool | `true` | Toggle vs creation |
 | istio.kibana.annotations | object | `{}` |  |
 | istio.kibana.labels | object | `{}` |  |
 | istio.kibana.gateways[0] | string | `"istio-system/main"` |  |
 | istio.kibana.hosts[0] | string | `"kibana.{{ .Values.hostname }}"` |  |
-| sso.enabled | bool | `false` |  |
-| sso.redirect_url | string | `""` |  |
-| sso.client_id | string | `"platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana"` |  |
+| sso | object | `{"auth_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth","cert_authorities":[],"claims_group":"groups","claims_mail":"email","claims_principal":"preferred_username","claims_principal_pattern":"","client_id":"platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana","client_secret":"","enabled":false,"endsession_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout","issuer":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}","jwkset_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs","oidc":{"host":"login.dso.mil","realm":"baby-yoda"},"redirect_url":"","requested_scopes":["openid"],"signature_algorithm":"RS256","token_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token","userinfo_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"}` | Toggle and configure SSO with Keycloak. -- Example values are for local development. |
+| sso.redirect_url | string | `""` | redirect_url defaults to .Values.istio.kibana.hosts[0] if not set |
 | sso.client_secret | string | `""` | OIDC client secret, can be empty for public client |
-| sso.oidc.host | string | `"login.dso.mil"` |  |
-| sso.oidc.realm | string | `"baby-yoda"` |  |
-| sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` |  |
-| sso.auth_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth"` |  |
-| sso.token_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token"` |  |
-| sso.userinfo_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"` |  |
-| sso.jwkset_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs"` |  |
-| sso.claims_principal | string | `"preferred_username"` |  |
-| sso.requested_scopes[0] | string | `"openid"` |  |
-| sso.signature_algorithm | string | `"RS256"` |  |
-| sso.endsession_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"` |  |
-| sso.claims_group | string | `"groups"` |  |
-| sso.claims_mail | string | `"email"` |  |
-| sso.claims_principal_pattern | string | `""` |  |
-| sso.cert_authorities | list | `[]` |  |
-| kibanaBasicAuth.enabled | bool | `true` |  |
+| sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` | additional fields (required for SSO - default templates for keycloak) |
+| sso.signature_algorithm | string | `"RS256"` | Additional fields (required for keycloak - may be optional for other providers). |
+| sso.claims_principal_pattern | string | `""` | Additional fields. |
+| kibanaBasicAuth | object | `{"enabled":true}` | Toggle this to turn off Kibana's built in auth and only allow SSO. -- Role mappings for SSO groups must be set up and SSO enabled before doing this. |
 | networkPolicies.enabled | bool | `false` |  |
 | networkPolicies.ingressLabels.app | string | `"istio-ingressgateway"` |  |
 | networkPolicies.ingressLabels.istio | string | `"ingressgateway"` |  |
-| networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` |  |
+| networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | See `kubectl cluster-info` and then resolve to IP |
 | upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` |  |
 | upgradeJob.image.tag | float | `8.4` |  |
 | openshift | bool | `false` |  |
