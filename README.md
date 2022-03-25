@@ -65,82 +65,25 @@ helm install logging chart/
 | elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Add ability customize the security context for fixing user or group. |
 | elasticsearch.data | object | `{"affinity":{},"count":4,"heap":{"max":"2g","min":"2g"},"initContainers":[],"lifecycle":{},"nodeSelector":{},"persistence":{"size":"100Gi","storageClassName":""},"podAnnotations":{},"resources":{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}},"securityContext":{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000},"tolerations":[],"volumeMounts":[],"volumes":[]}` | Values for data node sets. |
 | elasticsearch.data.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Add ability customize the security context for fixing user or group. |
-| elasticsearch.ingest.enabled | bool | `false` |  |
-| elasticsearch.ingest.initContainers | list | `[]` |  |
-| elasticsearch.ingest.securityContext.runAsUser | int | `1000` |  |
-| elasticsearch.ingest.securityContext.runAsGroup | int | `1000` |  |
-| elasticsearch.ingest.securityContext.fsGroup | int | `1000` |  |
-| elasticsearch.ingest.volumes | list | `[]` |  |
-| elasticsearch.ingest.volumeMounts | list | `[]` |  |
-| elasticsearch.ingest.podAnnotations | object | `{}` |  |
-| elasticsearch.ingest.affinity | object | `{}` |  |
-| elasticsearch.ingest.tolerations | list | `[]` |  |
-| elasticsearch.ingest.nodeSelector | object | `{}` |  |
-| elasticsearch.ingest.lifecycle | object | `{}` |  |
-| elasticsearch.ingest.count | int | `1` |  |
-| elasticsearch.ingest.persistence.storageClassName | string | `""` |  |
-| elasticsearch.ingest.persistence.size | string | `"100Gi"` |  |
-| elasticsearch.ingest.resources.limits.cpu | int | `1` |  |
-| elasticsearch.ingest.resources.limits.memory | string | `"4Gi"` |  |
-| elasticsearch.ingest.resources.requests.cpu | int | `1` |  |
-| elasticsearch.ingest.resources.requests.memory | string | `"4Gi"` |  |
-| elasticsearch.ingest.heap.min | string | `"2g"` |  |
-| elasticsearch.ingest.heap.max | string | `"2g"` |  |
-| elasticsearch.ml.enabled | bool | `false` |  |
-| elasticsearch.ml.initContainers | list | `[]` |  |
+| elasticsearch.ingest | object | `{"affinity":{},"count":1,"enabled":false,"heap":{"max":"2g","min":"2g"},"initContainers":[],"lifecycle":{},"nodeSelector":{},"persistence":{"size":"100Gi","storageClassName":""},"podAnnotations":{},"resources":{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}},"securityContext":{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000},"tolerations":[],"volumeMounts":[],"volumes":[]}` | Values for ingest node sets. |
+| elasticsearch.ingest.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Add ability customize the security context for fixing user or group. |
+| elasticsearch.ml | object | `{"affinity":{},"count":1,"enabled":false,"heap":{"max":"2g","min":"2g"},"initContainers":[],"lifecycle":{},"nodeSelector":{},"persistence":{"size":"100Gi","storageClassName":""},"podAnnotations":{},"resources":{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}},"securityContext":{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000},"tolerations":[],"updateStrategy":{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"},"volumeMounts":[],"volumes":[]}` | Values for data node sets. |
 | elasticsearch.ml.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Add ability customize the security context for fixing user or group. |
-| elasticsearch.ml.updateStrategy.type | string | `"rollingUpdate"` |  |
-| elasticsearch.ml.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
-| elasticsearch.ml.volumes | list | `[]` |  |
-| elasticsearch.ml.volumeMounts | list | `[]` |  |
-| elasticsearch.ml.podAnnotations | object | `{}` |  |
-| elasticsearch.ml.affinity | object | `{}` |  |
-| elasticsearch.ml.tolerations | list | `[]` |  |
-| elasticsearch.ml.nodeSelector | object | `{}` |  |
-| elasticsearch.ml.lifecycle | object | `{}` |  |
-| elasticsearch.ml.count | int | `1` |  |
-| elasticsearch.ml.persistence.storageClassName | string | `""` |  |
-| elasticsearch.ml.persistence.size | string | `"100Gi"` |  |
-| elasticsearch.ml.resources.limits.cpu | int | `1` |  |
-| elasticsearch.ml.resources.limits.memory | string | `"4Gi"` |  |
-| elasticsearch.ml.resources.requests.cpu | int | `1` |  |
-| elasticsearch.ml.resources.requests.memory | string | `"4Gi"` |  |
-| elasticsearch.ml.heap.min | string | `"2g"` |  |
-| elasticsearch.ml.heap.max | string | `"2g"` |  |
-| elasticsearch.coord.enabled | bool | `false` |  |
-| elasticsearch.coord.initContainers | list | `[]` |  |
+| elasticsearch.coord | object | `{"affinity":{},"count":1,"enabled":false,"heap":{"max":"2g","min":"2g"},"initContainers":[],"lifecycle":{},"nodeSelector":{},"persistence":{"size":"100Gi","storageClassName":""},"podAnnotations":{},"resources":{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}},"securityContext":{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000},"tolerations":[],"updateStrategy":{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"},"volumeMounts":[],"volumes":[]}` | Values for coordinating node sets. |
 | elasticsearch.coord.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Add ability customize the security context for fixing user or group. |
-| elasticsearch.coord.updateStrategy.type | string | `"rollingUpdate"` |  |
-| elasticsearch.coord.updateStrategy.rollingUpdate.maxUnavailable | int | `1` |  |
-| elasticsearch.coord.volumes | list | `[]` |  |
-| elasticsearch.coord.volumeMounts | list | `[]` |  |
-| elasticsearch.coord.podAnnotations | object | `{}` |  |
-| elasticsearch.coord.affinity | object | `{}` |  |
-| elasticsearch.coord.tolerations | list | `[]` |  |
-| elasticsearch.coord.nodeSelector | object | `{}` |  |
-| elasticsearch.coord.lifecycle | object | `{}` |  |
-| elasticsearch.coord.count | int | `1` |  |
-| elasticsearch.coord.persistence.storageClassName | string | `""` |  |
-| elasticsearch.coord.persistence.size | string | `"100Gi"` |  |
-| elasticsearch.coord.resources.limits.cpu | int | `1` |  |
-| elasticsearch.coord.resources.limits.memory | string | `"4Gi"` |  |
-| elasticsearch.coord.resources.requests.cpu | int | `1` |  |
-| elasticsearch.coord.resources.requests.memory | string | `"4Gi"` |  |
-| elasticsearch.coord.heap.min | string | `"2g"` |  |
-| elasticsearch.coord.heap.max | string | `"2g"` |  |
 | istio.enabled | bool | `false` | Toggle istio interaction. |
 | istio.kibana.enabled | bool | `true` | Toggle vs creation |
 | istio.kibana.annotations | object | `{}` |  |
 | istio.kibana.labels | object | `{}` |  |
 | istio.kibana.gateways[0] | string | `"istio-system/main"` |  |
 | istio.kibana.hosts[0] | string | `"kibana.{{ .Values.hostname }}"` |  |
-| sso | object | `{"auth_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth","cert_authorities":[],"claims_group":"groups","claims_mail":"email","claims_principal":"preferred_username","claims_principal_pattern":"","client_id":"platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana","client_secret":"","enabled":false,"endsession_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout","issuer":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}","jwkset_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs","oidc":{"host":"login.dso.mil","realm":"baby-yoda"},"redirect_url":"","requested_scopes":["openid"],"signature_algorithm":"RS256","token_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token","userinfo_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"}` | Toggle and configure SSO with Keycloak. -- Example values are for local development. |
+| sso | object | `{"auth_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth","cert_authorities":[],"claims_group":"groups","claims_mail":"email","claims_principal":"preferred_username","claims_principal_pattern":"","client_id":"platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana","client_secret":"","enabled":false,"endsession_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout","issuer":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}","jwkset_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs","oidc":{"host":"login.dso.mil","realm":"baby-yoda"},"redirect_url":"","requested_scopes":["openid"],"signature_algorithm":"RS256","token_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token","userinfo_url":"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"}` | Example values are for local development. |
 | sso.redirect_url | string | `""` | redirect_url defaults to .Values.istio.kibana.hosts[0] if not set |
 | sso.client_secret | string | `""` | OIDC client secret, can be empty for public client |
 | sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` | additional fields (required for SSO - default templates for keycloak) |
 | sso.signature_algorithm | string | `"RS256"` | Additional fields (required for keycloak - may be optional for other providers). |
 | sso.claims_principal_pattern | string | `""` | Additional fields. |
-| kibanaBasicAuth | object | `{"enabled":true}` | Toggle this to turn off Kibana's built in auth and only allow SSO. -- Role mappings for SSO groups must be set up and SSO enabled before doing this. |
+| kibanaBasicAuth | object | `{"enabled":true}` | Role mappings for SSO groups must be set up and SSO enabled before doing this. |
 | networkPolicies.enabled | bool | `false` |  |
 | networkPolicies.ingressLabels.app | string | `"istio-ingressgateway"` |  |
 | networkPolicies.ingressLabels.istio | string | `"ingressgateway"` |  |
