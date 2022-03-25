@@ -269,7 +269,7 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # --Add ability customize the security context for fixing user or group.
+    # -- Add ability customize the security context for fixing user or group.
     securityContext:
       runAsUser: 1000
       runAsGroup: 1000
