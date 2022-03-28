@@ -1,17 +1,20 @@
 # -- Domain used for BigBang created exposed services.
 hostname: bigbang.dev
 
-# -- Enable BigBang specific autoRollingUpgrade support, more information in package README.md.
 autoRollingUpgrade:
+  # -- Enable BigBang specific autoRollingUpgrade support
   enabled: true
 
 # -- Pull Policy for all non-init containers in this package.
 imagePullPolicy: IfNotPresent
 
 kibana:
+  # -- version
   version: 7.17.1
   image:
+    # -- repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
+    # -- tag
     tag: 7.17.1
 
   # -- Only required if not using Istio for ingress.
@@ -24,33 +27,49 @@ kibana:
   serviceAccountName: "logging-kibana"
 
   updateStrategy:
+    # -- type
     type: rollingUpdate
     rollingUpdate:
+      # -- maxUnavailable
       maxUnavailable: 1
 
   securityContext:
+    # -- runAsUser
     runAsUser: 1000
+    # -- runAsGroup
     runAsGroup: 1000
+    # -- fsGroup
     fsGroup: 1000
 
+  # -- imagePullSecrets
   imagePullSecrets: []
 
   resources:
     requests:
-      memory: 2Gi
+      # -- CPU request
       cpu: 1
+      # -- Memory request
+      memory: 2Gi
     limits:
-      memory: 2Gi
+      # -- CPU limit
       cpu: 1
+      # -- Memory limit
+      memory: 2Gi
 
+  # -- volumes
   volumes: []
 
+  # -- volumeMounts
   volumeMounts: []
 
-  podAnnotations: {}
+  # -- podAnnotations
+  podAnnotations:
+    {}
     # bigbang.dev/istioVersion: 1.10.3
 
-  affinity: {}
+  # -- affinity
+  affinity:
+    {}
     # podAntiAffinity:
     #   requiredDuringSchedulingIgnoredDuringExecution:
     #     - topologyKey: "kubernetes.io/hostname"
@@ -66,15 +85,22 @@ kibana:
     #         values:
     #         - "kibana"
 
-  tolerations: []
+  # -- tolerations
+  tolerations:
+    []
     # - key: "workload"
     #   operator: "Equal"
     #   value: "kibana"
     #   effect: "NoSchedule"
 
-  nodeSelector: {}
+  # -- nodeSelector
+  nodeSelector:
+    {}
     # node-type: kibana
-  lifecycle: {}
+
+  # -- lifecycle
+  lifecycle:
+    {}
     # preStop:
     #   exec:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
@@ -83,19 +109,24 @@ kibana:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
 elasticsearch:
+  # -- version
   version: 7.17.1
   image:
+    # -- repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
+    # -- tag
     tag: 7.17.1
 
+  # -- imagePullSecrets
   imagePullSecrets: []
   # -- Name for serviceAccount to use, will be autocreated.
   serviceAccountName: "logging-elasticsearch"
 
-  # -- Values for master node sets.
+  # Values for master node sets.
   master:
+    # -- Add an init container that adjusts the kernel setting for elastic.
     initContainers: []
-    # add an init container that adjusts the kernel setting for elastic.
+    #
     # NB:  This creates a privileged init container and runs a non-ironbank image.
     # It is safer to adjust the AMI for the nodes to include this kernel setting.
     # - name: sysctl
@@ -104,33 +135,44 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # -- Add ability customize the security context for fixing user or group.
+    # Add ability customize the security context for fixing user or group.
     securityContext:
+      # -- runAsUser
       runAsUser: 1000
+      # -- runAsGroup
       runAsGroup: 1000
+      # -- fsGroup
       fsGroup: 1000
 
     updateStrategy:
+      # -- type
       type: rollingUpdate
       rollingUpdate:
+        # -- maxUnavailable
         maxUnavailable: 1
 
+    # -- volumes
     volumes: []
     # - name: cert
     #   secret:
     #     secretName: cert
     #     defaultMode: 0644
 
+    # -- volumeMounts
     volumeMounts: []
     # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
     #   name: cert
     #   subPath: ca.crt
     #   readOnly: true
 
-    podAnnotations: {}
+    # -- podAnnotations
+    podAnnotations:
+      {}
       # bigbang.dev/istioVersion: 1.10.3
 
-    affinity: {}
+    # -- affinity
+    affinity:
+      {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -146,40 +188,54 @@ elasticsearch:
       #         values:
       #         - "elastic-master"
 
-    tolerations: []
+    # -- tolerations
+    tolerations:
+      []
       # - key: "workload"
       #   operator: "Equal"
       #   value: "elasticsearch"
       #   effect: "NoSchedule"
 
-    nodeSelector: {}
+    # -- nodeSelector
+    nodeSelector:
+      {}
       # node-type: elastic-master
-    lifecycle: {}
+
+    # -- lifecycle
+    lifecycle:
+      {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
+    # -- count
     count: 3
     persistence:
+      # -- storageClassName
       storageClassName: ""
+      # -- size
       size: 5Gi
     resources:
       limits:
+        # -- CPU limit
         cpu: 1
+        # -- Memory limit
         memory: 4Gi
       requests:
+        # -- CPU request
         cpu: 1
+        # -- Memory request
         memory: 4Gi
     heap:
-      # Xms
+      # -- Xms
       min: 2g
-      # Xmx
+      # -- Xmx
       max: 2g
 
-  # -- Values for data node sets.
+  # Values for data node sets.
   data:
+    # -- Add an init container that adjusts the kernel setting for elastic.
     initContainers: []
-    # add an init container that adjusts the kernel setting for elastic.
     # NB:  This creates a privileged init container and runs a non-ironbank image.
     # It is safer to adjust the AMI for the nodes to include this kernel setting.
     # - name: sysctl
@@ -188,28 +244,39 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # -- Add ability customize the security context for fixing user or group.
+    # Add ability customize the security context for fixing user or group.
     securityContext:
+      # -- runAsUser
       runAsUser: 1000
+      # -- runAsGroup
       runAsGroup: 1000
+      # -- fsGroup
       fsGroup: 1000
 
-    volumes: []
+    # -- volumes
+    volumes:
+      []
       # - name: cert
       #   secret:
       #     secretName: cert
       #     defaultMode: 0644
 
-    volumeMounts: []
+    # -- volumeMounts
+    volumeMounts:
+      []
       # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
 
-    podAnnotations: {}
+    # -- podAnnotations
+    podAnnotations:
+      {}
       # bigbang.dev/istioVersion: 1.10.3
 
-    affinity: {}
+    # -- affinity
+    affinity:
+      {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -225,42 +292,58 @@ elasticsearch:
       #         values:
       #         - "elastic-data"
 
-    tolerations: []
+    # -- tolerations
+    tolerations:
+      []
       # - key: "workload"
       #   operator: "Equal"
       #   value: "elastic-data"
       #   effect: "NoSchedule"
 
-    nodeSelector: {}
+    # -- nodeSelector
+    nodeSelector:
+      {}
       # node-type: elastic-data
-    lifecycle: {}
+
+    # -- lifecycle
+    lifecycle:
+      {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
+    # -- count
     count: 4
     persistence:
+      # -- storageClassName
       storageClassName: ""
+      # -- size
       size: 100Gi
     resources:
       limits:
+        # -- CPU limits
         cpu: 1
+        # -- Memory limits
         memory: 4Gi
       requests:
+        # -- CPU requests
         cpu: 1
+        # -- Memory requests
         memory: 4Gi
     heap:
-      # Xms
+      # -- Xms
       min: 2g
-      # Xmx
+      # -- Xmx
       max: 2g
 
   #
   # Ingest
   #
-  # -- Values for ingest node sets.
+  # Values for ingest node sets.
   ingest:
+    # -- enabled
     enabled: false
+    # -- initContainers
     initContainers: []
     # add an init container that adjusts the kernel setting for elastic
     # - name: sysctl
@@ -271,26 +354,37 @@ elasticsearch:
 
     # -- Add ability customize the security context for fixing user or group.
     securityContext:
+      # -- runAsUser
       runAsUser: 1000
+      # -- runAsGroup
       runAsGroup: 1000
+      # -- fsGroup
       fsGroup: 1000
 
-    volumes: []
+    # -- volumes
+    volumes:
+      []
       # - name: cert
       #   secret:
       #     secretName: cert
       #     defaultMode: 0644
 
-    volumeMounts: []
+    # -- volumeMounts
+    volumeMounts:
+      []
       # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
 
-    podAnnotations: {}
+    # -- podAnnotations
+    podAnnotations:
+      {}
       # bigbang.dev/istioVersion: 1.10.3
 
-    affinity: {}
+    # -- affinity
+    affinity:
+      {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -306,42 +400,58 @@ elasticsearch:
       #         values:
       #         - "elastic-data"
 
-    tolerations: []
+    # -- tolerations
+    tolerations:
+      []
       # - key: "workload"
       #   operator: "Equal"
       #   value: "elastic-data"
       #   effect: "NoSchedule"
 
-    nodeSelector: {}
+    # -- nodeSelector
+    nodeSelector:
+      {}
       # node-type: elastic-data
-    lifecycle: {}
+
+    # -- lifecycle
+    lifecycle:
+      {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
+    # -- count
     count: 1
     persistence:
+      # -- storageClassName
       storageClassName: ""
+      # -- size
       size: 100Gi
     resources:
       limits:
+        # -- CPU limits
         cpu: 1
+        # -- Memory limits
         memory: 4Gi
       requests:
+        # -- CPU requests
         cpu: 1
+        # -- Memory requests
         memory: 4Gi
     heap:
-      # Xms
+      # -- Xms
       min: 2g
-      # Xmx
+      # -- Xmx
       max: 2g
 
   #
   # ML
   #
-  # -- Values for data node sets.
+  # Values for data node sets.
   ml:
+    # -- enabled
     enabled: false
+    # -- initContainers
     initContainers: []
     # add an init container that adjusts the kernel setting for elastic
     # - name: sysctl
@@ -350,33 +460,46 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # -- Add ability customize the security context for fixing user or group.
+    # Add ability customize the security context for fixing user or group.
     securityContext:
+      # -- runAsUser
       runAsUser: 1000
+      # -- runAsGroup
       runAsGroup: 1000
+      # -- fsGroup
       fsGroup: 1000
 
     updateStrategy:
+      # --RollingUpdate
       type: rollingUpdate
       rollingUpdate:
+        # -- maxUnavailable
         maxUnavailable: 1
 
-    volumes: []
+    # -- volumes
+    volumes:
+      []
       # - name: cert
       #   secret:
       #     secretName: cert
       #     defaultMode: 0644
 
-    volumeMounts: []
+    # -- volumeMounts
+    volumeMounts:
+      []
       # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
 
-    podAnnotations: {}
+    # -- podAnnotations
+    podAnnotations:
+      {}
       # bigbang.dev/istioVersion: 1.10.3
 
-    affinity: {}
+    # -- affinity
+    affinity:
+      {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -392,42 +515,58 @@ elasticsearch:
       #         values:
       #         - "elastic-data"
 
-    tolerations: []
+    # -- tolerations
+    tolerations:
+      []
       # - key: "workload"
       #   operator: "Equal"
       #   value: "elastic-ml"
       #   effect: "NoSchedule"
 
-    nodeSelector: {}
+    # -- nodeSelector
+    nodeSelector:
+      {}
       # node-type: elastic-data
-    lifecycle: {}
+
+    # -- lifecycle
+    lifecycle:
+      {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
+    # -- count
     count: 1
     persistence:
+      # -- storageClassName
       storageClassName: ""
+      # -- size
       size: 100Gi
     resources:
       limits:
+        # -- CPU limits
         cpu: 1
+        # -- Memory limits
         memory: 4Gi
       requests:
+        # -- CPU requests
         cpu: 1
+        # -- Memory requests
         memory: 4Gi
     heap:
-      # Xms
+      # --Xms
       min: 2g
-      # Xmx
+      # -- Xmx
       max: 2g
 
   #
   # Coordinating
   #
-  # -- Values for coordinating node sets.
+  # Values for coordinating node sets.
   coord:
+    # -- enabled
     enabled: false
+    # -- initContainers
     initContainers: []
     # add an init container that adjusts the kernel setting for elastic
     # - name: sysctl
@@ -436,33 +575,46 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # -- Add ability customize the security context for fixing user or group.
+    # Add ability customize the security context for fixing user or group.
     securityContext:
+      # -- runAsUser
       runAsUser: 1000
+      # -- runAsGroup
       runAsGroup: 1000
+      # -- fsGroup
       fsGroup: 1000
 
     updateStrategy:
+      # -- type
       type: rollingUpdate
       rollingUpdate:
+        # -- maxUnavailable
         maxUnavailable: 1
 
-    volumes: []
+    # -- volumes
+    volumes:
+      []
       # - name: cert
       #   secret:
       #     secretName: cert
       #     defaultMode: 0644
 
-    volumeMounts: []
+    # -- volumeMounts
+    volumeMounts:
+      []
       # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
 
-    podAnnotations: {}
+    # -- podAnnotations
+    podAnnotations:
+      {}
       # bigbang.dev/istioVersion: 1.10.3
 
-    affinity: {}
+    # -- affinity
+    affinity:
+      {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -478,101 +630,141 @@ elasticsearch:
       #         values:
       #         - "elastic-data"
 
+    # -- tolerations
     tolerations: []
-      # - key: "workload"
-      #   operator: "Equal"
-      #   value: "elastic-coord"
-      #   effect: "NoSchedule"
+    # - key: "workload"
+    #   operator: "Equal"
+    #   value: "elastic-coord"
+    #   effect: "NoSchedule"
 
-    nodeSelector: {}
+    # -- nodeSelector
+    nodeSelector:
+      {}
       # node-type: elastic-data
-    lifecycle: {}
+
+    # -- lifecycle
+    lifecycle:
+      {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
+    # -- count
     count: 1
     persistence:
+      # -- storageClassName
       storageClassName: ""
+      # -- size
       size: 100Gi
     resources:
       limits:
+        # -- cpu limits
         cpu: 1
+        # -- memory limits
         memory: 4Gi
       requests:
+        # -- cpu requests
         cpu: 1
+        # -- memory requests
         memory: 4Gi
     heap:
-      # Xms
+      # -- Xms
       min: 2g
-      # Xmx
+      # -- Xmx
       max: 2g
 
 istio:
   # -- Toggle istio interaction.
   enabled: false
   kibana:
-    # -- Toggle vs creation
+    # -- Toggle virtualService creation
     enabled: true
+    # -- Annotations for controls the gateway used/attached to the virtualService
     annotations: {}
+    # -- Labels for virtualService
     labels: {}
+    # -- Gateway(s) to apply virtualService routes to.
     gateways:
       - istio-system/main
     hosts:
+      # -- hosts
       - kibana.{{ .Values.hostname }}
 
-# -- Toggle and configure SSO with Keycloak.
-# -- Example values are for local development.
 sso:
+  # -- Toggle and configure SSO with Keycloak. Example values are for local development.
   enabled: false
-  # -- redirect_url defaults to .Values.istio.kibana.hosts[0] if not set
+  # -- redirect_url defaults to .Values.istio.kibana.hosts[0] if not set.
   redirect_url: ""
+  # -- client_id
   client_id: platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana
 
-  # -- OIDC client secret, can be empty for public client
+  # -- OIDC client secret, can be empty for public client.
   client_secret: ""
   oidc:
+    # -- host
     host: login.dso.mil
+    # -- realm
     realm: baby-yoda
 
-  # -- additional fields (required for SSO - default templates for keycloak)
+  # Additional fields (required for SSO - default templates for keycloak)
+
+  # -- issuer
   issuer: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"
+  # -- auth_url
   auth_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth"
+  # -- token_url
   token_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token"
+  # -- userinfo_url
   userinfo_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"
+  # -- jwks_url
   jwkset_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs"
+  # -- claims_principal
   claims_principal: "preferred_username"
+  # -- requested_scopes
   requested_scopes:
     - openid
 
-  # -- Additional fields (required for keycloak - may be optional for other providers).
+  # Additional fields (required for keycloak - may be optional for other providers).
+
+  # -- signature_algorithm
   signature_algorithm: "RS256"
+  # --endsession_url
   endsession_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"
+  # -- claims_group
   claims_group: "groups"
+  # -- claims_mail
   claims_mail: "email"
 
-  # -- Additional fields.
+  # Additional fields.
+
+  # -- claims_principal_pattern
   claims_principal_pattern: ""
+  # -- cert_authorities
   cert_authorities: []
 
-# -- Toggle this to turn off Kibana's built in auth and only allow SSO.
-# -- Role mappings for SSO groups must be set up and SSO enabled before doing this.
 kibanaBasicAuth:
+  # -- Toggle this to turn off Kibana's built in auth and only allow SSO. Role mappings for SSO groups must be set up and SSO enabled before doing this.
   enabled: true
 
 networkPolicies:
+  # -- enabled
   enabled: false
   ingressLabels:
+    # -- app
     app: istio-ingressgateway
+    # -- istio
     istio: ingressgateway
   # -- See `kubectl cluster-info` and then resolve to IP
   controlPlaneCidr: 0.0.0.0/0
 
 upgradeJob:
   image:
+    # -- repository
     repository: registry1.dso.mil/ironbank/big-bang/base
+    # -- tag
     tag: 8.4
 
+# -- Openshift Container Platform Feature Toggle
 openshift: false
 
 bbtests:
