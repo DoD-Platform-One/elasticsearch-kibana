@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.7.0-bb.1] - 2022-03-24
+### Changed
+- Added Tempo Zipkin Egress Policy
+
 ## [0.7.0-bb.0] - 2022-03-17
 ### Changed
 - Updated chart version to `0.7.0-bb.0`
