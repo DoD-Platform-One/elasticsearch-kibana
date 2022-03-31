@@ -33,12 +33,10 @@ kibana:
       # -- maxUnavailable
       maxUnavailable: 1
 
+  # -- Set securityContext for Kibana pods
   securityContext:
-    # -- runAsUser
     runAsUser: 1000
-    # -- runAsGroup
     runAsGroup: 1000
-    # -- fsGroup
     fsGroup: 1000
 
   # -- imagePullSecrets
@@ -135,13 +133,10 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # Add ability customize the security context for fixing user or group.
+    # -- Set securityContext for elasticsearch master node sets
     securityContext:
-      # -- runAsUser
       runAsUser: 1000
-      # -- runAsGroup
       runAsGroup: 1000
-      # -- fsGroup
       fsGroup: 1000
 
     updateStrategy:
@@ -244,13 +239,10 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # Add ability customize the security context for fixing user or group.
+    # -- Set securityContext for elasticsearch data node sets
     securityContext:
-      # -- runAsUser
       runAsUser: 1000
-      # -- runAsGroup
       runAsGroup: 1000
-      # -- fsGroup
       fsGroup: 1000
 
     # -- volumes
@@ -352,13 +344,10 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # -- Add ability customize the security context for fixing user or group.
+    # -- Set securityContext for elasticsearch ingest node sets
     securityContext:
-      # -- runAsUser
       runAsUser: 1000
-      # -- runAsGroup
       runAsGroup: 1000
-      # -- fsGroup
       fsGroup: 1000
 
     # -- volumes
@@ -460,13 +449,10 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # Add ability customize the security context for fixing user or group.
+    # -- Set securityContext for elasticsearch ml node sets
     securityContext:
-      # -- runAsUser
       runAsUser: 1000
-      # -- runAsGroup
       runAsGroup: 1000
-      # -- fsGroup
       fsGroup: 1000
 
     updateStrategy:
@@ -575,13 +561,10 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
-    # Add ability customize the security context for fixing user or group.
+    # -- Set securityContext for elasticsearch coordinating node sets
     securityContext:
-      # -- runAsUser
       runAsUser: 1000
-      # -- runAsGroup
       runAsGroup: 1000
-      # -- fsGroup
       fsGroup: 1000
 
     updateStrategy:
