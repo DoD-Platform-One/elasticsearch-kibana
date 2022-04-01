@@ -33,82 +33,73 @@ helm install logging chart/
 | hostname | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
 | autoRollingUpgrade.enabled | bool | `true` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
-| kibana.version | string | `"7.17.1"` | version |
-| kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` | repository |
-| kibana.image.tag | string | `"7.17.1"` | tag |
-| kibana.host | string | `""` | Only required if not using Istio for ingress. |
+| kibana.version | string | `"7.17.1"` | Kibana version |
+| kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` | Kibana image repository |
+| kibana.image.tag | string | `"7.17.1"` | Kibana image tag |
+| kibana.host | string | `""` | Kibana Ingress Host Value. Only required if not using Istio for ingress. |
 | kibana.count | int | `3` | Number of Kibana replicas |
 | kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
-| kibana.updateStrategy.type | string | `"rollingUpdate"` | type |
-| kibana.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | maxUnavailable |
-| kibana.securityContext.runAsUser | int | `1000` | runAsUser |
-| kibana.securityContext.runAsGroup | int | `1000` | runAsGroup |
-| kibana.securityContext.fsGroup | int | `1000` | fsGroup |
-| kibana.imagePullSecrets | list | `[]` | imagePullSecrets |
-| kibana.resources.requests.cpu | int | `1` | CPU request |
-| kibana.resources.requests.memory | string | `"2Gi"` | Memory request |
-| kibana.resources.limits.cpu | int | `1` | CPU limit |
-| kibana.resources.limits.memory | string | `"2Gi"` | Memory limit |
-| kibana.volumes | list | `[]` | volumes |
-| kibana.volumeMounts | list | `[]` | volumeMounts |
-| kibana.podAnnotations | object | `{}` | podAnnotations |
-| kibana.affinity | object | `{}` | affinity |
-| kibana.tolerations | list | `[]` | tolerations |
-| kibana.nodeSelector | object | `{}` | nodeSelector |
-| kibana.lifecycle | object | `{}` | lifecycle |
-| elasticsearch.version | string | `"7.17.1"` | version |
-| elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | repository |
-| elasticsearch.image.tag | string | `"7.17.1"` | tag |
-| elasticsearch.imagePullSecrets | list | `[]` | imagePullSecrets |
+| kibana.updateStrategy.type | string | `"rollingUpdate"` | Kibana updateStrategy type |
+| kibana.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | Kibana updateStrategy maxUnavailable |
+| kibana.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for Kibana pods |
+| kibana.imagePullSecrets | list | `[]` | Kibana imagePullSecrets |
+| kibana.resources.requests.cpu | int | `1` | Kibana CPU request |
+| kibana.resources.requests.memory | string | `"2Gi"` | Kibana Memory request |
+| kibana.resources.limits.cpu | int | `1` | Kibana CPU limit |
+| kibana.resources.limits.memory | string | `"2Gi"` | KIbana Memory limit |
+| kibana.volumes | list | `[]` | Kibana volumes |
+| kibana.volumeMounts | list | `[]` | Kibana volumeMounts |
+| kibana.podAnnotations | object | `{}` | Kibana podAnnotations |
+| kibana.affinity | object | `{}` | Kibana affinity |
+| kibana.tolerations | list | `[]` | Kibana tolerations |
+| kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
+| kibana.lifecycle | object | `{}` | Kibana lifecycle |
+| elasticsearch.version | string | `"7.17.1"` | Elasticsearch version |
+| elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
+| elasticsearch.image.tag | string | `"7.17.1"` | Elasticsearch image tag |
+| elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.master.initContainers | list | `[]` | Add an init container that adjusts the kernel setting for elastic. |
-| elasticsearch.master.securityContext.runAsUser | int | `1000` | runAsUser |
-| elasticsearch.master.securityContext.runAsGroup | int | `1000` | runAsGroup |
-| elasticsearch.master.securityContext.fsGroup | int | `1000` | fsGroup |
-| elasticsearch.master.updateStrategy.type | string | `"rollingUpdate"` | type |
-| elasticsearch.master.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | maxUnavailable |
-| elasticsearch.master.volumes | list | `[]` | volumes |
-| elasticsearch.master.volumeMounts | list | `[]` | volumeMounts |
-| elasticsearch.master.podAnnotations | object | `{}` | podAnnotations |
-| elasticsearch.master.affinity | object | `{}` | affinity |
-| elasticsearch.master.tolerations | list | `[]` | tolerations |
-| elasticsearch.master.nodeSelector | object | `{}` | nodeSelector |
-| elasticsearch.master.lifecycle | object | `{}` | lifecycle |
-| elasticsearch.master.count | int | `3` | count |
-| elasticsearch.master.persistence.storageClassName | string | `""` | storageClassName |
-| elasticsearch.master.persistence.size | string | `"5Gi"` | size |
-| elasticsearch.master.resources.limits.cpu | int | `1` | CPU limit |
-| elasticsearch.master.resources.limits.memory | string | `"4Gi"` | Memory limit |
-| elasticsearch.master.resources.requests.cpu | int | `1` | CPU request |
-| elasticsearch.master.resources.requests.memory | string | `"4Gi"` | Memory request |
-| elasticsearch.master.heap.min | string | `"2g"` | Xms |
-| elasticsearch.master.heap.max | string | `"2g"` | Xmx |
+| elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
+| elasticsearch.master.updateStrategy.type | string | `"rollingUpdate"` | Elasticsearch master updateStrategy type |
+| elasticsearch.master.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | Elasticsearch master rollingUpdate maxUnavailable |
+| elasticsearch.master.volumes | list | `[]` | Elasticsearch master volumes |
+| elasticsearch.master.volumeMounts | list | `[]` | Elasticsearch master volumeMounts |
+| elasticsearch.master.podAnnotations | object | `{}` | Elasticsearch master podAnnotations |
+| elasticsearch.master.affinity | object | `{}` | Elasticsearch master affinity |
+| elasticsearch.master.tolerations | list | `[]` | Elasticsearch master tolerations |
+| elasticsearch.master.nodeSelector | object | `{}` | Elasticsearch master nodeSelector |
+| elasticsearch.master.lifecycle | object | `{}` | Elasticsearch master lifecycle |
+| elasticsearch.master.count | int | `3` | Elasticsearch master pod count |
+| elasticsearch.master.persistence.storageClassName | string | `""` | Elasticsearch master persistence storageClassName |
+| elasticsearch.master.persistence.size | string | `"5Gi"` | Elasticsearch master persistence size |
+| elasticsearch.master.resources.limits.cpu | int | `1` | Elasticsearch master pod CPU limit |
+| elasticsearch.master.resources.limits.memory | string | `"4Gi"` | Elasticsearch master pod Memory limit |
+| elasticsearch.master.resources.requests.cpu | int | `1` | Elasticsearch master pod CPU request |
+| elasticsearch.master.resources.requests.memory | string | `"4Gi"` | Elasticsearch master pod Memory request |
+| elasticsearch.master.heap.min | string | `"2g"` | Elasticsearch master Java heap Xms setting |
+| elasticsearch.master.heap.max | string | `"2g"` | Elasticsearch master Java heap Xmx setting |
 | elasticsearch.data.initContainers | list | `[]` | Add an init container that adjusts the kernel setting for elastic. |
-| elasticsearch.data.securityContext.runAsUser | int | `1000` | runAsUser |
-| elasticsearch.data.securityContext.runAsGroup | int | `1000` | runAsGroup |
-| elasticsearch.data.securityContext.fsGroup | int | `1000` | fsGroup |
-| elasticsearch.data.volumes | list | `[]` | volumes |
-| elasticsearch.data.volumeMounts | list | `[]` | volumeMounts |
-| elasticsearch.data.podAnnotations | object | `{}` | podAnnotations |
-| elasticsearch.data.affinity | object | `{}` | affinity |
-| elasticsearch.data.tolerations | list | `[]` | tolerations |
-| elasticsearch.data.nodeSelector | object | `{}` | nodeSelector |
-| elasticsearch.data.lifecycle | object | `{}` | lifecycle |
-| elasticsearch.data.count | int | `4` | count |
-| elasticsearch.data.persistence.storageClassName | string | `""` | storageClassName |
-| elasticsearch.data.persistence.size | string | `"100Gi"` | size |
-| elasticsearch.data.resources.limits.cpu | int | `1` | CPU limits |
-| elasticsearch.data.resources.limits.memory | string | `"4Gi"` | Memory limits |
-| elasticsearch.data.resources.requests.cpu | int | `1` | CPU requests |
-| elasticsearch.data.resources.requests.memory | string | `"4Gi"` | Memory requests |
-| elasticsearch.data.heap.min | string | `"2g"` | Xms |
-| elasticsearch.data.heap.max | string | `"2g"` | Xmx |
-| elasticsearch.ingest.enabled | bool | `false` | enabled |
+| elasticsearch.data.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch data node sets |
+| elasticsearch.data.volumes | list | `[]` | Elasticsearch data volumes |
+| elasticsearch.data.volumeMounts | list | `[]` | Elasticsearch data volumeMounts |
+| elasticsearch.data.podAnnotations | object | `{}` | Elasticsearch data podAnnotations |
+| elasticsearch.data.affinity | object | `{}` | Elasticsearch data affinity |
+| elasticsearch.data.tolerations | list | `[]` | Elasticsearch data tolerations |
+| elasticsearch.data.nodeSelector | object | `{}` | Elasticsearch data nodeSelector |
+| elasticsearch.data.lifecycle | object | `{}` | Elasticsearch data lifecycle |
+| elasticsearch.data.count | int | `4` | Elasticsearch data pod count |
+| elasticsearch.data.persistence.storageClassName | string | `""` | Elasticsearch data persistence storageClassName |
+| elasticsearch.data.persistence.size | string | `"100Gi"` | Elasticsearch data persistence size |
+| elasticsearch.data.resources.limits.cpu | int | `1` | Elasticsearch data pod CPU limits |
+| elasticsearch.data.resources.limits.memory | string | `"4Gi"` | Elasticsearch data pod Memory limits |
+| elasticsearch.data.resources.requests.cpu | int | `1` | Elasticsearch data pod CPU requests |
+| elasticsearch.data.resources.requests.memory | string | `"4Gi"` | Elasticsearch data pod Memory requests |
+| elasticsearch.data.heap.min | string | `"2g"` | Elasticsearch data Java heap Xms setting |
+| elasticsearch.data.heap.max | string | `"2g"` | Elasticsearch data Java heap Xmx setting |
+| elasticsearch.ingest.enabled | bool | `false` | Enable ingest specific Elasticsearch pods |
 | elasticsearch.ingest.initContainers | list | `[]` | initContainers |
-| elasticsearch.ingest.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Add ability customize the security context for fixing user or group. |
-| elasticsearch.ingest.securityContext.runAsUser | int | `1000` | runAsUser |
-| elasticsearch.ingest.securityContext.runAsGroup | int | `1000` | runAsGroup |
-| elasticsearch.ingest.securityContext.fsGroup | int | `1000` | fsGroup |
+| elasticsearch.ingest.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ingest node sets |
 | elasticsearch.ingest.volumes | list | `[]` | volumes |
 | elasticsearch.ingest.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.ingest.podAnnotations | object | `{}` | podAnnotations |
@@ -125,11 +116,9 @@ helm install logging chart/
 | elasticsearch.ingest.resources.requests.memory | string | `"4Gi"` | Memory requests |
 | elasticsearch.ingest.heap.min | string | `"2g"` | Xms |
 | elasticsearch.ingest.heap.max | string | `"2g"` | Xmx |
-| elasticsearch.ml.enabled | bool | `false` | enabled |
+| elasticsearch.ml.enabled | bool | `false` | Enable Machine Learning specific Elasticsearch pods |
 | elasticsearch.ml.initContainers | list | `[]` | initContainers |
-| elasticsearch.ml.securityContext.runAsUser | int | `1000` | runAsUser |
-| elasticsearch.ml.securityContext.runAsGroup | int | `1000` | runAsGroup |
-| elasticsearch.ml.securityContext.fsGroup | int | `1000` | fsGroup |
+| elasticsearch.ml.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ml node sets |
 | elasticsearch.ml.updateStrategy.type | string | `"rollingUpdate"` |  |
 | elasticsearch.ml.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | maxUnavailable |
 | elasticsearch.ml.volumes | list | `[]` | volumes |
@@ -148,11 +137,9 @@ helm install logging chart/
 | elasticsearch.ml.resources.requests.memory | string | `"4Gi"` | Memory requests |
 | elasticsearch.ml.heap.min | string | `"2g"` |  |
 | elasticsearch.ml.heap.max | string | `"2g"` | Xmx |
-| elasticsearch.coord.enabled | bool | `false` | enabled |
+| elasticsearch.coord.enabled | bool | `false` | Enable coordinating specific Elasticsearch pods |
 | elasticsearch.coord.initContainers | list | `[]` | initContainers |
-| elasticsearch.coord.securityContext.runAsUser | int | `1000` | runAsUser |
-| elasticsearch.coord.securityContext.runAsGroup | int | `1000` | runAsGroup |
-| elasticsearch.coord.securityContext.fsGroup | int | `1000` | fsGroup |
+| elasticsearch.coord.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch coordinating node sets |
 | elasticsearch.coord.updateStrategy.type | string | `"rollingUpdate"` | type |
 | elasticsearch.coord.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | maxUnavailable |
 | elasticsearch.coord.volumes | list | `[]` | volumes |
@@ -197,12 +184,11 @@ helm install logging chart/
 | sso.claims_principal_pattern | string | `""` |  |
 | sso.cert_authorities | list | `[]` | cert_authorities |
 | kibanaBasicAuth.enabled | bool | `true` | Toggle this to turn off Kibana's built in auth and only allow SSO. Role mappings for SSO groups must be set up and SSO enabled before doing this. |
-| networkPolicies.enabled | bool | `false` | enabled |
-| networkPolicies.ingressLabels.app | string | `"istio-ingressgateway"` | app |
-| networkPolicies.ingressLabels.istio | string | `"ingressgateway"` | istio |
+| networkPolicies.enabled | bool | `false` | Toggle BigBang NetworkPolicy templates |
+| networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio Ingressgateway labels. passed down to NetworkPolicy to whitelist external access to app |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | See `kubectl cluster-info` and then resolve to IP |
-| upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | repository |
-| upgradeJob.image.tag | float | `8.4` | tag |
+| upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | image repository for upgradeJob |
+| upgradeJob.image.tag | float | `8.4` | image tag for upgradeJob |
 | openshift | bool | `false` | Openshift Container Platform Feature Toggle |
 | bbtests.enabled | bool | `false` |  |
 | bbtests.cypress.artifacts | bool | `true` |  |

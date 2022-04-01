@@ -9,15 +9,16 @@ autoRollingUpgrade:
 imagePullPolicy: IfNotPresent
 
 kibana:
-  # -- version
+  # -- Kibana version
   version: 7.17.1
   image:
-    # -- repository
+    # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
-    # -- tag
+    # -- Kibana image tag
     tag: 7.17.1
 
-  # -- Only required if not using Istio for ingress.
+  # -- Kibana Ingress Host Value.
+  # Only required if not using Istio for ingress.
   host: ""
 
   # -- Number of Kibana replicas
@@ -27,10 +28,10 @@ kibana:
   serviceAccountName: "logging-kibana"
 
   updateStrategy:
-    # -- type
+    # -- Kibana updateStrategy type
     type: rollingUpdate
     rollingUpdate:
-      # -- maxUnavailable
+      # -- Kibana updateStrategy maxUnavailable
       maxUnavailable: 1
 
   # -- Set securityContext for Kibana pods
@@ -39,33 +40,33 @@ kibana:
     runAsGroup: 1000
     fsGroup: 1000
 
-  # -- imagePullSecrets
+  # -- Kibana imagePullSecrets
   imagePullSecrets: []
 
   resources:
     requests:
-      # -- CPU request
+      # -- Kibana CPU request
       cpu: 1
-      # -- Memory request
+      # -- Kibana Memory request
       memory: 2Gi
     limits:
-      # -- CPU limit
+      # -- Kibana CPU limit
       cpu: 1
-      # -- Memory limit
+      # -- KIbana Memory limit
       memory: 2Gi
 
-  # -- volumes
+  # -- Kibana volumes
   volumes: []
 
-  # -- volumeMounts
+  # -- Kibana volumeMounts
   volumeMounts: []
 
-  # -- podAnnotations
+  # -- Kibana podAnnotations
   podAnnotations:
     {}
     # bigbang.dev/istioVersion: 1.10.3
 
-  # -- affinity
+  # -- Kibana affinity
   affinity:
     {}
     # podAntiAffinity:
@@ -83,7 +84,7 @@ kibana:
     #         values:
     #         - "kibana"
 
-  # -- tolerations
+  # -- Kibana tolerations
   tolerations:
     []
     # - key: "workload"
@@ -91,12 +92,12 @@ kibana:
     #   value: "kibana"
     #   effect: "NoSchedule"
 
-  # -- nodeSelector
+  # -- Kibana nodeSelector
   nodeSelector:
     {}
     # node-type: kibana
 
-  # -- lifecycle
+  # -- Kibana lifecycle
   lifecycle:
     {}
     # preStop:
@@ -107,20 +108,20 @@ kibana:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
 elasticsearch:
-  # -- version
+  # -- Elasticsearch version
   version: 7.17.1
   image:
-    # -- repository
+    # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
-    # -- tag
+    # -- Elasticsearch image tag
     tag: 7.17.1
 
-  # -- imagePullSecrets
+  # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
   # -- Name for serviceAccount to use, will be autocreated.
   serviceAccountName: "logging-elasticsearch"
 
-  # Values for master node sets.
+  # Values for Elasticsearch master node sets.
   master:
     # -- Add an init container that adjusts the kernel setting for elastic.
     initContainers: []
@@ -140,32 +141,32 @@ elasticsearch:
       fsGroup: 1000
 
     updateStrategy:
-      # -- type
+      # -- Elasticsearch master updateStrategy type
       type: rollingUpdate
       rollingUpdate:
-        # -- maxUnavailable
+        # -- Elasticsearch master rollingUpdate maxUnavailable
         maxUnavailable: 1
 
-    # -- volumes
+    # -- Elasticsearch master volumes
     volumes: []
     # - name: cert
     #   secret:
     #     secretName: cert
     #     defaultMode: 0644
 
-    # -- volumeMounts
+    # -- Elasticsearch master volumeMounts
     volumeMounts: []
     # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
     #   name: cert
     #   subPath: ca.crt
     #   readOnly: true
 
-    # -- podAnnotations
+    # -- Elasticsearch master podAnnotations
     podAnnotations:
       {}
       # bigbang.dev/istioVersion: 1.10.3
 
-    # -- affinity
+    # -- Elasticsearch master affinity
     affinity:
       {}
       # podAntiAffinity:
@@ -183,7 +184,7 @@ elasticsearch:
       #         values:
       #         - "elastic-master"
 
-    # -- tolerations
+    # -- Elasticsearch master tolerations
     tolerations:
       []
       # - key: "workload"
@@ -191,43 +192,43 @@ elasticsearch:
       #   value: "elasticsearch"
       #   effect: "NoSchedule"
 
-    # -- nodeSelector
+    # -- Elasticsearch master nodeSelector
     nodeSelector:
       {}
       # node-type: elastic-master
 
-    # -- lifecycle
+    # -- Elasticsearch master lifecycle
     lifecycle:
       {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
-    # -- count
+    # -- Elasticsearch master pod count
     count: 3
     persistence:
-      # -- storageClassName
+      # -- Elasticsearch master persistence storageClassName
       storageClassName: ""
-      # -- size
+      # -- Elasticsearch master persistence size
       size: 5Gi
     resources:
       limits:
-        # -- CPU limit
+        # -- Elasticsearch master pod CPU limit
         cpu: 1
-        # -- Memory limit
+        # -- Elasticsearch master pod Memory limit
         memory: 4Gi
       requests:
-        # -- CPU request
+        # -- Elasticsearch master pod CPU request
         cpu: 1
-        # -- Memory request
+        # -- Elasticsearch master pod Memory request
         memory: 4Gi
     heap:
-      # -- Xms
+      # -- Elasticsearch master Java heap Xms setting
       min: 2g
-      # -- Xmx
+      # -- Elasticsearch master Java heap Xmx setting
       max: 2g
 
-  # Values for data node sets.
+  # Values for Elasticsearch data node sets.
   data:
     # -- Add an init container that adjusts the kernel setting for elastic.
     initContainers: []
@@ -245,7 +246,7 @@ elasticsearch:
       runAsGroup: 1000
       fsGroup: 1000
 
-    # -- volumes
+    # -- Elasticsearch data volumes
     volumes:
       []
       # - name: cert
@@ -253,7 +254,7 @@ elasticsearch:
       #     secretName: cert
       #     defaultMode: 0644
 
-    # -- volumeMounts
+    # -- Elasticsearch data volumeMounts
     volumeMounts:
       []
       # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
@@ -261,12 +262,12 @@ elasticsearch:
       #   subPath: ca.crt
       #   readOnly: true
 
-    # -- podAnnotations
+    # -- Elasticsearch data podAnnotations
     podAnnotations:
       {}
       # bigbang.dev/istioVersion: 1.10.3
 
-    # -- affinity
+    # -- Elasticsearch data affinity
     affinity:
       {}
       # podAntiAffinity:
@@ -284,7 +285,7 @@ elasticsearch:
       #         values:
       #         - "elastic-data"
 
-    # -- tolerations
+    # -- Elasticsearch data tolerations
     tolerations:
       []
       # - key: "workload"
@@ -292,48 +293,48 @@ elasticsearch:
       #   value: "elastic-data"
       #   effect: "NoSchedule"
 
-    # -- nodeSelector
+    # -- Elasticsearch data nodeSelector
     nodeSelector:
       {}
       # node-type: elastic-data
 
-    # -- lifecycle
+    # -- Elasticsearch data lifecycle
     lifecycle:
       {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
-    # -- count
+    # -- Elasticsearch data pod count
     count: 4
     persistence:
-      # -- storageClassName
+      # -- Elasticsearch data persistence storageClassName
       storageClassName: ""
-      # -- size
+      # -- Elasticsearch data persistence size
       size: 100Gi
     resources:
       limits:
-        # -- CPU limits
+        # -- Elasticsearch data pod CPU limits
         cpu: 1
-        # -- Memory limits
+        # -- Elasticsearch data pod Memory limits
         memory: 4Gi
       requests:
-        # -- CPU requests
+        # -- Elasticsearch data pod CPU requests
         cpu: 1
-        # -- Memory requests
+        # -- Elasticsearch data pod Memory requests
         memory: 4Gi
     heap:
-      # -- Xms
+      # -- Elasticsearch data Java heap Xms setting
       min: 2g
-      # -- Xmx
+      # -- Elasticsearch data Java heap Xmx setting
       max: 2g
 
   #
   # Ingest
   #
-  # Values for ingest node sets.
+  # Values for Elasticsearch ingest node sets.
   ingest:
-    # -- enabled
+    # -- Enable ingest specific Elasticsearch pods
     enabled: false
     # -- initContainers
     initContainers: []
@@ -436,9 +437,9 @@ elasticsearch:
   #
   # ML
   #
-  # Values for data node sets.
+  # Values for Elasticsearch ML node sets.
   ml:
-    # -- enabled
+    # -- Enable Machine Learning specific Elasticsearch pods
     enabled: false
     # -- initContainers
     initContainers: []
@@ -548,9 +549,9 @@ elasticsearch:
   #
   # Coordinating
   #
-  # Values for coordinating node sets.
+  # Values for Elasticsearch coordinating node sets.
   coord:
-    # -- enabled
+    # -- Enable coordinating specific Elasticsearch pods
     enabled: false
     # -- initContainers
     initContainers: []
@@ -730,21 +731,21 @@ kibanaBasicAuth:
   enabled: true
 
 networkPolicies:
-  # -- enabled
+  # -- Toggle BigBang NetworkPolicy templates
   enabled: false
+  # -- Istio Ingressgateway labels.
+  # passed down to NetworkPolicy to whitelist external access to app
   ingressLabels:
-    # -- app
     app: istio-ingressgateway
-    # -- istio
     istio: ingressgateway
   # -- See `kubectl cluster-info` and then resolve to IP
   controlPlaneCidr: 0.0.0.0/0
 
 upgradeJob:
   image:
-    # -- repository
+    # -- image repository for upgradeJob
     repository: registry1.dso.mil/ironbank/big-bang/base
-    # -- tag
+    # -- image tag for upgradeJob
     tag: 8.4
 
 # -- Openshift Container Platform Feature Toggle
