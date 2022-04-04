@@ -493,7 +493,7 @@ elasticsearch:
         cpu: 1
         memory: 4Gi
     heap:
-      # --Xms
+      # -- Xms
       min: 2g
       # -- Xmx
       max: 2g
@@ -654,7 +654,7 @@ sso:
 
   # -- signature_algorithm
   signature_algorithm: "RS256"
-  # --endsession_url
+  # -- endsession_url
   endsession_url: "https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"
   # -- claims_group
   claims_group: "groups"
