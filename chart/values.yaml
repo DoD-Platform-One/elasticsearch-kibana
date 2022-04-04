@@ -27,11 +27,10 @@ kibana:
   # -- Name for serviceAccount to use, will be autocreated.
   serviceAccountName: "logging-kibana"
 
+  # -- Kibana updateStrategy
   updateStrategy:
-    # -- Kibana updateStrategy type
     type: rollingUpdate
     rollingUpdate:
-      # -- Kibana updateStrategy maxUnavailable
       maxUnavailable: 1
 
   # -- Set securityContext for Kibana pods
@@ -43,16 +42,13 @@ kibana:
   # -- Kibana imagePullSecrets
   imagePullSecrets: []
 
+  # -- Kibana resources
   resources:
     requests:
-      # -- Kibana CPU request
       cpu: 1
-      # -- Kibana Memory request
       memory: 2Gi
     limits:
-      # -- Kibana CPU limit
       cpu: 1
-      # -- KIbana Memory limit
       memory: 2Gi
 
   # -- Kibana volumes
@@ -140,11 +136,10 @@ elasticsearch:
       runAsGroup: 1000
       fsGroup: 1000
 
+    # -- Elasticsearch master updateStrategy
     updateStrategy:
-      # -- Elasticsearch master updateStrategy type
       type: rollingUpdate
       rollingUpdate:
-        # -- Elasticsearch master rollingUpdate maxUnavailable
         maxUnavailable: 1
 
     # -- Elasticsearch master volumes
@@ -211,16 +206,13 @@ elasticsearch:
       storageClassName: ""
       # -- Elasticsearch master persistence size
       size: 5Gi
+    # -- Elasticsearch master pod resources
     resources:
       limits:
-        # -- Elasticsearch master pod CPU limit
         cpu: 1
-        # -- Elasticsearch master pod Memory limit
         memory: 4Gi
       requests:
-        # -- Elasticsearch master pod CPU request
         cpu: 1
-        # -- Elasticsearch master pod Memory request
         memory: 4Gi
     heap:
       # -- Elasticsearch master Java heap Xms setting
@@ -312,16 +304,13 @@ elasticsearch:
       storageClassName: ""
       # -- Elasticsearch data persistence size
       size: 100Gi
+    # -- Elasticsearch data pod resources
     resources:
       limits:
-        # -- Elasticsearch data pod CPU limits
         cpu: 1
-        # -- Elasticsearch data pod Memory limits
         memory: 4Gi
       requests:
-        # -- Elasticsearch data pod CPU requests
         cpu: 1
-        # -- Elasticsearch data pod Memory requests
         memory: 4Gi
     heap:
       # -- Elasticsearch data Java heap Xms setting
@@ -417,16 +406,13 @@ elasticsearch:
       storageClassName: ""
       # -- size
       size: 100Gi
+    # -- Elasticsearch ingest pod resources
     resources:
       limits:
-        # -- CPU limits
         cpu: 1
-        # -- Memory limits
         memory: 4Gi
       requests:
-        # -- CPU requests
         cpu: 1
-        # -- Memory requests
         memory: 4Gi
     heap:
       # -- Xms
@@ -456,11 +442,10 @@ elasticsearch:
       runAsGroup: 1000
       fsGroup: 1000
 
+    # -- Elasticsearch ml updateStrategy
     updateStrategy:
-      # --RollingUpdate
       type: rollingUpdate
       rollingUpdate:
-        # -- maxUnavailable
         maxUnavailable: 1
 
     # -- volumes
@@ -529,16 +514,13 @@ elasticsearch:
       storageClassName: ""
       # -- size
       size: 100Gi
+    # -- Elasticsearch ml pod resources
     resources:
       limits:
-        # -- CPU limits
         cpu: 1
-        # -- Memory limits
         memory: 4Gi
       requests:
-        # -- CPU requests
         cpu: 1
-        # -- Memory requests
         memory: 4Gi
     heap:
       # --Xms
@@ -568,11 +550,10 @@ elasticsearch:
       runAsGroup: 1000
       fsGroup: 1000
 
+    # -- Elasticsearch coord updateStrategy
     updateStrategy:
-      # -- type
       type: rollingUpdate
       rollingUpdate:
-        # -- maxUnavailable
         maxUnavailable: 1
 
     # -- volumes
@@ -640,16 +621,13 @@ elasticsearch:
       storageClassName: ""
       # -- size
       size: 100Gi
+    # -- Elasticsearch coord pod resources
     resources:
       limits:
-        # -- cpu limits
         cpu: 1
-        # -- memory limits
         memory: 4Gi
       requests:
-        # -- cpu requests
         cpu: 1
-        # -- memory requests
         memory: 4Gi
     heap:
       # -- Xms
@@ -670,12 +648,12 @@ istio:
     # -- Gateway(s) to apply virtualService routes to.
     gateways:
       - istio-system/main
+    # -- hosts for the virtualService
     hosts:
-      # -- hosts
       - kibana.{{ .Values.hostname }}
 
 sso:
-  # -- Toggle and configure SSO with Keycloak. Example values are for local development.
+  # -- Toggle SSO with Keycloak
   enabled: false
   # -- redirect_url defaults to .Values.istio.kibana.hosts[0] if not set.
   redirect_url: ""

@@ -39,14 +39,10 @@ helm install logging chart/
 | kibana.host | string | `""` | Kibana Ingress Host Value. Only required if not using Istio for ingress. |
 | kibana.count | int | `3` | Number of Kibana replicas |
 | kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
-| kibana.updateStrategy.type | string | `"rollingUpdate"` | Kibana updateStrategy type |
-| kibana.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | Kibana updateStrategy maxUnavailable |
+| kibana.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Kibana updateStrategy |
 | kibana.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for Kibana pods |
 | kibana.imagePullSecrets | list | `[]` | Kibana imagePullSecrets |
-| kibana.resources.requests.cpu | int | `1` | Kibana CPU request |
-| kibana.resources.requests.memory | string | `"2Gi"` | Kibana Memory request |
-| kibana.resources.limits.cpu | int | `1` | Kibana CPU limit |
-| kibana.resources.limits.memory | string | `"2Gi"` | KIbana Memory limit |
+| kibana.resources | object | `{"limits":{"cpu":1,"memory":"2Gi"},"requests":{"cpu":1,"memory":"2Gi"}}` | Kibana resources |
 | kibana.volumes | list | `[]` | Kibana volumes |
 | kibana.volumeMounts | list | `[]` | Kibana volumeMounts |
 | kibana.podAnnotations | object | `{}` | Kibana podAnnotations |
@@ -61,8 +57,7 @@ helm install logging chart/
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.master.initContainers | list | `[]` | Add an init container that adjusts the kernel setting for elastic. |
 | elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
-| elasticsearch.master.updateStrategy.type | string | `"rollingUpdate"` | Elasticsearch master updateStrategy type |
-| elasticsearch.master.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | Elasticsearch master rollingUpdate maxUnavailable |
+| elasticsearch.master.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch master updateStrategy |
 | elasticsearch.master.volumes | list | `[]` | Elasticsearch master volumes |
 | elasticsearch.master.volumeMounts | list | `[]` | Elasticsearch master volumeMounts |
 | elasticsearch.master.podAnnotations | object | `{}` | Elasticsearch master podAnnotations |
@@ -73,10 +68,7 @@ helm install logging chart/
 | elasticsearch.master.count | int | `3` | Elasticsearch master pod count |
 | elasticsearch.master.persistence.storageClassName | string | `""` | Elasticsearch master persistence storageClassName |
 | elasticsearch.master.persistence.size | string | `"5Gi"` | Elasticsearch master persistence size |
-| elasticsearch.master.resources.limits.cpu | int | `1` | Elasticsearch master pod CPU limit |
-| elasticsearch.master.resources.limits.memory | string | `"4Gi"` | Elasticsearch master pod Memory limit |
-| elasticsearch.master.resources.requests.cpu | int | `1` | Elasticsearch master pod CPU request |
-| elasticsearch.master.resources.requests.memory | string | `"4Gi"` | Elasticsearch master pod Memory request |
+| elasticsearch.master.resources | object | `{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}}` | Elasticsearch master pod resources |
 | elasticsearch.master.heap.min | string | `"2g"` | Elasticsearch master Java heap Xms setting |
 | elasticsearch.master.heap.max | string | `"2g"` | Elasticsearch master Java heap Xmx setting |
 | elasticsearch.data.initContainers | list | `[]` | Add an init container that adjusts the kernel setting for elastic. |
@@ -91,10 +83,7 @@ helm install logging chart/
 | elasticsearch.data.count | int | `4` | Elasticsearch data pod count |
 | elasticsearch.data.persistence.storageClassName | string | `""` | Elasticsearch data persistence storageClassName |
 | elasticsearch.data.persistence.size | string | `"100Gi"` | Elasticsearch data persistence size |
-| elasticsearch.data.resources.limits.cpu | int | `1` | Elasticsearch data pod CPU limits |
-| elasticsearch.data.resources.limits.memory | string | `"4Gi"` | Elasticsearch data pod Memory limits |
-| elasticsearch.data.resources.requests.cpu | int | `1` | Elasticsearch data pod CPU requests |
-| elasticsearch.data.resources.requests.memory | string | `"4Gi"` | Elasticsearch data pod Memory requests |
+| elasticsearch.data.resources | object | `{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}}` | Elasticsearch data pod resources |
 | elasticsearch.data.heap.min | string | `"2g"` | Elasticsearch data Java heap Xms setting |
 | elasticsearch.data.heap.max | string | `"2g"` | Elasticsearch data Java heap Xmx setting |
 | elasticsearch.ingest.enabled | bool | `false` | Enable ingest specific Elasticsearch pods |
@@ -110,17 +99,13 @@ helm install logging chart/
 | elasticsearch.ingest.count | int | `1` | count |
 | elasticsearch.ingest.persistence.storageClassName | string | `""` | storageClassName |
 | elasticsearch.ingest.persistence.size | string | `"100Gi"` | size |
-| elasticsearch.ingest.resources.limits.cpu | int | `1` | CPU limits |
-| elasticsearch.ingest.resources.limits.memory | string | `"4Gi"` | Memory limits |
-| elasticsearch.ingest.resources.requests.cpu | int | `1` | CPU requests |
-| elasticsearch.ingest.resources.requests.memory | string | `"4Gi"` | Memory requests |
+| elasticsearch.ingest.resources | object | `{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}}` | Elasticsearch ingest pod resources |
 | elasticsearch.ingest.heap.min | string | `"2g"` | Xms |
 | elasticsearch.ingest.heap.max | string | `"2g"` | Xmx |
 | elasticsearch.ml.enabled | bool | `false` | Enable Machine Learning specific Elasticsearch pods |
 | elasticsearch.ml.initContainers | list | `[]` | initContainers |
 | elasticsearch.ml.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ml node sets |
-| elasticsearch.ml.updateStrategy.type | string | `"rollingUpdate"` |  |
-| elasticsearch.ml.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | maxUnavailable |
+| elasticsearch.ml.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch ml updateStrategy |
 | elasticsearch.ml.volumes | list | `[]` | volumes |
 | elasticsearch.ml.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.ml.podAnnotations | object | `{}` | podAnnotations |
@@ -131,17 +116,13 @@ helm install logging chart/
 | elasticsearch.ml.count | int | `1` | count |
 | elasticsearch.ml.persistence.storageClassName | string | `""` | storageClassName |
 | elasticsearch.ml.persistence.size | string | `"100Gi"` | size |
-| elasticsearch.ml.resources.limits.cpu | int | `1` | CPU limits |
-| elasticsearch.ml.resources.limits.memory | string | `"4Gi"` | Memory limits |
-| elasticsearch.ml.resources.requests.cpu | int | `1` | CPU requests |
-| elasticsearch.ml.resources.requests.memory | string | `"4Gi"` | Memory requests |
-| elasticsearch.ml.heap.min | string | `"2g"` |  |
+| elasticsearch.ml.resources | object | `{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}}` | Elasticsearch ml pod resources |
+| elasticsearch.ml.heap.min | string | `"2g"` | Xms |
 | elasticsearch.ml.heap.max | string | `"2g"` | Xmx |
 | elasticsearch.coord.enabled | bool | `false` | Enable coordinating specific Elasticsearch pods |
 | elasticsearch.coord.initContainers | list | `[]` | initContainers |
 | elasticsearch.coord.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch coordinating node sets |
-| elasticsearch.coord.updateStrategy.type | string | `"rollingUpdate"` | type |
-| elasticsearch.coord.updateStrategy.rollingUpdate.maxUnavailable | int | `1` | maxUnavailable |
+| elasticsearch.coord.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch coord updateStrategy |
 | elasticsearch.coord.volumes | list | `[]` | volumes |
 | elasticsearch.coord.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.coord.podAnnotations | object | `{}` | podAnnotations |
@@ -152,10 +133,7 @@ helm install logging chart/
 | elasticsearch.coord.count | int | `1` | count |
 | elasticsearch.coord.persistence.storageClassName | string | `""` | storageClassName |
 | elasticsearch.coord.persistence.size | string | `"100Gi"` | size |
-| elasticsearch.coord.resources.limits.cpu | int | `1` | cpu limits |
-| elasticsearch.coord.resources.limits.memory | string | `"4Gi"` | memory limits |
-| elasticsearch.coord.resources.requests.cpu | int | `1` | cpu requests |
-| elasticsearch.coord.resources.requests.memory | string | `"4Gi"` | memory requests |
+| elasticsearch.coord.resources | object | `{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}}` | Elasticsearch coord pod resources |
 | elasticsearch.coord.heap.min | string | `"2g"` | Xms |
 | elasticsearch.coord.heap.max | string | `"2g"` | Xmx |
 | istio.enabled | bool | `false` | Toggle istio interaction. |
@@ -163,25 +141,25 @@ helm install logging chart/
 | istio.kibana.annotations | object | `{}` | Annotations for controls the gateway used/attached to the virtualService |
 | istio.kibana.labels | object | `{}` | Labels for virtualService |
 | istio.kibana.gateways | list | `["istio-system/main"]` | Gateway(s) to apply virtualService routes to. |
-| istio.kibana.hosts[0] | string | `"kibana.{{ .Values.hostname }}"` | hosts |
-| sso.enabled | bool | `false` | Toggle and configure SSO with Keycloak. Example values are for local development. |
+| istio.kibana.hosts | list | `["kibana.{{ .Values.hostname }}"]` | hosts for the virtualService |
+| sso.enabled | bool | `false` | Toggle SSO with Keycloak |
 | sso.redirect_url | string | `""` | redirect_url defaults to .Values.istio.kibana.hosts[0] if not set. |
 | sso.client_id | string | `"platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana"` | client_id |
 | sso.client_secret | string | `""` | OIDC client secret, can be empty for public client. |
 | sso.oidc.host | string | `"login.dso.mil"` | host |
 | sso.oidc.realm | string | `"baby-yoda"` | realm |
-| sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` |  |
+| sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` | issuer |
 | sso.auth_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth"` | auth_url |
 | sso.token_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token"` | token_url |
 | sso.userinfo_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"` | userinfo_url |
 | sso.jwkset_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs"` | jwks_url |
 | sso.claims_principal | string | `"preferred_username"` | claims_principal |
 | sso.requested_scopes | list | `["openid"]` | requested_scopes |
-| sso.signature_algorithm | string | `"RS256"` |  |
-| sso.endsession_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"` |  |
+| sso.signature_algorithm | string | `"RS256"` | signature_algorithm |
+| sso.endsession_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"` | endsession_url |
 | sso.claims_group | string | `"groups"` | claims_group |
 | sso.claims_mail | string | `"email"` | claims_mail |
-| sso.claims_principal_pattern | string | `""` |  |
+| sso.claims_principal_pattern | string | `""` | claims_principal_pattern |
 | sso.cert_authorities | list | `[]` | cert_authorities |
 | kibanaBasicAuth.enabled | bool | `true` | Toggle this to turn off Kibana's built in auth and only allow SSO. Role mappings for SSO groups must be set up and SSO enabled before doing this. |
 | networkPolicies.enabled | bool | `false` | Toggle BigBang NetworkPolicy templates |
