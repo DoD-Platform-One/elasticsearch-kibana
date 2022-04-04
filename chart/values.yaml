@@ -694,12 +694,16 @@ upgradeJob:
 openshift: false
 
 bbtests:
+  # -- Big Bang CI/Dev toggle for helm tests
   enabled: false
   cypress:
+    # -- Toggle creation of cypress artifacts
     artifacts: true
+    # -- ENVs added to cypress test pods
     envs:
       cypress_expect_logs: "false"
       cypress_kibana_url: "https://logging-ek-kb-http:5601/login"
+    # -- ENVs added to cypress test pods from existing secrets
     secretEnvs:
       - name: cypress_elastic_password
         valueFrom:
@@ -707,10 +711,13 @@ bbtests:
             name: "logging-ek-es-elastic-user"
             key: elastic
   scripts:
+    # -- image to use for script based tests
     image: registry1.dso.mil/ironbank/stedolan/jq:1.6
+    # -- ENVs added to script test pods
     envs:
       elasticsearch_host: "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"
       desired_version: "{{ .Values.elasticsearch.version }}"
+    # -- ENVs added to script test pods from existing secrets
     secretEnvs:
       - name: ELASTIC_PASSWORD
         valueFrom:

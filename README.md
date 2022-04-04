@@ -168,19 +168,13 @@ helm install logging chart/
 | upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | image repository for upgradeJob |
 | upgradeJob.image.tag | float | `8.4` | image tag for upgradeJob |
 | openshift | bool | `false` | Openshift Container Platform Feature Toggle |
-| bbtests.enabled | bool | `false` |  |
-| bbtests.cypress.artifacts | bool | `true` |  |
-| bbtests.cypress.envs.cypress_expect_logs | string | `"false"` |  |
-| bbtests.cypress.envs.cypress_kibana_url | string | `"https://logging-ek-kb-http:5601/login"` |  |
-| bbtests.cypress.secretEnvs[0].name | string | `"cypress_elastic_password"` |  |
-| bbtests.cypress.secretEnvs[0].valueFrom.secretKeyRef.name | string | `"logging-ek-es-elastic-user"` |  |
-| bbtests.cypress.secretEnvs[0].valueFrom.secretKeyRef.key | string | `"elastic"` |  |
-| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/stedolan/jq:1.6"` |  |
-| bbtests.scripts.envs.elasticsearch_host | string | `"https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"` |  |
-| bbtests.scripts.envs.desired_version | string | `"{{ .Values.elasticsearch.version }}"` |  |
-| bbtests.scripts.secretEnvs[0].name | string | `"ELASTIC_PASSWORD"` |  |
-| bbtests.scripts.secretEnvs[0].valueFrom.secretKeyRef.name | string | `"logging-ek-es-elastic-user"` |  |
-| bbtests.scripts.secretEnvs[0].valueFrom.secretKeyRef.key | string | `"elastic"` |  |
+| bbtests.enabled | bool | `false` | Big Bang CI/Dev toggle for helm tests |
+| bbtests.cypress.artifacts | bool | `true` | Toggle creation of cypress artifacts |
+| bbtests.cypress.envs | object | `{"cypress_expect_logs":"false","cypress_kibana_url":"https://logging-ek-kb-http:5601/login"}` | ENVs added to cypress test pods |
+| bbtests.cypress.secretEnvs | list | `[{"name":"cypress_elastic_password","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to cypress test pods from existing secrets |
+| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/stedolan/jq:1.6"` | image to use for script based tests |
+| bbtests.scripts.envs | object | `{"desired_version":"{{ .Values.elasticsearch.version }}","elasticsearch_host":"https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"}` | ENVs added to script test pods |
+| bbtests.scripts.secretEnvs | list | `[{"name":"ELASTIC_PASSWORD","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to script test pods from existing secrets |
 
 ## Contributing
 
