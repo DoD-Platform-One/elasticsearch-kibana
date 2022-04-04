@@ -58,13 +58,11 @@ kibana:
   volumeMounts: []
 
   # -- Kibana podAnnotations
-  podAnnotations:
-    {}
+  podAnnotations: {}
     # bigbang.dev/istioVersion: 1.10.3
 
   # -- Kibana affinity
-  affinity:
-    {}
+  affinity: {}
     # podAntiAffinity:
     #   requiredDuringSchedulingIgnoredDuringExecution:
     #     - topologyKey: "kubernetes.io/hostname"
@@ -81,21 +79,18 @@ kibana:
     #         - "kibana"
 
   # -- Kibana tolerations
-  tolerations:
-    []
+  tolerations: []
     # - key: "workload"
     #   operator: "Equal"
     #   value: "kibana"
     #   effect: "NoSchedule"
 
   # -- Kibana nodeSelector
-  nodeSelector:
-    {}
+  nodeSelector: {}
     # node-type: kibana
 
   # -- Kibana lifecycle
-  lifecycle:
-    {}
+  lifecycle: {}
     # preStop:
     #   exec:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
@@ -157,13 +152,11 @@ elasticsearch:
     #   readOnly: true
 
     # -- Elasticsearch master podAnnotations
-    podAnnotations:
-      {}
+    podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
 
     # -- Elasticsearch master affinity
-    affinity:
-      {}
+    affinity: {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -180,21 +173,18 @@ elasticsearch:
       #         - "elastic-master"
 
     # -- Elasticsearch master tolerations
-    tolerations:
-      []
+    tolerations: []
       # - key: "workload"
       #   operator: "Equal"
       #   value: "elasticsearch"
       #   effect: "NoSchedule"
 
     # -- Elasticsearch master nodeSelector
-    nodeSelector:
-      {}
+    nodeSelector: {}
       # node-type: elastic-master
 
     # -- Elasticsearch master lifecycle
-    lifecycle:
-      {}
+    lifecycle: {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
@@ -239,29 +229,25 @@ elasticsearch:
       fsGroup: 1000
 
     # -- Elasticsearch data volumes
-    volumes:
-      []
+    volumes: []
       # - name: cert
       #   secret:
       #     secretName: cert
       #     defaultMode: 0644
 
     # -- Elasticsearch data volumeMounts
-    volumeMounts:
-      []
+    volumeMounts: []
       # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
 
     # -- Elasticsearch data podAnnotations
-    podAnnotations:
-      {}
+    podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
 
     # -- Elasticsearch data affinity
-    affinity:
-      {}
+    affinity: {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -278,21 +264,18 @@ elasticsearch:
       #         - "elastic-data"
 
     # -- Elasticsearch data tolerations
-    tolerations:
-      []
+    tolerations: []
       # - key: "workload"
       #   operator: "Equal"
       #   value: "elastic-data"
       #   effect: "NoSchedule"
 
     # -- Elasticsearch data nodeSelector
-    nodeSelector:
-      {}
+    nodeSelector: {}
       # node-type: elastic-data
 
     # -- Elasticsearch data lifecycle
-    lifecycle:
-      {}
+    lifecycle: {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
@@ -341,29 +324,25 @@ elasticsearch:
       fsGroup: 1000
 
     # -- volumes
-    volumes:
-      []
+    volumes: []
       # - name: cert
       #   secret:
       #     secretName: cert
       #     defaultMode: 0644
 
     # -- volumeMounts
-    volumeMounts:
-      []
+    volumeMounts: []
       # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
 
     # -- podAnnotations
-    podAnnotations:
-      {}
+    podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
 
     # -- affinity
-    affinity:
-      {}
+    affinity: {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -380,21 +359,18 @@ elasticsearch:
       #         - "elastic-data"
 
     # -- tolerations
-    tolerations:
-      []
+    tolerations: []
       # - key: "workload"
       #   operator: "Equal"
       #   value: "elastic-data"
       #   effect: "NoSchedule"
 
     # -- nodeSelector
-    nodeSelector:
-      {}
+    nodeSelector: {}
       # node-type: elastic-data
 
     # -- lifecycle
-    lifecycle:
-      {}
+    lifecycle: {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
@@ -449,29 +425,25 @@ elasticsearch:
         maxUnavailable: 1
 
     # -- volumes
-    volumes:
-      []
+    volumes: []
       # - name: cert
       #   secret:
       #     secretName: cert
       #     defaultMode: 0644
 
     # -- volumeMounts
-    volumeMounts:
-      []
+    volumeMounts: []
       # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
 
     # -- podAnnotations
-    podAnnotations:
-      {}
+    podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
 
     # -- affinity
-    affinity:
-      {}
+    affinity: {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -488,21 +460,18 @@ elasticsearch:
       #         - "elastic-data"
 
     # -- tolerations
-    tolerations:
-      []
+    tolerations: []
       # - key: "workload"
       #   operator: "Equal"
       #   value: "elastic-ml"
       #   effect: "NoSchedule"
 
     # -- nodeSelector
-    nodeSelector:
-      {}
+    nodeSelector: {}
       # node-type: elastic-data
 
     # -- lifecycle
-    lifecycle:
-      {}
+    lifecycle: {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
@@ -557,29 +526,25 @@ elasticsearch:
         maxUnavailable: 1
 
     # -- volumes
-    volumes:
-      []
+    volumes: []
       # - name: cert
       #   secret:
       #     secretName: cert
       #     defaultMode: 0644
 
     # -- volumeMounts
-    volumeMounts:
-      []
+    volumeMounts: []
       # - mountPath: "/usr/share/elasticsearch/config/oidc/ca.crt"
       #   name: cert
       #   subPath: ca.crt
       #   readOnly: true
 
     # -- podAnnotations
-    podAnnotations:
-      {}
+    podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
 
     # -- affinity
-    affinity:
-      {}
+    affinity: {}
       # podAntiAffinity:
       #   requiredDuringSchedulingIgnoredDuringExecution:
       #     - topologyKey: "kubernetes.io/hostname"
@@ -603,13 +568,11 @@ elasticsearch:
     #   effect: "NoSchedule"
 
     # -- nodeSelector
-    nodeSelector:
-      {}
+    nodeSelector: {}
       # node-type: elastic-data
 
     # -- lifecycle
-    lifecycle:
-      {}
+    lifecycle: {}
       # preStop:
       #   exec:
       #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
