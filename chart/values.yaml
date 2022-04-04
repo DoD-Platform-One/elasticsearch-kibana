@@ -114,9 +114,9 @@ elasticsearch:
 
   # Values for Elasticsearch master node sets.
   master:
-    # -- Add an init container that adjusts the kernel setting for elastic.
+    # -- Add init containers to master pods
     initContainers: []
-    #
+    # Init container to adjusts the kernel setting for elastic:
     # NB:  This creates a privileged init container and runs a non-ironbank image.
     # It is safer to adjust the AMI for the nodes to include this kernel setting.
     # - name: sysctl
@@ -212,8 +212,9 @@ elasticsearch:
 
   # Values for Elasticsearch data node sets.
   data:
-    # -- Add an init container that adjusts the kernel setting for elastic.
+    # -- Add init containers to data pods
     initContainers: []
+    # Init container to adjusts the kernel setting for elastic:
     # NB:  This creates a privileged init container and runs a non-ironbank image.
     # It is safer to adjust the AMI for the nodes to include this kernel setting.
     # - name: sysctl

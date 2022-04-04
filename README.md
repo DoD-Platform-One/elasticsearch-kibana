@@ -55,7 +55,7 @@ helm install logging chart/
 | elasticsearch.image.tag | string | `"7.17.1"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
-| elasticsearch.master.initContainers | list | `[]` | Add an init container that adjusts the kernel setting for elastic. |
+| elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
 | elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
 | elasticsearch.master.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch master updateStrategy |
 | elasticsearch.master.volumes | list | `[]` | Elasticsearch master volumes |
@@ -71,7 +71,7 @@ helm install logging chart/
 | elasticsearch.master.resources | object | `{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}}` | Elasticsearch master pod resources |
 | elasticsearch.master.heap.min | string | `"2g"` | Elasticsearch master Java heap Xms setting |
 | elasticsearch.master.heap.max | string | `"2g"` | Elasticsearch master Java heap Xmx setting |
-| elasticsearch.data.initContainers | list | `[]` | Add an init container that adjusts the kernel setting for elastic. |
+| elasticsearch.data.initContainers | list | `[]` | Add init containers to data pods |
 | elasticsearch.data.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch data node sets |
 | elasticsearch.data.volumes | list | `[]` | Elasticsearch data volumes |
 | elasticsearch.data.volumeMounts | list | `[]` | Elasticsearch data volumeMounts |
