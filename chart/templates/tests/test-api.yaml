@@ -1,14 +1,16 @@
+{{- if or (not .Values.istio.enabled) (not (eq .Values.istio.mtls.mode "STRICT")) }}
 {{- include "gluon.tests.script-configmap.overrides" (list . "elasticsearch-kibana-test.script-configmap") }}
+---
+{{- include "gluon.tests.script-runner.overrides" (list . "elasticsearch-kibana-test.script-runner") -}}
+{{- end }}
+
 {{- define "elasticsearch-kibana-test.script-configmap" }}
 metadata:
   labels:
     {{ include "elasticsearch.labels" . | nindent 4 }}
 {{- end }}
----
-{{- include "gluon.tests.script-runner.overrides" (list . "elasticsearch-kibana-test.script-runner") -}}
 {{- define "elasticsearch-kibana-test.script-runner" -}}
 metadata:
   labels:
     {{ include "elasticsearch.labels" . | nindent 4 }}
 {{- end }}
-

@@ -1,0 +1,13 @@
+{{- if .Values.istio.enabled }}
+apiVersion: "security.istio.io/v1beta1"
+kind: PeerAuthentication
+metadata:
+  name: kibana-default
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      exception: "common.k8s.elastic.co/type: kibana"
+  mtls:
+    mode: {{ .Values.istio.mtls.mode }}
+{{- end }}
