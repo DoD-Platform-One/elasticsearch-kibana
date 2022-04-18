@@ -602,6 +602,11 @@ elasticsearch:
 istio:
   # -- Toggle istio interaction.
   enabled: false
+  # -- Default EK peer authentication
+  mtls:
+    # -- STRICT = Allow only mutual TLS traffic,
+    # PERMISSIVE = Allow both plain text and mutual TLS traffic
+    mode: STRICT
   kibana:
     # -- Toggle virtualService creation
     enabled: true

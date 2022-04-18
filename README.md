@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.7.0-bb.1](https://img.shields.io/badge/Version-0.7.0--bb.1-informational?style=flat-square) ![AppVersion: 7.17.1](https://img.shields.io/badge/AppVersion-7.17.1-informational?style=flat-square)
+![Version: 0.7.0-bb.2](https://img.shields.io/badge/Version-0.7.0--bb.2-informational?style=flat-square) ![AppVersion: 7.17.1](https://img.shields.io/badge/AppVersion-7.17.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -137,6 +137,8 @@ helm install logging chart/
 | elasticsearch.coord.heap.min | string | `"2g"` | Xms |
 | elasticsearch.coord.heap.max | string | `"2g"` | Xmx |
 | istio.enabled | bool | `false` | Toggle istio interaction. |
+| istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication |
+| istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | istio.kibana.enabled | bool | `true` | Toggle virtualService creation |
 | istio.kibana.annotations | object | `{}` | Annotations for controls the gateway used/attached to the virtualService |
 | istio.kibana.labels | object | `{}` | Labels for virtualService |

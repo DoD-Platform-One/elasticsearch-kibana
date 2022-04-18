@@ -1,0 +1,20 @@
+{{- if .Values.istio.enabled }}
+apiVersion: "security.istio.io/v1beta1"
+kind: PeerAuthentication
+metadata:
+  name: elastic-default
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      common.k8s.elastic.co/type: elasticsearch
+  mtls:
+    mode: {{ .Values.istio.mtls.mode }}
+  {{- if (eq .Values.istio.mtls.mode "STRICT") }}
+  portLevelMtls:
+    # 9300 is Elastic's transport port and Elastic handles the TLS encryption for it
+    # To prevent double encrypted traffic we exclude 9300 from  sidecar traffic and mTLS
+    "9300":
+      mode: PERMISSIVE
+  {{- end }}
+{{- end }}
