@@ -1,7 +1,7 @@
 apiVersion: v2
 name: logging
 description: Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
-version: 0.7.0-bb.2
+version: 0.7.0-bb.3
 appVersion: 7.17.1
 dependencies:
   - name: gluon

@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.7.0-bb.2](https://img.shields.io/badge/Version-0.7.0--bb.2-informational?style=flat-square) ![AppVersion: 7.17.1](https://img.shields.io/badge/AppVersion-7.17.1-informational?style=flat-square)
+![Version: 0.7.0-bb.3](https://img.shields.io/badge/Version-0.7.0--bb.3-informational?style=flat-square) ![AppVersion: 7.17.1](https://img.shields.io/badge/AppVersion-7.17.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -170,6 +170,7 @@ helm install logging chart/
 | upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | image repository for upgradeJob |
 | upgradeJob.image.tag | float | `8.4` | image tag for upgradeJob |
 | openshift | bool | `false` | Openshift Container Platform Feature Toggle |
+| mattermost.enabled | bool | `false` | Mattermost integration toggle, controls mTLS exception and networkPolicies |
 | bbtests.enabled | bool | `false` | Big Bang CI/Dev toggle for helm tests |
 | bbtests.cypress.artifacts | bool | `true` | Toggle creation of cypress artifacts |
 | bbtests.cypress.envs | object | `{"cypress_expect_logs":"false","cypress_kibana_url":"https://logging-ek-kb-http:5601/login"}` | ENVs added to cypress test pods |

@@ -4,6 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.7.0-bb.3] - 2022-04-10
+### Added
+- mTLS exception for Mattermost
+- Mattermost integration value for above resource and newtorkPolicies
+
 ## [0.7.0-bb.2] - 2022-04-10
 ### Added
 - Enabled Istio PeerAuthentications to default to mTLS STRICT

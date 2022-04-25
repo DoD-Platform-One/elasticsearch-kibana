@@ -698,6 +698,10 @@ upgradeJob:
 # -- Openshift Container Platform Feature Toggle
 openshift: false
 
+mattermost:
+  # -- Mattermost integration toggle, controls mTLS exception and networkPolicies
+  enabled: false
+
 bbtests:
   # -- Big Bang CI/Dev toggle for helm tests
   enabled: false
