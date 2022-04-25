@@ -16,5 +16,11 @@ spec:
     # To prevent double encrypted traffic we exclude 9300 from  sidecar traffic and mTLS
     "9300":
       mode: PERMISSIVE
+    {{- if .Values.mattermost.enabled }}
+    # Mattermost conditionally reaches out to Elastic for indexing of chat posts.
+    # MM is not Istio injected currently (4/25/22). This exception should be removed when it is injected.
+    "9200":
+      mode: PERMISSIVE
+    {{- end }}
   {{- end }}
 {{- end }}
