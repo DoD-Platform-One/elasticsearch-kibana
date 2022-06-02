@@ -1,5 +1,5 @@
 # -- Domain used for BigBang created exposed services.
-hostname: bigbang.dev
+domain: bigbang.dev
 
 autoRollingUpgrade:
   # -- Enable BigBang specific autoRollingUpgrade support
@@ -619,7 +619,7 @@ istio:
       - istio-system/main
     # -- hosts for the virtualService
     hosts:
-      - kibana.{{ .Values.hostname }}
+      - kibana.{{ .Values.domain }}
 
 sso:
   # -- Toggle SSO with Keycloak
