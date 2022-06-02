@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.7.0-bb.3](https://img.shields.io/badge/Version-0.7.0--bb.3-informational?style=flat-square) ![AppVersion: 7.17.1](https://img.shields.io/badge/AppVersion-7.17.1-informational?style=flat-square)
+![Version: 0.7.1-bb.0](https://img.shields.io/badge/Version-0.7.1--bb.0-informational?style=flat-square) ![AppVersion: 7.17.1](https://img.shields.io/badge/AppVersion-7.17.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -30,7 +30,7 @@ helm install logging chart/
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| hostname | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
+| domain | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
 | autoRollingUpgrade.enabled | bool | `true` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
 | kibana.version | string | `"7.17.1"` | Kibana version |
@@ -143,25 +143,25 @@ helm install logging chart/
 | istio.kibana.annotations | object | `{}` | Annotations for controls the gateway used/attached to the virtualService |
 | istio.kibana.labels | object | `{}` | Labels for virtualService |
 | istio.kibana.gateways | list | `["istio-system/main"]` | Gateway(s) to apply virtualService routes to. |
-| istio.kibana.hosts | list | `["kibana.{{ .Values.hostname }}"]` | hosts for the virtualService |
+| istio.kibana.hosts | list | `["kibana.{{ .Values.domain }}"]` | hosts for the virtualService |
 | sso.enabled | bool | `false` | Toggle SSO with Keycloak |
 | sso.redirect_url | string | `""` | redirect_url defaults to .Values.istio.kibana.hosts[0] if not set. |
 | sso.client_id | string | `"platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana"` | client_id |
 | sso.client_secret | string | `""` | OIDC client secret, can be empty for public client. |
 | sso.oidc.host | string | `"login.dso.mil"` | host |
 | sso.oidc.realm | string | `"baby-yoda"` | realm |
-| sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` | issuer |
+| sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` |  |
 | sso.auth_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth"` | auth_url |
 | sso.token_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token"` | token_url |
 | sso.userinfo_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"` | userinfo_url |
 | sso.jwkset_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs"` | jwks_url |
 | sso.claims_principal | string | `"preferred_username"` | claims_principal |
 | sso.requested_scopes | list | `["openid"]` | requested_scopes |
-| sso.signature_algorithm | string | `"RS256"` | signature_algorithm |
+| sso.signature_algorithm | string | `"RS256"` |  |
 | sso.endsession_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"` | endsession_url |
 | sso.claims_group | string | `"groups"` | claims_group |
 | sso.claims_mail | string | `"email"` | claims_mail |
-| sso.claims_principal_pattern | string | `""` | claims_principal_pattern |
+| sso.claims_principal_pattern | string | `""` |  |
 | sso.cert_authorities | list | `[]` | cert_authorities |
 | kibanaBasicAuth.enabled | bool | `true` | Toggle this to turn off Kibana's built in auth and only allow SSO. Role mappings for SSO groups must be set up and SSO enabled before doing this. |
 | networkPolicies.enabled | bool | `false` | Toggle BigBang NetworkPolicy templates |

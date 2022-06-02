@@ -4,6 +4,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.7.1-bb.0] - 2022-06-01
+### Changed
+- hostname to domain value swap in chart/values.yaml
+
 ## [0.7.0-bb.3] - 2022-04-10
 ### Added
 - mTLS exception for Mattermost
