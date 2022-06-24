@@ -12,70 +12,52 @@
     {
       "matchDatasources": ["docker"],
       "groupName": "Ironbank"
+    },
+    {
+      "matchPackageNames": ["registry1.dso.mil/ironbank/big-bang/base"],
+      "allowedVersions": "!/8.4/"
     }
   ],
   "regexManagers": [
     {
+      "fileMatch": ["^chart/values\\.yaml$"],
+      "matchStrings": [
+        "Elasticsearch version\\n\\s+version:\\s+(?<currentValue>.+)"
+      ],
+      "depNameTemplate": "registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch",
+      "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": ["^chart/values\\.yaml$"],
+      "matchStrings": [
+        "Kibana version\\n\\s+version:\\s+(?<currentValue>.+)"
+      ],
+      "depNameTemplate": "registry1.dso.mil/ironbank/elastic/kibana/kibana",
+      "datasourceTemplate": "docker"
+    },
+    {
       "fileMatch": ["^chart/Chart\\.yaml$"],
       "matchStrings": [
+        "- Elasticsearch:\\s+(?<currentValue>.+)",
         "appVersion:\\s+(?<currentValue>.+)"
       ],
-      "depNameTemplate": "ironbank/elastic/elasticsearch/elasticsearch",
-      "datasourceTemplate": "docker",
-      "registryUrlTemplate": "https://registry1.dso.mil"
-    },
-    {
-      "fileMatch": ["^chart/values\\.yaml$"],
-      "matchStrings": [
-         "elasticsearch:\\s+tag:\\s+(?<currentValue>.+)"
-      ],
-      "depNameTemplate": "ironbank/elastic/elasticsearch/elasticsearch",
-      "datasourceTemplate": "docker",
-      "registryUrlTemplate": "https://registry1.dso.mil"
-    },
-    {
-      "fileMatch": ["^chart/values\\.yaml$"],
-      "matchStrings": [
-         "elasticsearch:\\s+version:\\s+(?<currentValue>.+)"
-      ],
-      "depNameTemplate": "ironbank/elastic/elasticsearch/elasticsearch",
-      "datasourceTemplate": "docker",
-      "registryUrlTemplate": "https://registry1.dso.mil"
-    },
-    {
-      "fileMatch": ["^chart/values\\.yaml$"],
-      "matchStrings": [
-         "kibana:\\s+tag:\\s+(?<currentValue>.+)"
-      ],
-      "depNameTemplate": "ironbank/elastic/kibana/kibana",
-      "datasourceTemplate": "docker",
-      "registryUrlTemplate": "https://registry1.dso.mil"
-    },      {
-      "fileMatch": ["^chart/values\\.yaml$"],
-      "matchStrings": [
-         "kibana:\\s+version:\\s+(?<currentValue>.+)"
-      ],
-      "depNameTemplate": "ironbank/elastic/kibana/kibana",
-      "datasourceTemplate": "docker",
-      "registryUrlTemplate": "https://registry1.dso.mil"
+      "depNameTemplate": "registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch",
+      "datasourceTemplate": "docker"
     },
     {
       "fileMatch": ["^chart/Chart\\.yaml$"],
       "matchStrings": [
-         "- Elasticsearch:\\s+(?<currentValue>.+)"
+        "- Kibana:\\s+(?<currentValue>.+)"
       ],
-      "depNameTemplate": "ironbank/elastic/elasticsearch/elasticsearch",
-      "datasourceTemplate": "docker",
-      "registryUrlTemplate": "https://registry1.dso.mil"
+      "depNameTemplate": "registry1.dso.mil/ironbank/elastic/kibana/kibana",
+      "datasourceTemplate": "docker"
     },
     {
-      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "fileMatch": ["^tests/images\\.txt$"],
       "matchStrings": [
-         "- Kibana:\\s+(?<currentValue>.+)"
+        "\\s*(?<depName>.+):(?<currentValue>.+)"
       ],
-      "depNameTemplate": "ironbank/elastic/kibana/kibana",
-      "datasourceTemplate": "docker",
-      "registryUrlTemplate": "https://registry1.dso.mil"
+      "datasourceTemplate": "docker"
     }
   ]
 }

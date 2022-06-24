@@ -23,10 +23,7 @@ spec:
 
     config:
       index.store.type: mmapfs
-      node.data: false
-      node.ingest: false
-      node.master: true
-      node.ml: false
+      node.roles: ["master"]
       node.store.allow_mmap: true
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
       xpack.security.authc.token.enabled: true
@@ -125,10 +122,7 @@ spec:
 
     config:
       index.store.type: mmapfs
-      node.data: true
-      node.ingest: true
-      node.master: false
-      node.ml: false
+      node.roles: ["data", "ingest"]
       node.store.allow_mmap: true
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
       xpack.security.authc.token.enabled: true
@@ -229,10 +223,7 @@ spec:
 
     config:
       index.store.type: mmapfs
-      node.data: false
-      node.ingest: true
-      node.master: false
-      node.ml: false
+      node.roles: ["ingest"]
       node.store.allow_mmap: true
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
       xpack.security.authc.token.enabled: true
@@ -329,10 +320,7 @@ spec:
 
     config:
       index.store.type: mmapfs
-      node.data: false
-      node.ingest: false
-      node.master: false
-      node.ml: true
+      node.roles: ["ml"]
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
       node.store.allow_mmap: true
       xpack.security.authc.token.enabled: true
@@ -432,10 +420,6 @@ spec:
 
     config:
       index.store.type: mmapfs
-      node.data: false
-      node.ingest: false
-      node.master: false
-      node.ml: false
       node.store.allow_mmap: true
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
       xpack.security.authc.token.enabled: true

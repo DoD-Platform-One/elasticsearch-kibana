@@ -3,19 +3,19 @@ domain: bigbang.dev
 
 autoRollingUpgrade:
   # -- Enable BigBang specific autoRollingUpgrade support
-  enabled: true
+  enabled: false
 
 # -- Pull Policy for all non-init containers in this package.
 imagePullPolicy: IfNotPresent
 
 kibana:
   # -- Kibana version
-  version: 7.17.1
+  version: 8.2.3
   image:
     # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     # -- Kibana image tag
-    tag: 7.17.1
+    tag: 8.2.3
 
   # -- Kibana Ingress Host Value.
   # Only required if not using Istio for ingress.
@@ -100,12 +100,12 @@ kibana:
 
 elasticsearch:
   # -- Elasticsearch version
-  version: 7.17.1
+  version: 8.2.3
   image:
     # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     # -- Elasticsearch image tag
-    tag: 7.17.1
+    tag: 8.2.3
 
   # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
@@ -693,7 +693,7 @@ upgradeJob:
     # -- image repository for upgradeJob
     repository: registry1.dso.mil/ironbank/big-bang/base
     # -- image tag for upgradeJob
-    tag: 8.4
+    tag: 1.18.0
 
 # -- Openshift Container Platform Feature Toggle
 openshift: false
@@ -706,6 +706,7 @@ bbtests:
   # -- Big Bang CI/Dev toggle for helm tests
   enabled: false
   cypress:
+    image: "registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/kubectl:9.7.0"
     # -- Toggle creation of cypress artifacts
     artifacts: true
     # -- ENVs added to cypress test pods
