@@ -9,6 +9,10 @@ spec:
   image: {{ .Values.kibana.image.repository }}:{{ .Values.kibana.image.tag }}
 
   config:
+    {{- if .Values.bbtests.enabled }}
+    # To make Cypress happy we need to disable the strict CSP rules
+    csp.strict: false
+    {{- end }}
     {{- with .Values.sso }}
     {{- if .enabled }}
     xpack.security.authc.providers:

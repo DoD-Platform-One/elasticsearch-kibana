@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.7.1-bb.0](https://img.shields.io/badge/Version-0.7.1--bb.0-informational?style=flat-square) ![AppVersion: 7.17.1](https://img.shields.io/badge/AppVersion-7.17.1-informational?style=flat-square)
+![Version: 0.8.0-bb.0](https://img.shields.io/badge/Version-0.8.0--bb.0-informational?style=flat-square) ![AppVersion: 8.2.3](https://img.shields.io/badge/AppVersion-8.2.3-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -33,9 +33,9 @@ helm install logging chart/
 | domain | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
 | autoRollingUpgrade.enabled | bool | `true` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
-| kibana.version | string | `"7.17.1"` | Kibana version |
+| kibana.version | string | `"8.2.3"` | Kibana version |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` | Kibana image repository |
-| kibana.image.tag | string | `"7.17.1"` | Kibana image tag |
+| kibana.image.tag | string | `"8.2.3"` | Kibana image tag |
 | kibana.host | string | `""` | Kibana Ingress Host Value. Only required if not using Istio for ingress. |
 | kibana.count | int | `3` | Number of Kibana replicas |
 | kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
@@ -50,9 +50,9 @@ helm install logging chart/
 | kibana.tolerations | list | `[]` | Kibana tolerations |
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
-| elasticsearch.version | string | `"7.17.1"` | Elasticsearch version |
+| elasticsearch.version | string | `"8.2.3"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
-| elasticsearch.image.tag | string | `"7.17.1"` | Elasticsearch image tag |
+| elasticsearch.image.tag | string | `"8.2.3"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
@@ -150,28 +150,29 @@ helm install logging chart/
 | sso.client_secret | string | `""` | OIDC client secret, can be empty for public client. |
 | sso.oidc.host | string | `"login.dso.mil"` | host |
 | sso.oidc.realm | string | `"baby-yoda"` | realm |
-| sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` |  |
+| sso.issuer | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}"` | issuer |
 | sso.auth_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/auth"` | auth_url |
 | sso.token_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/token"` | token_url |
 | sso.userinfo_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/userinfo"` | userinfo_url |
 | sso.jwkset_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/certs"` | jwks_url |
 | sso.claims_principal | string | `"preferred_username"` | claims_principal |
 | sso.requested_scopes | list | `["openid"]` | requested_scopes |
-| sso.signature_algorithm | string | `"RS256"` |  |
+| sso.signature_algorithm | string | `"RS256"` | signature_algorithm |
 | sso.endsession_url | string | `"https://{{ .Values.sso.oidc.host }}/auth/realms/{{ .Values.sso.oidc.realm }}/protocol/openid-connect/logout"` | endsession_url |
 | sso.claims_group | string | `"groups"` | claims_group |
 | sso.claims_mail | string | `"email"` | claims_mail |
-| sso.claims_principal_pattern | string | `""` |  |
+| sso.claims_principal_pattern | string | `""` | claims_principal_pattern |
 | sso.cert_authorities | list | `[]` | cert_authorities |
 | kibanaBasicAuth.enabled | bool | `true` | Toggle this to turn off Kibana's built in auth and only allow SSO. Role mappings for SSO groups must be set up and SSO enabled before doing this. |
 | networkPolicies.enabled | bool | `false` | Toggle BigBang NetworkPolicy templates |
 | networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio Ingressgateway labels. passed down to NetworkPolicy to whitelist external access to app |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | See `kubectl cluster-info` and then resolve to IP |
 | upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | image repository for upgradeJob |
-| upgradeJob.image.tag | float | `8.4` | image tag for upgradeJob |
+| upgradeJob.image.tag | string | `"1.18.0"` | image tag for upgradeJob |
 | openshift | bool | `false` | Openshift Container Platform Feature Toggle |
 | mattermost.enabled | bool | `false` | Mattermost integration toggle, controls mTLS exception and networkPolicies |
 | bbtests.enabled | bool | `false` | Big Bang CI/Dev toggle for helm tests |
+| bbtests.cypress.image | string | `"registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/kubectl:9.7.0"` |  |
 | bbtests.cypress.artifacts | bool | `true` | Toggle creation of cypress artifacts |
 | bbtests.cypress.envs | object | `{"cypress_expect_logs":"false","cypress_kibana_url":"https://logging-ek-kb-http:5601/login"}` | ENVs added to cypress test pods |
 | bbtests.cypress.secretEnvs | list | `[{"name":"cypress_elastic_password","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to cypress test pods from existing secrets |

@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [0.8.0-bb.0] - 2022-06-15
+### Changed
+- Updated chart version to `0.8.0-bb.0`
+- Updated appVersion, Kibana, and Elasticsearch to `8.2.3`
+- Updated gluon version to `0.2.9`
+- Updated upgradeJob from `8.4` to `1.18.0`
+
 ## [0.7.1-bb.0] - 2022-06-01
 ### Changed
 - hostname to domain value swap in chart/values.yaml
