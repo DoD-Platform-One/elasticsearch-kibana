@@ -693,7 +693,7 @@ upgradeJob:
     # -- image repository for upgradeJob
     repository: registry1.dso.mil/ironbank/big-bang/base
     # -- image tag for upgradeJob
-    tag: 1.18.0
+    tag: 2.0.0
 
 # -- Openshift Container Platform Feature Toggle
 openshift: false
@@ -706,7 +706,6 @@ bbtests:
   # -- Big Bang CI/Dev toggle for helm tests
   enabled: false
   cypress:
-    image: "registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/kubectl:9.7.0"
     # -- Toggle creation of cypress artifacts
     artifacts: true
     # -- ENVs added to cypress test pods
