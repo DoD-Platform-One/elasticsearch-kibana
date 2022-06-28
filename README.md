@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.8.0-bb.0](https://img.shields.io/badge/Version-0.8.0--bb.0-informational?style=flat-square) ![AppVersion: 8.2.3](https://img.shields.io/badge/AppVersion-8.2.3-informational?style=flat-square)
+![Version: 0.8.0-bb.1](https://img.shields.io/badge/Version-0.8.0--bb.1-informational?style=flat-square) ![AppVersion: 8.2.3](https://img.shields.io/badge/AppVersion-8.2.3-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -31,7 +31,7 @@ helm install logging chart/
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | domain | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
-| autoRollingUpgrade.enabled | bool | `true` | Enable BigBang specific autoRollingUpgrade support |
+| autoRollingUpgrade.enabled | bool | `false` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
 | kibana.version | string | `"8.2.3"` | Kibana version |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` | Kibana image repository |
@@ -168,11 +168,10 @@ helm install logging chart/
 | networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio Ingressgateway labels. passed down to NetworkPolicy to whitelist external access to app |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | See `kubectl cluster-info` and then resolve to IP |
 | upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | image repository for upgradeJob |
-| upgradeJob.image.tag | string | `"1.18.0"` | image tag for upgradeJob |
+| upgradeJob.image.tag | string | `"2.0.0"` | image tag for upgradeJob |
 | openshift | bool | `false` | Openshift Container Platform Feature Toggle |
 | mattermost.enabled | bool | `false` | Mattermost integration toggle, controls mTLS exception and networkPolicies |
 | bbtests.enabled | bool | `false` | Big Bang CI/Dev toggle for helm tests |
-| bbtests.cypress.image | string | `"registry.dso.mil/platform-one/big-bang/pipeline-templates/pipeline-templates/cypress/kubectl:9.7.0"` |  |
 | bbtests.cypress.artifacts | bool | `true` | Toggle creation of cypress artifacts |
 | bbtests.cypress.envs | object | `{"cypress_expect_logs":"false","cypress_kibana_url":"https://logging-ek-kb-http:5601/login"}` | ENVs added to cypress test pods |
 | bbtests.cypress.secretEnvs | list | `[{"name":"cypress_elastic_password","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to cypress test pods from existing secrets |
