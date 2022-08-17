@@ -2,6 +2,7 @@
 wait_project() {
    timeElapsed=0
    while true; do
+      sleep 50
       elasticHealth=$(kubectl get elasticsearch -A -o jsonpath='{.items[0].status.health}' | xargs)
       kibanaHealth=$(kubectl get kibana -A -o jsonpath='{.items[0].status.health}' | xargs)
       if [[ $elasticHealth == "green" && $kibanaHealth == "green" ]]; then
