@@ -1,13 +1,13 @@
 apiVersion: v2
 name: logging
 description: Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
-version: 0.8.0-bb.1
-appVersion: 8.2.3
+version: 0.9.0-bb.0
+appVersion: 8.3.2
 dependencies:
   - name: gluon
     version: "0.2.10"
     repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
 annotations:
   bigbang.dev/applicationVersions: |
-    - Kibana: 8.2.3
-    - Elasticsearch: 8.2.3
+    - Kibana: 8.3.1
+    - Elasticsearch: 8.3.2
