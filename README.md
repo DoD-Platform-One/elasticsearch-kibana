@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.9.0-bb.0](https://img.shields.io/badge/Version-0.9.0--bb.0-informational?style=flat-square) ![AppVersion: 8.3.2](https://img.shields.io/badge/AppVersion-8.3.2-informational?style=flat-square)
+![Version: 0.9.0-bb.1](https://img.shields.io/badge/Version-0.9.0--bb.1-informational?style=flat-square) ![AppVersion: 8.3.2](https://img.shields.io/badge/AppVersion-8.3.2-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -33,14 +33,14 @@ helm install logging chart/
 | domain | string | `"bigbang.dev"` | Domain used for BigBang created exposed services. |
 | autoRollingUpgrade.enabled | bool | `false` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
-| kibana.version | string | `"8.2.3"` | Kibana version |
+| kibana.version | string | `"8.3.1"` | Kibana version |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` | Kibana image repository |
-| kibana.image.tag | string | `"8.2.3"` | Kibana image tag |
+| kibana.image.tag | string | `"8.3.1"` | Kibana image tag |
 | kibana.host | string | `""` | Kibana Ingress Host Value. Only required if not using Istio for ingress. |
 | kibana.count | int | `3` | Number of Kibana replicas |
 | kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
 | kibana.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Kibana updateStrategy |
-| kibana.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for Kibana pods |
+| kibana.securityContext | object | `{"capabilities":{"drop":["ALL"]},"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for Kibana pods |
 | kibana.imagePullSecrets | list | `[]` | Kibana imagePullSecrets |
 | kibana.resources | object | `{"limits":{"cpu":1,"memory":"2Gi"},"requests":{"cpu":1,"memory":"2Gi"}}` | Kibana resources |
 | kibana.volumes | list | `[]` | Kibana volumes |
@@ -50,13 +50,14 @@ helm install logging chart/
 | kibana.tolerations | list | `[]` | Kibana tolerations |
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
-| elasticsearch.version | string | `"8.2.3"` | Elasticsearch version |
+| elasticsearch.version | string | `"8.3.2"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
-| elasticsearch.image.tag | string | `"8.2.3"` | Elasticsearch image tag |
+| elasticsearch.image.tag | string | `"8.3.2"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
-| elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
+| elasticsearch.master.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| elasticsearch.master.securityContext | object | `{"capabilities":{"drop":["ALL"]},"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
 | elasticsearch.master.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch master updateStrategy |
 | elasticsearch.master.volumes | list | `[]` | Elasticsearch master volumes |
 | elasticsearch.master.volumeMounts | list | `[]` | Elasticsearch master volumeMounts |
@@ -71,8 +72,9 @@ helm install logging chart/
 | elasticsearch.master.resources | object | `{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}}` | Elasticsearch master pod resources |
 | elasticsearch.master.heap.min | string | `"2g"` | Elasticsearch master Java heap Xms setting |
 | elasticsearch.master.heap.max | string | `"2g"` | Elasticsearch master Java heap Xmx setting |
-| elasticsearch.data.initContainers | list | `[]` | Add init containers to data pods |
-| elasticsearch.data.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch data node sets |
+| elasticsearch.data.initContainers | list | `[]` |  |
+| elasticsearch.data.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
+| elasticsearch.data.securityContext | object | `{"capabilities":{"drop":["ALL"]},"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch data node sets |
 | elasticsearch.data.volumes | list | `[]` | Elasticsearch data volumes |
 | elasticsearch.data.volumeMounts | list | `[]` | Elasticsearch data volumeMounts |
 | elasticsearch.data.podAnnotations | object | `{}` | Elasticsearch data podAnnotations |
@@ -88,7 +90,7 @@ helm install logging chart/
 | elasticsearch.data.heap.max | string | `"2g"` | Elasticsearch data Java heap Xmx setting |
 | elasticsearch.ingest.enabled | bool | `false` | Enable ingest specific Elasticsearch pods |
 | elasticsearch.ingest.initContainers | list | `[]` | initContainers |
-| elasticsearch.ingest.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ingest node sets |
+| elasticsearch.ingest.securityContext | object | `{"capabilities":{"drop":["ALL"]},"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ingest node sets |
 | elasticsearch.ingest.volumes | list | `[]` | volumes |
 | elasticsearch.ingest.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.ingest.podAnnotations | object | `{}` | podAnnotations |
@@ -104,7 +106,7 @@ helm install logging chart/
 | elasticsearch.ingest.heap.max | string | `"2g"` | Xmx |
 | elasticsearch.ml.enabled | bool | `false` | Enable Machine Learning specific Elasticsearch pods |
 | elasticsearch.ml.initContainers | list | `[]` | initContainers |
-| elasticsearch.ml.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ml node sets |
+| elasticsearch.ml.securityContext | object | `{"capabilities":{"drop":["ALL"]},"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ml node sets |
 | elasticsearch.ml.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch ml updateStrategy |
 | elasticsearch.ml.volumes | list | `[]` | volumes |
 | elasticsearch.ml.volumeMounts | list | `[]` | volumeMounts |
@@ -121,7 +123,7 @@ helm install logging chart/
 | elasticsearch.ml.heap.max | string | `"2g"` | Xmx |
 | elasticsearch.coord.enabled | bool | `false` | Enable coordinating specific Elasticsearch pods |
 | elasticsearch.coord.initContainers | list | `[]` | initContainers |
-| elasticsearch.coord.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch coordinating node sets |
+| elasticsearch.coord.securityContext | object | `{"capabilities":{"drop":["ALL"]},"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch coordinating node sets |
 | elasticsearch.coord.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch coord updateStrategy |
 | elasticsearch.coord.volumes | list | `[]` | volumes |
 | elasticsearch.coord.volumeMounts | list | `[]` | volumeMounts |

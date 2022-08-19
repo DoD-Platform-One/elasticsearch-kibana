@@ -177,6 +177,10 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Release.Name }}-es-elastic-user
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
       {{- with $.Values.elasticsearch.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}

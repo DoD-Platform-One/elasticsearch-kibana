@@ -62,6 +62,12 @@ spec:
         updateStrategy:
           {{- toYaml .updateStrategy | nindent 10 }}
         {{- end }}
+      initContainers:
+        - name: elastic-internal-init-config
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
       containers:
         - name: kibana
           resources:
@@ -73,6 +79,8 @@ spec:
           {{- toYaml .Values.kibana.volumeMounts | nindent 10 }}
           {{- end }}
           imagePullPolicy: {{ .Values.imagePullPolicy }}
+          securityContext:
+          {{- toYaml .Values.kibana.containersecurityContext | nindent 12 }}
       {{- if .Values.kibana.volumes }}
       volumes:
       {{- toYaml .Values.kibana.volumes | nindent 6 }}

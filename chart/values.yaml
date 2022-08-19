@@ -39,6 +39,11 @@ kibana:
     runAsGroup: 1000
     fsGroup: 1000
 
+  containersecurityContext:
+    capabilities:
+      drop:
+        - ALL
+
   # -- Kibana imagePullSecrets
   imagePullSecrets: []
 
@@ -130,6 +135,11 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+    
+    containersecurityContext:
+      capabilities:
+        drop:
+          - ALL
 
     # -- Elasticsearch master updateStrategy
     updateStrategy:
@@ -228,6 +238,11 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+    
+    containersecurityContext:
+      capabilities:
+        drop:
+          - ALL
 
     # -- Elasticsearch data volumes
     volumes: []
@@ -324,6 +339,11 @@ elasticsearch:
       runAsGroup: 1000
       fsGroup: 1000
 
+    containersecurityContext:
+      capabilities:
+        drop:
+          - ALL
+
     # -- volumes
     volumes: []
       # - name: cert
@@ -418,6 +438,11 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+    
+    containersecurityContext:
+      capabilities:
+        drop:
+          - ALL
 
     # -- Elasticsearch ml updateStrategy
     updateStrategy:
@@ -519,6 +544,11 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
+    
+    containersecurityContext:
+      capabilities:
+        drop:
+          - ALL
 
     # -- Elasticsearch coord updateStrategy
     updateStrategy:
