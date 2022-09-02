@@ -1,5 +1,6 @@
 #!/bin/sh
 wait_project() {
+   sleep 15
    timeElapsed=0
    while true; do
       elasticHealth=$(kubectl get elasticsearch -A -o jsonpath='{.items[0].status.health}' | xargs)
@@ -9,7 +10,7 @@ wait_project() {
       fi
       sleep 5
       timeElapsed=$(($timeElapsed+5))
-      if [[ $timeElapsed -ge 600 ]]; then
+      if [[ $timeElapsed -ge 700 ]]; then
          exit 1
       fi
    done
