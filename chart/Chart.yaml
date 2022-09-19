@@ -1,12 +1,17 @@
 apiVersion: v2
 name: logging
 description: Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
-version: 0.10.0-bb.1
+version: 0.10.1-bb.0
 appVersion: 8.4.0
 dependencies:
   - name: gluon
-    version: "0.2.10"
+    version: 0.2.10
     repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
+  - name: prometheus-elasticsearch-exporter
+    repository: file://./deps/prometheus-elasticsearch-exporter
+    version: 4.14.0
+    condition: metrics.enabled
+    alias: metrics
 annotations:
   bigbang.dev/applicationVersions: |
     - Kibana: 8.4.0
