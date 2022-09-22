@@ -8,11 +8,11 @@
 - Login to Kibana
   - username: elastic
   - Password : can be obtained by querying kubectl get secrets -n logging logging-ek-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
-- Create Index by  selecting Management icon from the left menu and  clicking Index patterns under Kibana.  In the Create Index patterns enter <logstash-*> and click create index pattern.  In the the next step Click on the dropdown and select "@timestamp"
+- Create an Index by clicking the Management icon in the left menu and clicking Index patterns under Kibana.  In the Create Index patterns enter <logstash-*> and click create index pattern.  In the the next step Click on the dropdown and select "@timestamp"
 
 - For Search click on Discovery from the side menu
 
-- In KQL textbox enter `kubernets.namespace.name : elastic`
+- In KQL textbox enter `kubernetes.namespace.name : elastic`
 
 - Click Refresh/Update
 

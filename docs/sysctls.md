@@ -2,7 +2,7 @@
 
 It is possible to use the built in initContainers to set the sysclts. This is needed for Elastic to set the values of vm.max_map_count.
 
-Note that the reccomended way to set the sysctls is by setting them directly on the cluster nodes. If this is not possible there are a couple of options.
+Note that the recommended way to set the sysctls is by setting them directly on the cluster nodes. If this is not possible there are a couple of options.
 
 The values.yaml file provides access to the elasticsearch serviceAccountName. This serviceAccount will be auto-created for you and used by elastic - defaults to "logging-elasticsearch".
 
