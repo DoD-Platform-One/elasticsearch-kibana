@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ---
 ## [0.10.1-bb.0] - 2022-09-11
 ### Added
+- .gitignore
+
+## [0.10.1-bb.0] - 2022-09-11
+### Added
 - prometheus-elastiseaerch-exporter added as sub-chart deployment and `metrics` key to monitor health of elastic search indexes
 
 ## [0.10.0-bb.0] - 2022-08-29
