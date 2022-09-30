@@ -6,11 +6,11 @@ Elastic/Kibana is a Big Bang built/maintained chart. The below details the steps
 
 2. Checkout the `renovate/ironbank` branch. This branch should already have the updates you need for the images, `elasticsearch.version`, `kibana.version` and `appVersion` in `Chart.yaml`. Validate that the `version` values are equal to their respective `image.tag` value and that the `appVersion` is equal to the elasticsearch version.
 
-3. Modify the `version` in `Chart.yaml`. Since this is an upstream chart you should bump the versioning following semver, and append `-bb.0`. In general for new elastic/kibana versions this will mean bumping the minor version (i.e. `0.1.2-bb.0` to `0.2.0-bb.0`).
+3. Modify the `version` in `Chart.yaml`. Since this is an upstream chart you should bump the versioning following semver, and append `-bb.0`. In general for new elastic/kibana versions this will mean bumping the minor version (i.e. `0.1.2-bb.0` to `0.2.0-bb.0`). This value is usually updated automatically by renovate bot.
 
 4. Update `CHANGELOG.md` adding an entry for the new version and noting all changes (at minimum should include `Updated Elastic/Kibana to x.x.x`).
 
-5. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md).
+5. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md). Renovate bot may have already performed this step for you as well! 🤖
 
 6. If this is a new minor version of Elastic you will likely need to add a new section to `chart/templates/bigbang/upgrade-job.yaml` for the new version upgrade. Follow the existing examples to update the job to support upgrades between old version -> new version.
 
@@ -25,7 +25,7 @@ NOTE: For these testing steps it is good to do them on both a clean install and 
 You will want to install with:
 - Logging (elastic, eck operator, and fluentbit), and Istio packages enabled
 - Istio enabled
-- [Dev SSO values](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/chart/dev-sso-values.yaml) for Logging
+- [Dev SSO values](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/assets/configs/example/dev-sso-values.yaml) for Logging
 
 Testing Steps:
 - Ensure all pods go to running (NOTE: this is especially important for the upgrade testing since Big Bang has an "auto rolling upgrade" job in place)

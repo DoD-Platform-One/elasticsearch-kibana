@@ -1,9 +1,9 @@
 dependencies:
 - name: gluon
   repository: oci://registry.dso.mil/platform-one/big-bang/apps/library-charts/gluon
-  version: 0.2.10
+  version: 0.3.1
 - name: prometheus-elasticsearch-exporter
   repository: file://./deps/prometheus-elasticsearch-exporter
   version: 4.14.0
-digest: sha256:ce68aa7eaa024fb227b3d38714f5b664fbf4638613d771a4a405d253130eff1d
-generated: "2022-09-16T10:40:00.751423-06:00"
+digest: sha256:80c5660f3ce38f80f291e24d21fc6a54f75994bf9f2b8115349e2d0de625f3b3
+generated: "2022-09-30T13:08:24.5007791-06:00"
