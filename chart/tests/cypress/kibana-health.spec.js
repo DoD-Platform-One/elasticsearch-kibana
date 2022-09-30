@@ -5,9 +5,9 @@ describe("Log in and look for logs in Kibana", function () {
     return false
   })
   function kibana_login () {
+    cy.wait(14000)
     cy.visit(Cypress.env('kibana_url'))
     cy.title().should("eq", "Elastic")
-    cy.wait(6000)
     cy.get('input[name="username"]', { timeout: 30000 })
       .type("elastic")
     cy.get('input[name="password"]').type(Cypress.env('elastic_password'))
