@@ -1,0 +1,26 @@
+{{ if .Values.monitoring.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    prometheus: k8s
+  name: elasticsearch-exporter-service-monitor
+  namespace: {{ .Release.Namespace }}
+spec:
+  jobLabel: {{ .Release.Name }}
+  selector:
+    matchLabels:
+      app: metrics 
+      release: {{ .Release.Name }}
+  namespaceSelector:
+    matchNames:
+      - {{ .Release.Namespace }}
+  endpoints:
+    - interval: 30s
+      path: /metrics
+      params:
+        format:
+          - prometheus
+      port: http
+      scheme: http
+{{- end }}
