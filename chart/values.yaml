@@ -135,7 +135,7 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
-    
+
     containersecurityContext:
       capabilities:
         drop:
@@ -238,7 +238,7 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
-    
+
     containersecurityContext:
       capabilities:
         drop:
@@ -438,7 +438,7 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
-    
+
     containersecurityContext:
       capabilities:
         drop:
@@ -544,7 +544,7 @@ elasticsearch:
       runAsUser: 1000
       runAsGroup: 1000
       fsGroup: 1000
-    
+
     containersecurityContext:
       capabilities:
         drop:
@@ -724,6 +724,10 @@ upgradeJob:
     repository: registry1.dso.mil/ironbank/big-bang/base
     # -- image tag for upgradeJob
     tag: 2.0.0
+
+monitoring:
+  # -- Toggle BigBang monitoring integration, controls serviceMonitor template
+  enabled: false
 
 metrics:
   # -- Toggle Prometheus ElasticSearch Exporter Installation
