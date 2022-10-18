@@ -13,13 +13,13 @@ spec:
           podSelector:
             matchLabels:
               app: prometheus
-              release: {{ .Release.Name }}
       ports:
         - port: 9108
           protocol: TCP
   podSelector:
     matchLabels:
       app: metrics
+      release: {{ .Release.Name }}
   policyTypes:
     - Ingress
 {{- end }}
