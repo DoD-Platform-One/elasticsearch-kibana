@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.12.0-bb.0] - 2022-10-18
+### Changed
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.4.2 to 8.4.3
+- ironbank/elastic/kibana/kibana updated from 8.4.2 to 8.4.3
+
 ## [0.11.2-bb.0] - 2022-10-18
 ### Changed
 - ingress-monitoring NetworkPolicy matchLabel bug fix
