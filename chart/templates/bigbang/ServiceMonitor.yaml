@@ -1,4 +1,4 @@
-{{ if .Values.monitoring.enabled -}}
+{{- if and .Values.monitoring.enabled .Values.metrics.enabled}}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -10,7 +10,7 @@ spec:
   jobLabel: {{ .Release.Name }}
   selector:
     matchLabels:
-      app: metrics 
+      app: metrics
       release: {{ .Release.Name }}
   namespaceSelector:
     matchNames:
