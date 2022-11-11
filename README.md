@@ -1,6 +1,6 @@
 # logging
 
-![Version: 0.12.1-bb.0](https://img.shields.io/badge/Version-0.12.1--bb.0-informational?style=flat-square) ![AppVersion: 8.4.3](https://img.shields.io/badge/AppVersion-8.4.3-informational?style=flat-square)
+![Version: 0.12.1-bb.1](https://img.shields.io/badge/Version-0.12.1--bb.1-informational?style=flat-square) ![AppVersion: 8.4.3](https://img.shields.io/badge/AppVersion-8.4.3-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -177,6 +177,8 @@ helm install logging chart/
 | upgradeJob.image.tag | string | `"2.0.0"` | image tag for upgradeJob |
 | monitoring.enabled | bool | `false` | Toggle BigBang monitoring integration, controls serviceMonitor template |
 | metrics.enabled | bool | `false` | Toggle Prometheus ElasticSearch Exporter Installation |
+| metrics.serviceMonitor.scheme | string | `""` |  |
+| metrics.serviceMonitor.tlsConfig | object | `{}` |  |
 | metrics.env | object | `{"ES_USERNAME":"elastic"}` | Environment Variable Passthrough to set Auth for Exporter |
 | metrics.extraEnvSecrets | object | `{"ES_PASSWORD":{"key":"elastic","secret":"logging-ek-es-elastic-user"}}` | Environment Variable Secret Mount to set Auth for Exporter Replace with empty braces if you would like to use a an API_KEY |
 | openshift | bool | `false` | Openshift Container Platform Feature Toggle |
