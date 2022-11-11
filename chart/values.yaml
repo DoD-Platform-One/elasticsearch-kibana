@@ -732,6 +732,10 @@ monitoring:
 metrics:
   # -- Toggle Prometheus ElasticSearch Exporter Installation
   enabled: false
+  serviceMonitor:
+    ## scheme and tlsConfig values, allows for mTLS configuration
+    scheme: ""
+    tlsConfig: {}
   # -- Environment Variable Passthrough to set Auth for Exporter
   env:
     ES_USERNAME: elastic
