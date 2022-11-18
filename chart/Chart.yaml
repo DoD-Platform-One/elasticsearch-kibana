@@ -1,8 +1,8 @@
 apiVersion: v2
 name: logging
 description: Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
-version: 0.12.1-bb.1
-appVersion: 8.4.3
+version: 0.13.0-bb.0
+appVersion: 8.5.0
 dependencies:
   - name: gluon
     version: 0.3.1
@@ -14,5 +14,5 @@ dependencies:
     alias: metrics
 annotations:
   bigbang.dev/applicationVersions: |
-    - Kibana: 8.4.3
-    - Elasticsearch: 8.4.3
+    - Kibana: 8.5.0
+    - Elasticsearch: 8.5.0
