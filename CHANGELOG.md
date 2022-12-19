@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [0.14.0-bb.0] - 2022-12-09
+### Changed
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.5.0 to 8.5.2
+- ironbank/elastic/kibana/kibana updated from 8.5.0 to 8.5.2
+
 ## [0.13.0-bb.0] - 2022-11-12
 ### Changed
 - ironbank/elastic/elasticsearch/elasticsearch updated from 8.4.3 to 8.5.0
