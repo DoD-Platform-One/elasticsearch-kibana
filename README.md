@@ -1,6 +1,6 @@
-# logging
+# elasticsearch-kibana
 
-![Version: 0.14.2-bb.0](https://img.shields.io/badge/Version-0.14.2--bb.0-informational?style=flat-square) ![AppVersion: 8.5.2](https://img.shields.io/badge/AppVersion-8.5.2-informational?style=flat-square)
+![Version: 1.0.0-bb.0](https://img.shields.io/badge/Version-1.0.0--bb.0-informational?style=flat-square) ![AppVersion: 8.5.2](https://img.shields.io/badge/AppVersion-8.5.2-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -23,7 +23,7 @@ https://helm.sh/docs/intro/install/
 * Clone down the repository
 * cd into directory
 ```bash
-helm install logging chart/
+helm install elasticsearch-kibana chart/
 ```
 
 ## Values
