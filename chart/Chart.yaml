@@ -1,7 +1,7 @@
 apiVersion: v2
 name: elasticsearch-kibana
 description: Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
-version: 1.1.0-bb.0
+version: 1.1.0-bb.1
 appVersion: 8.6.0
 dependencies:
   - name: gluon
@@ -26,3 +26,6 @@ annotations:
     - name: script-tests
       condition: bbtests.enabled 
       image: registry1.dso.mil/ironbank/stedolan/jq:1.6
+    - name: exporter
+      condition: metrics.enabled
+      image: registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter:1.5.0-debian-11-r17
