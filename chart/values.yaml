@@ -8,6 +8,10 @@ autoRollingUpgrade:
 # -- Pull Policy for all non-init containers in this package.
 imagePullPolicy: IfNotPresent
 
+# -- Toggle for networkpolicies to allow fluentbit ingress
+fluentbit:
+  enabled: false
+
 kibana:
   # -- Kibana version
   version: 8.6.1
