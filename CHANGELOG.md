@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.3.0-bb.0] - 2023-05-11
+### Changed
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.6.0 to 8.7.0
+- ironbank/elastic/kibana/kibana updated from 8.6.1 to 8.7.1
+
 ## [1.2.0-bb.0] - 2023-04-06
 ### Added
 - Added networkpolicy for fluentbit ingress
