@@ -1,6 +1,6 @@
 # elasticsearch-kibana
 
-![Version: 1.3.0-bb.0](https://img.shields.io/badge/Version-1.3.0--bb.0-informational?style=flat-square) ![AppVersion: 8.7.0](https://img.shields.io/badge/AppVersion-8.7.0-informational?style=flat-square)
+![Version: 1.3.1-bb.0](https://img.shields.io/badge/Version-1.3.1--bb.0-informational?style=flat-square) ![AppVersion: 8.7.0](https://img.shields.io/badge/AppVersion-8.7.0-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -52,6 +52,7 @@ helm install elasticsearch-kibana chart/
 | kibana.tolerations | list | `[]` | Kibana tolerations |
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
+| kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html |
 | elasticsearch.version | string | `"8.7.0"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
 | elasticsearch.image.tag | string | `"8.7.0"` | Elasticsearch image tag |

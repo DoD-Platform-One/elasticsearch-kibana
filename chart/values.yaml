@@ -107,6 +107,50 @@ kibana:
     #   exec:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
 
+  # -- Kibana Elastic Agent / Fleet Server configuration
+  # https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html
+  agents: {}
+    # -- Default URL for the elastic search instance deployed by Big Bang
+    #elasticsearchHosts: ["https://logging-ek-es-http.logging.svc:9200"]
+
+    # -- When you deploy an agent in mode: fleet with fleetServerEnabled: true,
+    # -- this URL should be the name of your fleet server with -http appended.
+    #fleetserverHosts: ["http://fleet-server-http.logging.svc:8220"]
+    #packages:
+    #  - name: system
+    #    version: latest
+    #   - name: elastic_agent
+    #     version: latest
+    #   - name: fleet_server
+    #     version: latest
+    #agentPolicies:
+    #  - name: Fleet Server on ECK policy
+    #    id: eck-fleet-server
+    #    is_default_fleet_server: true
+    #    namespace: logging
+    #    monitoring_enabled:
+    #      - logs
+    #      - metrics
+    #    unenroll_timeout: 900
+    #    package_policies:
+    #     - name: fleet_server-1
+    #       id: fleet_server-1
+    #       package:
+    #         name: fleet_server
+    #   - name: Elastic Agent on ECK policy
+    #     id: eck-agent
+    #     namespace: default
+    #     monitoring_enabled:
+    #       - logs
+    #       - metrics
+    #     unenroll_timeout: 900
+    #     is_default: true
+    #     package_policies:
+    #       - name: system-1
+    #         id: system-1
+    #         package:
+    #           name: system
+
 elasticsearch:
   # -- Elasticsearch version
   version: 8.7.0
