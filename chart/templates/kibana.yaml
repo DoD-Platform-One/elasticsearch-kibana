@@ -35,6 +35,12 @@ spec:
       {{- else }}
       publicBaseUrl: "https://kibana.bigbang.dev"
       {{- end }}
+    {{- if and .Values.kibana.agents.elasticsearchHosts .Values.kibana.agents.fleetserverHosts .Values.kibana.agents.packages .Values.kibana.agents.agentPolicies }}
+    xpack.fleet.agents.elasticsearch.hosts: {{ .Values.kibana.agents.elasticsearchHosts }}
+    xpack.fleet.agents.fleet_server.hosts: {{ .Values.kibana.agents.fleetserverHosts }}
+    xpack.fleet.packages: {{- toYaml .Values.kibana.agents.packages | nindent 6 }}
+    xpack.fleet.agentPolicies: {{- toYaml .Values.kibana.agents.agentPolicies | nindent 6 }}
+    {{- end }}
 
   elasticsearchRef:
     name: {{ .Release.Name }}
