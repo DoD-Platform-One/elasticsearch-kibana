@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.3.1-bb.2] - 2023-05-28
+### Added
+- Cypress modernization updates
+- Updated gluon to 0.4.1
+- Added npm package files, updated cypress file sturcture and file names to meet cypress 13.x requirements
+
 ## [1.3.1-bb.1] - 2023-05-26
 ### Added
 - Added SCC and NetworkAttachmentDefinition for OpenShift
