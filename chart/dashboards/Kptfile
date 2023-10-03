@@ -5,7 +5,7 @@ metadata:
 upstream:
   type: git
   git:
-    commit: 70152feb08bc4a01361a80a655422960b4a6cd35
+    commit: 2c39d17c5a1222e7568f24ff03f196090689759f
     repo: https://github.com/prometheus-community/elasticsearch_exporter
     directory: /examples/grafana
     ref: master

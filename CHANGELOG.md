@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.4.0-bb.0] - 2023-10-2
+### Changed
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.7.1 to 8.9.0
+- ironbank/elastic/kibana/kibana updated from 8.7.1 to 8.9.0
+
 ## [1.3.1-bb.3] - 2023-09-29
 ### Added
 - Fixed cypress test for BB pipeline
