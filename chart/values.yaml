@@ -14,12 +14,12 @@ fluentbit:
 
 kibana:
   # -- Kibana version
-  version: 8.7.1
+  version: 8.9.0
   image:
     # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     # -- Kibana image tag
-    tag: 8.7.1
+    tag: 8.9.0
 
   # -- Kibana Ingress Host Value.
   # Only required if not using Istio for ingress.
@@ -153,12 +153,12 @@ kibana:
 
 elasticsearch:
   # -- Elasticsearch version
-  version: 8.7.0
+  version: 8.9.0
   image:
     # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     # -- Elasticsearch image tag
-    tag: 8.7.0
+    tag: 8.9.0
 
   # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
@@ -818,6 +818,7 @@ bbtests:
           secretKeyRef:
             name: "logging-ek-es-elastic-user"
             key: elastic
+
   scripts:
     # -- image to use for script based tests
     image: registry1.dso.mil/ironbank/stedolan/jq:1.6
