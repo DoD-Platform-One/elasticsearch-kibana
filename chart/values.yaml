@@ -153,12 +153,12 @@ kibana:
 
 elasticsearch:
   # -- Elasticsearch version
-  version: 8.10.2
+  version: 8.10.3
   image:
     # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     # -- Elasticsearch image tag
-    tag: 8.10.2
+    tag: 8.10.3
 
   # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
