@@ -1,6 +1,6 @@
 # elasticsearch-kibana
 
-![Version: 1.6.1-bb.0](https://img.shields.io/badge/Version-1.6.1--bb.0-informational?style=flat-square) ![AppVersion: 8.10.3](https://img.shields.io/badge/AppVersion-8.10.3-informational?style=flat-square)
+![Version: 1.6.1-bb.1](https://img.shields.io/badge/Version-1.6.1--bb.1-informational?style=flat-square) ![AppVersion: 8.10.3](https://img.shields.io/badge/AppVersion-8.10.3-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
