@@ -18,11 +18,13 @@ describe("Log in and look for logs in Kibana", function () {
     cy.get('button[type="submit"]').click();
     cy.location("pathname", { timeout: 10000 }).should("eq", "/app/home");
     cy.wait(10000);
-    cy.contains("Welcome to Elastic");
+    // In Package pipelines, no configurations are passed so matches on "Welcome to Elastic" while in BB, configurations change the langing page to "Welcome Home"
+    cy.contains(/Welcome to Elastic|Welcome home/g);
   }
 
   it("Log into Kibana", function () {
-    cy.contains("Welcome to Elastic");
+    // In Package pipelines, no configurations are passed so matches on "Welcome to Elastic" while in BB, configurations change the langing page to "Welcome Home"
+    cy.contains(/Welcome to Elastic|Welcome home/g);
   });
 
   if (Cypress.env("expect_logs")) {
