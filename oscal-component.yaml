@@ -25,39 +25,236 @@ component-definition:
       party-uuids:
       - 72134592-08C2-4A77-ABAD-C880F109367A # matches parties entry for p1
     control-implementations:
-    - uuid: 5108E5FC-C45F-477B-A542-9C5611A92485
-      source: https://raw.githubusercontent.com/usnistgov/oscal-content/master/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+    - uuid: d2afb4c4-2cd8-5305-a6cc-d1bc7b388d0c
+      source: https://raw.githubusercontent.com/GSA/fedramp-automation/93ca0e20ff5e54fc04140613476fba80f08e3c7d/dist/content/rev5/baselines/json/FedRAMP_rev5_HIGH-baseline-resolved-profile_catalog.json
       description:
         Controls implemented by authservice for inheritance by applications
       implemented-requirements:
       - uuid: 31ED9374-C146-4B40-ABD5-537B24DBDCEF
         control-id: ac-6.9
         description: >-
-          Elasticsearch stores and aggregates privilege function calls collected by fluentbt.
+          Elasticsearch stores and aggregates privilege function calls collected by fluentbit.
+
       - uuid: 373074CC-F1EA-40CB-AD17-DB8F199D0600
         control-id: au-4
         description: >-
-          Underlying log storage is elastically scaleable.
+          Underlying log storage is elastically scalable.
+
       - uuid: 90FFF3BA-3E88-47AD-88B7-B50A92833A45
         control-id: au-5
         description: >-
-          Kibana has the ability to alert based on events discovered in Elastic indecies
+          Kibana has the ability to alert based on events discovered in Elastic indexes.
+          Alerts can be enabled through defined rules, which detect complex conditions with Kibana and trigger actions when those conditions are met.  
+          It can be centrally managed from the Stack Management.
+
       - uuid: 3230D443-A18C-4F9B-A0DE-DC89CE5D01C8
         control-id: au-5.1
         description: >-
-          Authservice allows the use of an extenrral idtntiy OIDC provider for application login
-          by configuring filter chain matching for hostname (headers) for applications.  This control can then
-          be inherited by the Identity Provider
+          Authservice allows the use of an external identity OIDC provider for application login
+          by configuring filter chain matching for hostname (headers) for applications.  
+          This control can then be inherited by the Identity Provider.
+
+      - uuid: f35f77c6-3146-44b9-b9d5-27d79b566cda
+        control-id: au-6.1
+        description: >-
+          You can log security-related events such as authentication failures and refused connections to monitor your cluster for suspicious activity (including data access authorization and user security configuration changes).
+          Use the Kibana audit logs in conjunction with Elasticsearch audit logging to get a holistic view of all security related events. 
+          Kibana defers to the Elasticsearch security model for authentication, data index authorization, and features that are driven by cluster-wide privileges. 
+
+      - uuid: ab174bee-dcbc-4606-93ee-11bb12b54071
+        control-id: au-6.3
+        description: >-
+          Use the Kibana audit logs in conjunction with Elasticsearch audit logging to get a holistic view of all security related events. 
+          Each event is broken down into category, type, action and outcome fields to make it easy to filter, query and aggregate the resulting logs. 
+          The trace.id field can be used to correlate multiple events that originate from the same request.
+
+      - uuid: 98084007-46b8-4bbd-9283-2516843bb0bb
+        control-id: au-6.4
+        description: >-
+          Use the Kibana audit logs in conjunction with Elasticsearch audit logging to get a holistic view of all security related events. 
+          Each event is broken down into category, type, action and outcome fields to make it easy to filter, query and aggregate the resulting logs. 
+          The trace.id field can be used to correlate multiple events that originate from the same request.
+
+      - uuid: 5e0f96c3-d229-4a01-86f4-fd3235e8c3c0
+        control-id: au-6.6
+        description: >-
+          Use the Kibana audit logs in conjunction with Elasticsearch audit logging to get a holistic view of all security related events. 
+          Each event is broken down into category, type, action and outcome fields to make it easy to filter, query and aggregate the resulting logs. 
+          The trace.id field can be used to correlate multiple events that originate from the same request.
+
+      - uuid: 38bced9e-3b0d-425c-99e6-6786b1f91c10
+        control-id: au-7
+        description: >-
+          Use the Kibana audit logs in conjunction with Elasticsearch audit logging to get a holistic view of all security related events. 
+          Each event is broken down into category, type, action and outcome fields to make it easy to filter, query and aggregate the resulting logs. 
+          The trace.id field can be used to correlate multiple events that originate from the same request.
+
+      - uuid: d9fecd59-212c-4813-b9db-208eba5c3753
+        control-id: au-7.1
+        description: >-
+          Use the Kibana audit logs in conjunction with Elasticsearch audit logging to get a holistic view of all security related events. 
+          Each event is broken down into category, type, action and outcome fields to make it easy to filter, query and aggregate the resulting logs. 
+          The trace.id field can be used to correlate multiple events that originate from the same request.
+
       - uuid: 98DE555D-1B90-475F-9C2E-954438172B39
         control-id: au-9
         description: >-
           Kibana provides ability to use Role Based Access Control to allow for the indexes that store
-          audit logs to be restricted to just cluster administrators
+          audit logs to be restricted to just cluster administrators.
+          Alerts can be enabled through defined rules, which detect complex conditions with Kibana and trigger actions when those conditions are met.  
+          It can be centrally managed from the Stack Management.
+
+      - uuid: 9ee75f82-ec51-4845-84c0-1d6d097836b3
+        control-id: au-9.2
+        description: >-
+          When audit logging is enabled, security events are persisted to a dedicated <clustername>_audit.json file on the host’s file system, on every cluster node or where specified. 
+
+      - uuid: d7c3ff5c-fcc2-40d2-b55c-ce1931aa6fd0
+        control-id: au-9.3
+        description: >-
+          TLS requires X.509 certificates to authenticate the communicating parties and perform encryption of data-in-transit. 
+          Each certificate contains a public key and has and an associated — but separate — private key; these keys are used for cryptographic operations. 
+          Kibana supports certificates and private keys in PEM or PKCS#12 format.
+
       - uuid: 6ED4D692-F65F-40AB-AC3F-C056C2F41BD9
         control-id: au-9.4
         description: >-
           Kibana provides ability to use Role Based Access Control to allow for the indexes that store
-          audit logs to be restricted to just cluster administrators
+          audit logs to be restricted to just cluster administrators.
+
+      - uuid: 1679c7ae-f7c3-4233-9701-f3192195905f
+        control-id: au-11
+        description: >-
+          When audit logging is enabled, security events are persisted to a dedicated <clustername>_audit.json file on the host’s file system, on every cluster node.
+          You can configure additional options to control what events are logged and what information is included in the audit log. 
+
+      - uuid: 52669463-5003-46ac-8a9f-9f44e5cc6d6b
+        control-id: au-12.1
+        description: >-
+          When audit logging is enabled, security events are persisted to a dedicated <clustername>_audit.json file on the host’s file system, on every cluster node.
+          You can configure additional options to control what events are logged and what information is included in the audit log.      
+
+      - uuid: 3ff1bd93-22e4-4ff9-b000-a95a583c31d8
+        control-id: cm-8.3
+        description: >-
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified.
+
+      - uuid: 78fba4a9-2127-4006-a381-f815260243fa
+        control-id: ir-4
+        description: >-
+          Elastic Observability automates the incident response lifecycle by monitoring, discovering, and alerting on the essential SLIs and SLOs. 
+          The solution covers four areas of monitoring: Uptime, APM, Metrics, and Logs. Uptime monitors availability by sending external heartbeats to the service endpoints. 
+          APM monitors latency and quality by measuring and capturing events directly from within the applications. Metrics monitors saturation by measuring infrastructure resource utilization. 
+          Logs monitors correctness by capturing messages from systems and services.
+
+      - uuid: 927f34eb-7387-4d35-8aac-97747a07d93e
+        control-id: ir-4.1
+        description: >-
+          Elastic Observability automates the incident response lifecycle by monitoring, discovering, and alerting on the essential SLIs and SLOs. 
+          The solution covers four areas of monitoring: Uptime, APM, Metrics, and Logs. Uptime monitors availability by sending external heartbeats to the service endpoints. 
+          APM monitors latency and quality by measuring and capturing events directly from within the applications. Metrics monitors saturation by measuring infrastructure resource utilization. 
+          Logs monitors correctness by capturing messages from systems and services.
+
+      - uuid: ce945f68-89d5-48d2-923b-1f7f1e21529a
+        control-id: ir-5.1
+        description: >-
+          Elastic Observability automates the incident response lifecycle by monitoring, discovering, and alerting on the essential SLIs and SLOs. 
+          The solution covers four areas of monitoring: Uptime, APM, Metrics, and Logs. Uptime monitors availability by sending external heartbeats to the service endpoints. 
+          APM monitors latency and quality by measuring and capturing events directly from within the applications. Metrics monitors saturation by measuring infrastructure resource utilization. 
+          Logs monitors correctness by capturing messages from systems and services.
+
+      - uuid: dc3f4521-1699-4d8a-b586-8390d27bad8f
+        control-id: ir-6.1
+        description: >-
+          Elastic Observability automates the incident response lifecycle by monitoring, discovering, and alerting on the essential SLIs and SLOs. 
+          The solution covers four areas of monitoring: Uptime, APM, Metrics, and Logs. Uptime monitors availability by sending external heartbeats to the service endpoints. 
+          APM monitors latency and quality by measuring and capturing events directly from within the applications. Metrics monitors saturation by measuring infrastructure resource utilization. 
+          Logs monitors correctness by capturing messages from systems and services.
+
+      - uuid: 0088a3cf-c1df-479e-834e-32866b0370f8
+        control-id: ir-7.1
+        description: >-
+          Elastic Observability automates the incident response lifecycle by monitoring, discovering, and alerting on the essential SLIs and SLOs. 
+          The solution covers four areas of monitoring: Uptime, APM, Metrics, and Logs. Uptime monitors availability by sending external heartbeats to the service endpoints. 
+          APM monitors latency and quality by measuring and capturing events directly from within the applications. Metrics monitors saturation by measuring infrastructure resource utilization. 
+          Logs monitors correctness by capturing messages from systems and services.
+
+      - uuid: 3824d0f4-2141-42b4-8663-a44efcb38298
+        control-id: ps-4.2
+        description: >-
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified.
+
+      - uuid: 05182e1d-9ba7-4c94-b6d2-85926e1ead3c
+        control-id: si-4
+        description: >-
+          Kibana can use Elastic Agent to collect data about Kibana and ship it to the monitoring cluster.
+          Once you configure Kibana to retrieve that information you can display it on the Stack Monitoring page.
+
+      - uuid: d3f6a567-9191-4ad3-809c-f48b4965cf5a
+        control-id: si-4.2
+        description: >-
+          Kibana can use Elastic Agent to collect data about Kibana and ship it to the monitoring cluster.
+          Once you configure Kibana to retrieve that information you can display it on the Stack Monitoring page.
+
+      - uuid: 28f7f1d9-9433-4590-a03f-de01a63a995e
+        control-id: si-4.4
+        description: >-
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified.
+
+      - uuid: 4ee747b1-0805-4bd0-ae88-e1916ba47e54
+        control-id: si-4.5
+        description: >-
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified.
+          Alerts can be enabled through defined rules, which detect complex conditions with Kibana and trigger actions when those conditions are met.  
+          It can be centrally managed from the Stack Management.
+
+      - uuid: d16c0f3e-efd4-4f5e-badc-55c786fe48ac
+        control-id: si-4.12
+        description: >-
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified.
+          Alerts can be enabled through defined rules, which detect complex conditions with Kibana and trigger actions when those conditions are met.  
+          It can be centrally managed from the Stack Management.
+
+      - uuid: fb945a1f-83e3-48ba-a07a-b1af5fa5c9ee
+        control-id: si-4.16
+        description: >-
+          Kibana can use Elastic Agent to collect data about Kibana and ship it to the monitoring cluster.
+          Once you configure Kibana to retrieve that information you can display it on the Stack Monitoring page.
+
+      - uuid: b0e59f01-ece5-4f26-b7bd-db1dccef369b
+        control-id: si-4.19
+        description: >-
+          Kibana can use Elastic Agent to collect data about Kibana and ship it to the monitoring cluster.
+          Once you configure Kibana to retrieve that information you can display it on the Stack Monitoring page.
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified.
+
+      - uuid: 666fd7c1-0462-466f-bfdc-dd1f0ec21f65
+        control-id: si-4.20
+        description: >-
+          Kibana can use Elastic Agent to collect data about Kibana and ship it to the monitoring cluster.
+          Once you configure Kibana to retrieve that information you can display it on the Stack Monitoring page.
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified.  
+
+      - uuid: 379e308f-fafa-46d7-b0df-616371344079
+        control-id: si-4.22
+        description: >-
+          Kibana can use Elastic Agent to collect data about Kibana and ship it to the monitoring cluster.
+          Once you configure Kibana to retrieve that information you can display it on the Stack Monitoring page.
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified. 
+
+      - uuid: a467e9a8-df5a-4fe1-b80f-a16f2b391425
+        control-id: si-6
+        description: >-
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified. 
+          Alerts can be enabled through defined rules, which detect complex conditions with Kibana and trigger actions when those conditions are met.  
+          It can be centrally managed from the Stack Management.
+
+      - uuid: 3d36cfdd-75bb-4249-a7d4-54ebbb6bb57d
+        control-id: si-7.2
+        description: >-
+          Kibana can be used to make a rule set to parameters specified and take an action based on parameters specified. 
+          Alerts can be enabled through defined rules, which detect complex conditions with Kibana and trigger actions when those conditions are met.  
+          It can be centrally managed from the Stack Management.
 
   back-matter: 
     resources:
@@ -65,7 +262,7 @@ component-definition:
       title: Elasticsearch
       rlinks:
       - href: https://www.elastic.co/what-is/elasticsearch
-    - uuid: 97FF87A0-EB34-4001-839A-32FF0815D896
+    - uuid: 11f0826b-f5c2-4665-945e-1c29dabe38b9
       title: Kibana
       rlinks:
       - href: https://www.elastic.co/kibana/
