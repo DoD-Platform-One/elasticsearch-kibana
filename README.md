@@ -1,6 +1,6 @@
 # elasticsearch-kibana
 
-![Version: 1.6.1-bb.3](https://img.shields.io/badge/Version-1.6.1--bb.3-informational?style=flat-square) ![AppVersion: 8.10.3](https://img.shields.io/badge/AppVersion-8.10.3-informational?style=flat-square)
+![Version: 1.6.1-bb.4](https://img.shields.io/badge/Version-1.6.1--bb.4-informational?style=flat-square) ![AppVersion: 8.11.0](https://img.shields.io/badge/AppVersion-8.11.0-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -34,9 +34,9 @@ helm install elasticsearch-kibana chart/
 | autoRollingUpgrade.enabled | bool | `false` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
 | fluentbit | object | `{"enabled":false}` | Toggle for networkpolicies to allow fluentbit ingress |
-| kibana.version | string | `"8.10.4"` | Kibana version |
+| kibana.version | string | `"8.11.0"` | Kibana version |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` | Kibana image repository |
-| kibana.image.tag | string | `"8.10.4"` | Kibana image tag |
+| kibana.image.tag | string | `"8.11.0"` | Kibana image tag |
 | kibana.host | string | `""` | Kibana Ingress Host Value. Only required if not using Istio for ingress. |
 | kibana.count | int | `3` | Number of Kibana replicas |
 | kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
@@ -53,9 +53,9 @@ helm install elasticsearch-kibana chart/
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
 | kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html |
-| elasticsearch.version | string | `"8.10.3"` | Elasticsearch version |
+| elasticsearch.version | string | `"8.11.2"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
-| elasticsearch.image.tag | string | `"8.10.3"` | Elasticsearch image tag |
+| elasticsearch.image.tag | string | `"8.11.2"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
@@ -176,7 +176,7 @@ helm install elasticsearch-kibana chart/
 | networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio Ingressgateway labels. passed down to NetworkPolicy to whitelist external access to app |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | See `kubectl cluster-info` and then resolve to IP |
 | upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | image repository for upgradeJob |
-| upgradeJob.image.tag | string | `"2.0.0"` | image tag for upgradeJob |
+| upgradeJob.image.tag | string | `"2.1.0"` | image tag for upgradeJob |
 | monitoring.enabled | bool | `false` | Toggle BigBang monitoring integration, controls serviceMonitor template |
 | metrics.enabled | bool | `false` | Toggle Prometheus ElasticSearch Exporter Installation |
 | metrics.serviceMonitor.scheme | string | `""` |  |
@@ -189,7 +189,7 @@ helm install elasticsearch-kibana chart/
 | bbtests.cypress.artifacts | bool | `true` | Toggle creation of cypress artifacts |
 | bbtests.cypress.envs | object | `{"cypress_expect_logs":"false","cypress_kibana_url":"https://logging-ek-kb-http:5601/login"}` | ENVs added to cypress test pods |
 | bbtests.cypress.secretEnvs | list | `[{"name":"cypress_elastic_password","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to cypress test pods from existing secrets |
-| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/stedolan/jq:1.6"` | image to use for script based tests |
+| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/stedolan/jq:1.7"` | image to use for script based tests |
 | bbtests.scripts.envs | object | `{"desired_version":"{{ .Values.elasticsearch.version }}","elasticsearch_host":"https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"}` | ENVs added to script test pods |
 | bbtests.scripts.secretEnvs | list | `[{"name":"ELASTIC_PASSWORD","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to script test pods from existing secrets |
 

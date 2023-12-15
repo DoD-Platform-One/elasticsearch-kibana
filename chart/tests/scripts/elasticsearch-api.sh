@@ -16,7 +16,7 @@ echo "Test 1 Success: Elasticsearch is up."
 
 echo "Hitting Elasticsearch API endpoint..."
 health_response=$(curl -sSku "elastic:${ELASTIC_PASSWORD}" "${elasticsearch_host}/_cluster/health" 2>/dev/null)
-elasticsearch_health=$(echo ${health_response} | jq '.status' | xargs)
+elasticsearch_health=$(jq -r .status <<< "${health_response}")
 if [[ ${elasticsearch_health} != "green" ]]; then
   echo "Test 2 Failure: Elasticsearch is not Healthy."
   echo "Debug information (curl response):"
@@ -27,7 +27,7 @@ echo "Test 2 Success: Elasticsearch is Healthy."
 
 echo "Checking Elasticsearch Version..."
 elasticsearch_response=$(curl -sS -ku "elastic:${ELASTIC_PASSWORD}" "${elasticsearch_host}/")
-elasticsearch_version=$(echo ${elasticsearch_response} | jq '.version.number' | xargs)
+elasticsearch_version=$(jq -r .version.number <<< "${elasticsearch_response}")
 if [ ! ${desired_version} ==  ${elasticsearch_version} ]; then
   echo "Test 2 Failure: Elasticsearch version does not match."
   echo "Debug information (deployed build info):"

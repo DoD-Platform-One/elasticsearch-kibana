@@ -1,8 +1,8 @@
 apiVersion: v2
 name: elasticsearch-kibana
 description: Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
-version: 1.6.1-bb.3
-appVersion: 8.10.3
+version: 1.6.1-bb.4
+appVersion: 8.11.0
 dependencies:
   - name: gluon
     version: 0.4.4
@@ -14,18 +14,18 @@ dependencies:
     alias: metrics
 annotations:
   bigbang.dev/applicationVersions: |
-    - Kibana: 8.10.4
-    - Elasticsearch: 8.10.3
+    - Kibana: 8.11.0
+    - Elasticsearch: 8.11.2
   helm.sh/images: |
     - name: kibana
-      image: registry1.dso.mil/ironbank/elastic/kibana/kibana:8.10.4
+      image: registry1.dso.mil/ironbank/elastic/kibana/kibana:8.11.0
     - name: elasticsearch
-      image: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch:8.10.3
+      image: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch:8.11.2
     - name: base
-      image: registry1.dso.mil/ironbank/big-bang/base:2.0.0
+      image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
     - name: script-tests
       condition: bbtests.enabled
-      image: registry1.dso.mil/ironbank/stedolan/jq:1.6
+      image: registry1.dso.mil/ironbank/stedolan/jq:1.7
     - name: exporter
       condition: metrics.enabled
-      image: registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter:1.6.0-debian-11-r50
+      image: registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter:1.6.0-debian-11-r96
