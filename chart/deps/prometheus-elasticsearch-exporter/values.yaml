@@ -14,7 +14,7 @@ restartPolicy: Always
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter
-  tag: 1.6.0-debian-11-r50
+  tag: 1.6.0-debian-11-r96
   pullPolicy: IfNotPresent
   pullSecret: ""
 

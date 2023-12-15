@@ -56,4 +56,11 @@ networkPolicies:
 
 bbtests:
   enabled: true
-
+  cypress:
+    resources:
+      requests:
+        cpu: "1"
+        memory: "4Gi"
+      limits:
+        cpu: "1"
+        memory: "8Gi"

@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.6.1-bb.4] - 2023-12-15
+### Updated
+- Updated bb base image to 2.1.0
+- ironbank/stedolan/jq updated from 1.6 to 1.7
+- ironbank/elastic/kibana/kibana updated from 8.10.4 to 8.11.0
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.10.3 to 8.11.2
+- prometheus-elasticsearch-exporter updated from 4.14.0 to 4.15.0
+
 ## [1.6.1-bb.3] - 2023-11-30
 ### Changed
 - Updating OSCAL Component File.
