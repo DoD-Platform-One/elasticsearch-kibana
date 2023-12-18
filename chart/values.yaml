@@ -780,6 +780,18 @@ monitoring:
 metrics:
   # -- Toggle Prometheus ElasticSearch Exporter Installation
   enabled: false
+  # -- Exporter imagePullSecrets
+  image: 
+    pullSecret: private-registry
+  # -- Pod securityContext
+  podSecurityContext:
+    runAsGroup: 1000
+  # -- Container securityContext
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+
+  imagePullSecrets: []
   serviceMonitor:
     ## scheme and tlsConfig values, allows for mTLS configuration
     scheme: ""
