@@ -14,12 +14,12 @@ fluentbit:
 
 kibana:
   # -- Kibana version
-  version: 8.11.0
+  version: 8.11.1
   image:
     # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     # -- Kibana image tag
-    tag: 8.11.0
+    tag: 8.11.1
 
   # -- Kibana Ingress Host Value.
   # Only required if not using Istio for ingress.
