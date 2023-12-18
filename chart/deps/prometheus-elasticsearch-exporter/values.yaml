@@ -18,13 +18,18 @@ image:
   pullPolicy: IfNotPresent
   pullSecret: ""
 
-## Set enabled to false if you don't want securityContext
-## in your Deployment.
-## The below values are the default for kubernetes.
-## Openshift won't deploy with runAsUser: 1000 without additional permissions.
-securityContext:
-  enabled: true  # Should be set to false when running on OpenShift
+podSecurityContext:
+  runAsNonRoot: true
   runAsUser: 1000
+  seccompProfile:
+    type: "RuntimeDefault"
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: true
 
 # Custom DNS configuration to be added to prometheus-elasticsearch-exporter pods
 dnsConfig: {}
@@ -64,6 +69,8 @@ affinity: {}
 
 username: elastic
 
+initContainers: []
+
 service:
   type: ClusterIP
   httpPort: 9108
@@ -74,6 +81,7 @@ service:
 
 deployment:
   annotations: {}
+  labels: {}
 
 ## Extra environment variables that will be passed into the exporter pod
 ## example:
@@ -115,12 +123,23 @@ extraVolumes:
       secretName: logging-ek-es-http-certs-internal
     name: elasticsearch-certs
 
+#  - name: csi-volume
+#    csi:
+#      driver: secrets-store.csi.k8s.io
+#      readOnly: true
+#      volumeAttributes:
+#        secretProviderClass: my-spc
+
 #  A list of additional VolumeMounts to add to the deployment
 #  this is useful for mounting any other needed resource into
 #  the elasticsearch-exporter pod
 extraVolumeMounts:
   - mountPath: /etc/elasticsearch/certs/
     name: elasticsearch-certs
+
+#  - name: csi-volume
+#    mountPath: /csi/volume
+#    readOnly: true
 
 es:
   ## Address (host and port) of the Elasticsearch node we should connect to.
@@ -147,6 +166,10 @@ es:
   ##
   indices_mappings: true
 
+  ## If true, query stats for aliases.
+  ##
+  aliases: false
+
   ## If true, query stats for shards in the cluster.
   ##
   shards: true
@@ -158,6 +181,14 @@ es:
   ## If true, query stats for cluster settings.
   ##
   cluster_settings: false
+
+  ## If true, query stats for SLM snapshots.
+  ##
+  slm: false
+
+  ## If true, query stats for data streams.
+  ##
+  data_stream: false
 
   ## Timeout for trying to get stats from Elasticsearch. (ex: 20s)
   ##

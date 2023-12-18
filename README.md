@@ -1,6 +1,7 @@
+
 # elasticsearch-kibana
 
-![Version: 1.7.0-bb.0](https://img.shields.io/badge/Version-1.7.0--bb.0-informational?style=flat-square) ![AppVersion: 8.11.2](https://img.shields.io/badge/AppVersion-8.11.2-informational?style=flat-square)
+![Version: 1.7.0-bb.1](https://img.shields.io/badge/Version-1.7.0--bb.1-informational?style=flat-square) ![AppVersion: 8.11.2](https://img.shields.io/badge/AppVersion-8.11.2-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -179,6 +180,10 @@ helm install elasticsearch-kibana chart/
 | upgradeJob.image.tag | string | `"2.1.0"` | image tag for upgradeJob |
 | monitoring.enabled | bool | `false` | Toggle BigBang monitoring integration, controls serviceMonitor template |
 | metrics.enabled | bool | `false` | Toggle Prometheus ElasticSearch Exporter Installation |
+| metrics.image | object | `{"pullSecret":"private-registry"}` | Exporter imagePullSecrets |
+| metrics.podSecurityContext | object | `{"runAsGroup":1000}` | Pod securityContext |
+| metrics.securityContext | object | `{"runAsGroup":1000,"runAsUser":1000}` | Container securityContext |
+| metrics.imagePullSecrets | list | `[]` |  |
 | metrics.serviceMonitor.scheme | string | `""` |  |
 | metrics.serviceMonitor.tlsConfig | object | `{}` |  |
 | metrics.env | object | `{"ES_USERNAME":"elastic"}` | Environment Variable Passthrough to set Auth for Exporter |
