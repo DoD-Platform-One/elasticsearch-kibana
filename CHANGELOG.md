@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.8.0-bb.0] - 2024-01-04
+### Changed
+- gluon updated from 0.4.5 to 0.4.6
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.11.2 to 8.11.3
+- ironbank/elastic/kibana/kibana updated from 8.11.1 to 8.11.3
+
 ## [1.7.0-bb.1] - 2023-12-18
 ### Changed
 - updated elasticsearch-exporter security context
