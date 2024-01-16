@@ -1,0 +1,20 @@
+{{- if and .Values.istio.enabled .Values.istio.hardened.enabled .Values.istio.hardened.elasticOperator.enabled -}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: es-communication-eck-operator
+  namespace: "{{ .Release.Namespace }}"
+spec:
+  selector:
+    matchLabels:
+      common.k8s.elastic.co/type: elasticsearch
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces: {{ .Values.istio.hardened.elasticOperator.namespaces | toYaml | nindent 10 }}
+        principals: {{ .Values.istio.hardened.elasticOperator.principals | toYaml | nindent 10 }}
+    to:
+    - operation:
+        ports: ["9200"]
+{{- end }}
