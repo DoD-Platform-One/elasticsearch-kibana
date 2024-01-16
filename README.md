@@ -1,6 +1,6 @@
 # elasticsearch-kibana
 
-![Version: 1.8.0-bb.0](https://img.shields.io/badge/Version-1.8.0--bb.0-informational?style=flat-square) ![AppVersion: 8.11.3](https://img.shields.io/badge/AppVersion-8.11.3-informational?style=flat-square)
+![Version: 1.8.0-bb.1](https://img.shields.io/badge/Version-1.8.0--bb.1-informational?style=flat-square) ![AppVersion: 8.11.3](https://img.shields.io/badge/AppVersion-8.11.3-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -145,7 +145,30 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.coord.heap.min | string | `"2g"` | Xms |
 | elasticsearch.coord.heap.max | string | `"2g"` | Xmx |
 | istio.enabled | bool | `false` | Toggle istio interaction. |
-| istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication |
+| istio.hardened.enabled | bool | `false` |  |
+| istio.hardened.customAuthorizationPolicies | list | `[]` |  |
+| istio.hardened.prometheus.enabled | bool | `true` |  |
+| istio.hardened.prometheus.namespaces[0] | string | `"monitoring"` |  |
+| istio.hardened.prometheus.principals[0] | string | `"cluster.local/ns/monitoring/sa/monitoring-grafana"` |  |
+| istio.hardened.prometheus.principals[1] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-alertmanager"` |  |
+| istio.hardened.prometheus.principals[2] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-operator"` |  |
+| istio.hardened.prometheus.principals[3] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-prometheus"` |  |
+| istio.hardened.prometheus.principals[4] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-state-metrics"` |  |
+| istio.hardened.prometheus.principals[5] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-prometheus-node-exporter"` |  |
+| istio.hardened.fluentbit.enabled | bool | `true` |  |
+| istio.hardened.fluentbit.namespaces[0] | string | `"fluentbit"` |  |
+| istio.hardened.fluentbit.principals[0] | string | `"cluster.local/ns/fluentbit/sa/fluentbit-fluent-bit"` |  |
+| istio.hardened.elasticOperator.enabled | bool | `true` |  |
+| istio.hardened.elasticOperator.namespaces[0] | string | `"eck-operator"` |  |
+| istio.hardened.elasticOperator.principals[0] | string | `"cluster.local/ns/eck-operator/sa/elastic-operator"` |  |
+| istio.hardened.mattermost.enabled | bool | `true` |  |
+| istio.hardened.mattermost.namespaces[0] | string | `"mattermost"` |  |
+| istio.hardened.mattermost.principals[0] | string | `"cluster.local/ns/mattermost/sa/mattermost"` |  |
+| istio.hardened.jaeger.enabled | bool | `true` |  |
+| istio.hardened.jaeger.namespaces[0] | string | `"jaeger"` |  |
+| istio.hardened.jaeger.principals[0] | string | `"cluster.local/ns/jaeger/sa/jaeger"` |  |
+| istio.hardened.jaeger.principals[1] | string | `"cluster.local/ns/jaeger/sa/jaeger-instance"` |  |
+| istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication       |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | istio.kibana.enabled | bool | `true` | Toggle virtualService creation |
 | istio.kibana.annotations | object | `{}` | Annotations for controls the gateway used/attached to the virtualService |
