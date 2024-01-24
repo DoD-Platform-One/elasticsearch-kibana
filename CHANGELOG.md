@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.9.0-bb.0] - 2024-01-18
+### Changed
+- gluon updated from 0.4.6 to 0.4.7
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.11.3 to 8.12.0
+- ironbank/elastic/kibana/kibana updated from 8.11.3 to 8.12.0
+
 ## [1.8.0-bb.1] - 2024-01-11
 ### Changed
 - Add Istio Authorization Policies
