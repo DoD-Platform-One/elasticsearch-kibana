@@ -2,7 +2,7 @@
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: allow-fluentbit
+  name: es-allow-fluentbit
   namespace: "{{ .Release.Namespace }}"
 spec:
   selector:
