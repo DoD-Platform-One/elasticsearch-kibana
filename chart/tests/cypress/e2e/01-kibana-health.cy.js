@@ -3,7 +3,7 @@ describe("Log in and look for logs in Kibana", function () {
     return false;
   });
 
-  beforeEach(function () {
+  before(function () {
     // Perform the login before each test
     kibana_login();
   });
@@ -29,12 +29,10 @@ describe("Log in and look for logs in Kibana", function () {
 
   if (Cypress.env("expect_logs")) {
     it("Check for logs", function () {
-      cy.task("log", "checking for logs in Kibana...");
       cy.visit(Cypress.env("kibana_url") + "/app/management/data/index_management/indices", {
         timeout: 90000,
       });
       cy.get("th.euiTableRowCell", { timeout: 90000 }).its("length").should("be.gte", 1);
-      cy.task("log", "log entries detected...");
     });
   }
 });
