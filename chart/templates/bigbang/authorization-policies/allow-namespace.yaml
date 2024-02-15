@@ -5,7 +5,10 @@ metadata:
  name: ek-allow-all-in-namespace
  namespace: {{ .Release.Namespace }}
 spec:
- rules:
- - {}
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        namespaces: [{{ .Release.Namespace | quote }}]
 {{- end }}
 
