@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.10.0-bb.1] - 2024-02-15
+### Changed
+- Updated the allow-all-in-namespace istio auth policy
+
 ## [1.10.0-bb.0] - 2024-02-07
 ### Changed
 - ironbank/elastic/elasticsearch/elasticsearch updated from 8.12.0 to 8.12.1
