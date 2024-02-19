@@ -720,6 +720,7 @@ istio:
       namespaces:
       - jaeger
       principals:
+      - cluster.local/ns/jaeger/sa/default      
       - cluster.local/ns/jaeger/sa/jaeger
       - cluster.local/ns/jaeger/sa/jaeger-instance
 

@@ -1,6 +1,6 @@
 # elasticsearch-kibana
 
-![Version: 1.10.0-bb.1](https://img.shields.io/badge/Version-1.10.0--bb.1-informational?style=flat-square) ![AppVersion: 8.12.1](https://img.shields.io/badge/AppVersion-8.12.1-informational?style=flat-square)
+![Version: 1.10.0-bb.2](https://img.shields.io/badge/Version-1.10.0--bb.2-informational?style=flat-square) ![AppVersion: 8.12.1](https://img.shields.io/badge/AppVersion-8.12.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -166,8 +166,9 @@ helm install elasticsearch-kibana chart/
 | istio.hardened.mattermost.principals[0] | string | `"cluster.local/ns/mattermost/sa/mattermost"` |  |
 | istio.hardened.jaeger.enabled | bool | `true` |  |
 | istio.hardened.jaeger.namespaces[0] | string | `"jaeger"` |  |
-| istio.hardened.jaeger.principals[0] | string | `"cluster.local/ns/jaeger/sa/jaeger"` |  |
-| istio.hardened.jaeger.principals[1] | string | `"cluster.local/ns/jaeger/sa/jaeger-instance"` |  |
+| istio.hardened.jaeger.principals[0] | string | `"cluster.local/ns/jaeger/sa/default"` |  |
+| istio.hardened.jaeger.principals[1] | string | `"cluster.local/ns/jaeger/sa/jaeger"` |  |
+| istio.hardened.jaeger.principals[2] | string | `"cluster.local/ns/jaeger/sa/jaeger-instance"` |  |
 | istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication       |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | istio.kibana.enabled | bool | `true` | Toggle virtualService creation |
