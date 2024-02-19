@@ -11,7 +11,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: metrics
+      kibana.k8s.elastic.co/name: logging-ek
   action: ALLOW
   rules:
   - from:
