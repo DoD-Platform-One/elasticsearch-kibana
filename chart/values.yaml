@@ -866,7 +866,7 @@ bbtests:
     # -- ENVs added to cypress test pods
     envs:
       cypress_expect_logs: "false"
-      cypress_kibana_url: "https://logging-ek-kb-http:5601/login"
+      cypress_kibana_url: "https://logging-ek-kb-http:5601"
     # -- ENVs added to cypress test pods from existing secrets
     secretEnvs:
       - name: cypress_elastic_password
