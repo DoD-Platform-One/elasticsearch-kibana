@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+
+## [1.11.0-bb.1] - 2024-03-12
+### Changed
+- Add egress whitelist
+
 ## [1.11.0-bb.0] - 2024-02-28
 ### Changed
 - ironbank/elastic/elasticsearch/elasticsearch updated from 8.12.1 to 8.12.2
