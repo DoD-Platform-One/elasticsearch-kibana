@@ -1,6 +1,6 @@
 # elasticsearch-kibana
 
-![Version: 1.11.0-bb.0](https://img.shields.io/badge/Version-1.11.0--bb.0-informational?style=flat-square) ![AppVersion: 8.12.2](https://img.shields.io/badge/AppVersion-8.12.2-informational?style=flat-square)
+![Version: 1.11.0-bb.1](https://img.shields.io/badge/Version-1.11.0--bb.1-informational?style=flat-square) ![AppVersion: 8.12.2](https://img.shields.io/badge/AppVersion-8.12.2-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -147,6 +147,8 @@ helm install elasticsearch-kibana chart/
 | istio.enabled | bool | `false` | Toggle istio interaction. |
 | istio.hardened.enabled | bool | `false` |  |
 | istio.hardened.customAuthorizationPolicies | list | `[]` |  |
+| istio.hardened.outboundTrafficPolicyMode | string | `"REGISTRY_ONLY"` |  |
+| istio.hardened.customServiceEntries | list | `[]` |  |
 | istio.hardened.prometheus.enabled | bool | `true` |  |
 | istio.hardened.prometheus.namespaces[0] | string | `"monitoring"` |  |
 | istio.hardened.prometheus.principals[0] | string | `"cluster.local/ns/monitoring/sa/monitoring-grafana"` |  |
