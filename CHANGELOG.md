@@ -4,6 +4,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.12.0-bb.0] - 2024-04-02
+### Changed
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.12.2 to 8.13.0
+- ironbank/elastic/kibana/kibana updated from 8.12.2 to 8.13.0
+
 ## [1.11.0-bb.1] - 2024-03-12
 ### Changed
 - Add egress whitelist
