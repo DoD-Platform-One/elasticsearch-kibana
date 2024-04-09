@@ -1,0 +1,31 @@
+{{- if and .Values.istio.enabled .Values.istio.elasticsearch.enabled -}}
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: elasticsearch
+  namespace: {{ .Release.Namespace }}
+  {{- if .Values.istio.elasticsearch.labels }}
+  labels:
+{{ toYaml .Values.istio.elasticsearch.labels | indent 4 }}
+  {{- end }}
+  {{- if .Values.istio.elasticsearch.annotations }}
+  annotations:
+{{ toYaml .Values.istio.elasticsearch.annotations | indent 4 }}
+  {{- end }}
+
+spec:
+  gateways:
+  {{- range .Values.istio.elasticsearch.gateways }}
+    - {{ . }}
+  {{- end }}
+  hosts: 
+  {{- range .Values.istio.elasticsearch.hosts }}
+    - {{ tpl . $}}
+  {{- end }}
+  http:
+    - route:
+        - destination:
+            port:
+              number: 9200
+            host: {{ .Release.Name }}-es-http
+{{- end }}

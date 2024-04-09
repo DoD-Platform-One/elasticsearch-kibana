@@ -2,7 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: allow-to-istio-ingressgateway
+  name: allow-to-istio-ingressgateway-kibana
   namespace: {{ .Release.Namespace }}
 spec:
   policyTypes:
@@ -21,4 +21,27 @@ spec:
   podSelector:
     matchLabels:
       common.k8s.elastic.co/type: kibana
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-to-istio-ingressgateway-elasticsearch
+  namespace: {{ .Release.Namespace }}
+spec:
+  policyTypes:
+    - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          app.kubernetes.io/name: istio-controlplane
+      podSelector:
+        matchLabels:
+          {{- toYaml .Values.networkPolicies.ingressLabels | nindent 10}}
+    ports: 
+    - port: 9200
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      common.k8s.elastic.co/type: elasticsearch
 {{- end }}

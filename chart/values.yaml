@@ -736,12 +736,31 @@ istio:
       - cluster.local/ns/jaeger/sa/default      
       - cluster.local/ns/jaeger/sa/jaeger
       - cluster.local/ns/jaeger/sa/jaeger-instance
+    elasticsearch:
+      enabled: true
+      namespaces:
+      - logging
+      principals:
+      - cluster.local/ns/logging/sa/logging-elasticsearch      
 
   # -- Default EK peer authentication      
   mtls:
     # -- STRICT = Allow only mutual TLS traffic,
     # PERMISSIVE = Allow both plain text and mutual TLS traffic
     mode: STRICT
+  elasticsearch:
+    # -- Toggle virtualService creation
+    enabled: false
+    # -- Annotations for controls the gateway used/attached to the virtualService
+    annotations: {}
+    # -- Labels for virtualService
+    labels: {}
+    # -- Gateway(s) to apply virtualService routes to.
+    gateways:
+      - istio-system/main
+    # -- hosts for the virtualService
+    hosts:
+      - elasticsearch.{{ .Values.domain }}
   kibana:
     # -- Toggle virtualService creation
     enabled: true
