@@ -6,7 +6,7 @@
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy
 metadata:
-  name: "ek-{{ $name }}-ingressgateway-authz-policy"
+  name: "ek-{{ $name }}-ingressgateway-authz-policy-kibana"
   namespace: {{ $.Release.Namespace }}
 spec:
   selector:

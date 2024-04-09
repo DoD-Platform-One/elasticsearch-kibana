@@ -1,0 +1,17 @@
+{{- if and .Values.istio.enabled .Values.istio.hardened.enabled .Values.istio.hardened.fluentbit.enabled -}}
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: es-allow-elasticsearch
+  namespace: "{{ .Release.Namespace }}"
+spec:
+  selector:
+    matchLabels:
+      elasticsearch.k8s.elastic.co/cluster-name: logging-ek
+  action: ALLOW
+  rules:
+  - to:
+    - operation:
+        ports:
+        - "9200"
+{{- end }}
