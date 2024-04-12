@@ -7,6 +7,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Added
 - Added Virtual Service for ElasticSearch
 
+## [1.13.0-bb.0] - 2024-04-09
+### Changed
+- gluon updated from 0.4.8 to 0.4.9
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.13.0 to 8.13.1
+- ironbank/elastic/kibana/kibana updated from 8.13.0 to 8.13.1
+
+## [1.12.0-bb.1] - 2024-03-18
+### Added
+- Added Virtual Service for ElasticSearch
+
 ## [1.12.0-bb.0] - 2024-04-02
 ### Changed
 - ironbank/elastic/elasticsearch/elasticsearch updated from 8.12.2 to 8.13.0
