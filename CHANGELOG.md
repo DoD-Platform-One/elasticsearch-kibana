@@ -3,9 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
-## [1.12.0-bb.1] - 2024-03-18
-### Added
-- Added Virtual Service for ElasticSearch
+## [1.13.0-bb.1] - 2024-04-16
+### Changed
+- Updated prometheus-elasticsearch-exporter from 5.3.1 to 5.7.0
+- Updated elasticsearch-exporter to 1.7.0
+- Updated renovate file to track prometheus-elasticsearch-exporter
 
 ## [1.13.0-bb.0] - 2024-04-09
 ### Changed

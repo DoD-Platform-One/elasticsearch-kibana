@@ -14,7 +14,7 @@ restartPolicy: Always
 
 image:
   repository: registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter
-  tag: 1.6.0-debian-11-r96
+  tag: 1.7.0
   pullPolicy: IfNotPresent
   pullSecret: ""
 
@@ -72,6 +72,7 @@ username: elastic
 initContainers: []
 
 service:
+  enabled: true
   type: ClusterIP
   httpPort: 9108
   metricsPort:
@@ -82,6 +83,8 @@ service:
 deployment:
   annotations: {}
   labels: {}
+  metricsPort:
+    name: http
 
 ## Extra environment variables that will be passed into the exporter pod
 ## example:
@@ -190,6 +193,10 @@ es:
   ##
   data_stream: false
 
+  ## If true, query stats for Index Lifecycle Management.
+  ##
+  ilm: false
+
   ## Timeout for trying to get stats from Elasticsearch. (ex: 20s)
   ##
   timeout: 30s
@@ -243,6 +250,7 @@ serviceMonitor:
   ## https://github.com/coreos/prometheus-operator
   ##
   enabled: false
+  apiVersion: "monitoring.coreos.com/v1"
   #  namespace: monitoring
   labels: {}
   interval: 10s
@@ -253,6 +261,21 @@ serviceMonitor:
   targetLabels: []
   metricRelabelings: []
   sampleLimit: 0
+
+podMonitor:
+  ## If true, a PodMonitor CRD is created for a Prometheus Operator
+  ## https://prometheus-operator.dev/docs/operator/api/#monitoring.coreos.com/v1.PodMonitor
+  ##
+  enabled: false
+  apiVersion: "monitoring.coreos.com/v1"
+  namespace: ""
+  labels: {}
+  interval: 60s
+  scrapeTimeout: 10s
+  honorLabels: true
+  scheme: http
+  relabelings: []
+  metricRelabelings: []
 
 prometheusRule:
   ## If true, a PrometheusRule CRD is created for a prometheus operator

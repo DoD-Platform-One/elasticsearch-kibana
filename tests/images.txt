@@ -1,2 +1,2 @@
 registry1.dso.mil/ironbank/big-bang/base:2.1.0
-registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter:1.6.0-debian-11-r96
+registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter:1.7.0
