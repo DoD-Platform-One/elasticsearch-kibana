@@ -4,6 +4,7 @@
   "dependencyDashboard": "true",
   "dependencyDashboardHeader": "- [ ] Follow steps in [package update docs](./docs/PACKAGE_UPDATES.md) to upgrade the package.",
   "dependencyDashboardTitle": "Renovate: Upgrade Elasticsearch/Kibana Package Dependencies",
+  "enabledManagers": ["helm-values","regex","helmv3"],
   "draftPR": true,
   "ignorePaths": ["chart/charts/**"],
   "labels": ["elasticsearch","Big Bang Core","Package Sustainment","kind::maintenance"],
@@ -73,6 +74,14 @@
       "matchStrings": [
         "image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"
       ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "matchStrings": [
+        "image:[^\\S\\r\\n]+(?<depName>.+)elasticsearch-exporter:(?<currentValue>.+)"
+      ],
+      "depNameTemplate": "registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter",
       "datasourceTemplate": "docker"
     }
   ]

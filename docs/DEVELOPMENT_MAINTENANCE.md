@@ -15,6 +15,23 @@ Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream 
         ```shell
         helm dependency update ./chart
         ```
+    - **If the `bitnami/elasticsearch-exporter` image is being updated:**
+      - Check the [upstream prometheus-elasticsearch-exporter
+Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-elasticsearch-exporter/Chart.yaml) file to see if there is a new chart released with the new image update
+      
+        - If a new chart exists with the new image, from the root of the repo run the following command:
+
+            - Run a KPT package update
+              ```shell
+              kpt pkg update chart/deps/prometheus-elasticsearch-exporter@prometheus-elasticsearch-exporter-<version> --strategy alpha-git-patch
+              ```
+
+            - Update the `file://./deps/prometheus-elasticsearch-exporter` chart version in `chart/Chart.yaml`, image version in `chart/values.yaml` and `tests/images.txt`
+
+            - Then update dependencies and binaries using `helm dependency update ./chart`
+
+        - Otherwise (if a new chart does not exist with the new image), skip this image update and continue to `Step 5.`
+
 5. Update `CHANGELOG.md` adding an entry for the new version and noting all changes (at minimum should include `Updated Elasticsearch-Kibana to x.x.x`).
 
 
