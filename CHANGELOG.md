@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.14.0-bb.0] - 2024-04-25
+### Changed
+- gluon updated from 0.4.9 to 0.4.10
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.13.1 to 8.13.2
+- ironbank/elastic/kibana/kibana updated from 8.13.1 to 8.13.2
+
 ## [1.13.0-bb.1] - 2024-04-16
 ### Changed
 - Updated prometheus-elasticsearch-exporter from 5.3.1 to 5.7.0
