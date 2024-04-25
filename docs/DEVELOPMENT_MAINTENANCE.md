@@ -168,9 +168,6 @@ monitoring:
 
 eckOperator:
   enabled: true
-  git:
-    tag: null
-    branch: renovate/ironbank
 
 elasticsearchKibana:
   enabled: true
@@ -193,9 +190,9 @@ Testing Steps:
     ```shell
     kubectl get secrets -n logging logging-ek-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'`
     ```
-- Navigate to https://kibana.bigbang.dev/app/management/security/role_mappings and add a role mapping for SSO logins (name: sso, roles: superuser, mapping rules: username=*)
+- Navigate to https://kibana.dev.bigbang.mil/app/management/security/role_mappings and add a role mapping for SSO logins (name: sso, roles: superuser, mapping rules: username=*)
 - Logout and attempt to perform an SSO login with your login.dso.mil credentials
-- Navigate to https://kibana.bigbang.dev/app/management/kibana/indexPatterns and add any index pattern to test (ex: `logstash-*`)
+- Navigate to https://kibana.dev.bigbang.mil/app/management/kibana/indexPatterns and add any index pattern to test (ex: `logstash-*`)
 - Navigate to `Analytics` -> `Discover` and validate that pod logs are appearing in the `logstash` index pattern
 
 When in doubt with any testing or upgrade steps ask one of the CODEOWNERS for assistance.
