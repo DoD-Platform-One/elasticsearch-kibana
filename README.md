@@ -1,6 +1,6 @@
 # elasticsearch-kibana
 
-![Version: 1.14.0-bb.0](https://img.shields.io/badge/Version-1.14.0--bb.0-informational?style=flat-square) ![AppVersion: 8.13.2](https://img.shields.io/badge/AppVersion-8.13.2-informational?style=flat-square)
+![Version: 1.14.0-bb.1](https://img.shields.io/badge/Version-1.14.0--bb.1-informational?style=flat-square) ![AppVersion: 8.13.2](https://img.shields.io/badge/AppVersion-8.13.2-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -209,6 +209,7 @@ helm install elasticsearch-kibana chart/
 | networkPolicies.enabled | bool | `false` | Toggle BigBang NetworkPolicy templates |
 | networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio Ingressgateway labels. passed down to NetworkPolicy to whitelist external access to app |
 | networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | See `kubectl cluster-info` and then resolve to IP |
+| networkPolicies.additionalPolicies | list | `[]` |  |
 | upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | image repository for upgradeJob |
 | upgradeJob.image.tag | string | `"2.1.0"` | image tag for upgradeJob |
 | monitoring.enabled | bool | `false` | Toggle BigBang monitoring integration, controls serviceMonitor template |
