@@ -1,6 +1,6 @@
 # elasticsearch-kibana
 
-![Version: 1.15.0-bb.0](https://img.shields.io/badge/Version-1.15.0--bb.0-informational?style=flat-square) ![AppVersion: 8.13.4](https://img.shields.io/badge/AppVersion-8.13.4-informational?style=flat-square)
+![Version: 1.16.0-bb.0](https://img.shields.io/badge/Version-1.16.0--bb.0-informational?style=flat-square) ![AppVersion: 8.14.0](https://img.shields.io/badge/AppVersion-8.14.0-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -34,9 +34,9 @@ helm install elasticsearch-kibana chart/
 | autoRollingUpgrade.enabled | bool | `false` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
 | fluentbit | object | `{"enabled":false}` | Toggle for networkpolicies to allow fluentbit ingress |
-| kibana.version | string | `"8.13.4"` | Kibana version |
+| kibana.version | string | `"8.14.0"` | Kibana version |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` | Kibana image repository |
-| kibana.image.tag | string | `"8.13.4"` | Kibana image tag |
+| kibana.image.tag | string | `"8.14.0"` | Kibana image tag |
 | kibana.host | string | `""` | Kibana Ingress Host Value. Only required if not using Istio for ingress. |
 | kibana.count | int | `3` | Number of Kibana replicas |
 | kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
@@ -53,9 +53,9 @@ helm install elasticsearch-kibana chart/
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
 | kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html |
-| elasticsearch.version | string | `"8.13.4"` | Elasticsearch version |
+| elasticsearch.version | string | `"8.14.0"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
-| elasticsearch.image.tag | string | `"8.13.4"` | Elasticsearch image tag |
+| elasticsearch.image.tag | string | `"8.14.0"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
