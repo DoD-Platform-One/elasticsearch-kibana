@@ -2,7 +2,6 @@
   "baseBranches": ["main"],
   "configWarningReuseIssue": false,
   "dependencyDashboard": "true",
-  "dependencyDashboardHeader": "- [ ] Follow steps in [package update docs](./docs/PACKAGE_UPDATES.md) to upgrade the package.",
   "dependencyDashboardTitle": "Renovate: Upgrade Elasticsearch/Kibana Package Dependencies",
   "enabledManagers": ["helm-values","regex","helmv3"],
   "draftPR": true,
