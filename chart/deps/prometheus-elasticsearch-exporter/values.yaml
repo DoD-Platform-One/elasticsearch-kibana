@@ -2,7 +2,26 @@
 ## This allows to set the same values for the imagePullSecrets, obviating the need
 ## to set the same values for each chart (and image) separately
 global:
-  imagePullSecrets: []
+## Allow either an array of {name: pullSecret} maps (k8s-style), or an array of strings (more common helm-style).
+##  imagePullSecrets:
+##  - name: pullSecret1
+##  - name: pullSecret2
+##
+## or
+##
+##  imagePullSecrets:
+##  - pullSecret1
+##  - pullSecret2
+##
+## or a templated value
+##
+##    imagePullSecrets:
+##    - "{{ .Values.templateValue }}"
+##  templateValue: test
+
+  imagePullSecrets:
+    - name: private-registry
+  imageRegistry: ""
 
 ## number of exporter instances
 ##
@@ -13,10 +32,12 @@ replicaCount: 1
 restartPolicy: Always
 
 image:
-  repository: registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter
+  registry: registry1.dso.mil
+  repository: ironbank/opensource/bitnami/elasticsearch-exporter
+  # if not set appVersion field from Chart.yaml is used
   tag: 1.7.0
   pullPolicy: IfNotPresent
-  pullSecret: ""
+  pullSecret: private-registry
 
 podSecurityContext:
   runAsNonRoot: true
@@ -66,8 +87,6 @@ podAnnotations: {}
 podLabels: {}
 
 affinity: {}
-
-username: elastic
 
 initContainers: []
 

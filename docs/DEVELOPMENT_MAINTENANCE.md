@@ -30,7 +30,9 @@ Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts
 
             - Update the `file://./deps/prometheus-elasticsearch-exporter` chart version in `chart/Chart.yaml`, image version in `chart/values.yaml` and `tests/images.txt`
 
-            - Then update dependencies and binaries using `helm dependency update ./chart`
+            - Last, update dependencies and binaries using `helm dependency update ./chart`.
+
+              **Note:** Any time any file in the `chart/deps/prometheus-elasticsearch-exporter` directory (or a sub-directory thereof) is changed, you must run `helm dependency update ./chart` to rebuild `chart/charts/prometheus-elasticsearch-exporter-<version>.tgz`.
 
         - Otherwise (if a new chart does not exist with the new image), skip this image update and continue to `Step 5.`
 
@@ -203,7 +205,7 @@ Testing Steps:
 
 When in doubt with any testing or upgrade steps ask one of the CODEOWNERS for assistance.
 
-### automountServiceAccountToken
+## automountServiceAccountToken
 
 The mutating Kyverno policy named `update-automountserviceaccounttokens` is leveraged to harden all ServiceAccounts in this package with `automountServiceAccountToken: false`. This policy is configured by namespace in the Big Bang umbrella chart repository at [chart/templates/kyverno-policies/values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/chart/templates/kyverno-policies/values.yaml?ref_type=heads).
 
