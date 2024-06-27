@@ -4,6 +4,6 @@ dependencies:
   version: 0.5.0
 - name: prometheus-elasticsearch-exporter
   repository: file://./deps/prometheus-elasticsearch-exporter
-  version: 5.7.0
-digest: sha256:a164b2fb128415bab9e5038af2e2e123b726871f2eb7e7a9b011d4192149a13f
-generated: "2024-05-14T06:12:36.848654005Z"
+  version: 5.8.1
+digest: sha256:ccc7432b204b3ddac9b225a00e8cf66b7dedb24fe45582c95b35fde47012709e
+generated: "2024-06-20T14:19:40.999116-04:00"

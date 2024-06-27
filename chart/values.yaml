@@ -1,5 +1,5 @@
 # -- Domain used for BigBang created exposed services.
-domain: bigbang.dev
+domain: dev.bigbang.mil
 
 autoRollingUpgrade:
   # -- Enable BigBang specific autoRollingUpgrade support
@@ -14,12 +14,12 @@ fluentbit:
 
 kibana:
   # -- Kibana version
-  version: 8.14.0
+  version: 8.14.1
   image:
     # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     # -- Kibana image tag
-    tag: 8.14.0
+    tag: 8.14.1
 
   # -- Kibana Ingress Host Value.
   # Only required if not using Istio for ingress.
@@ -153,12 +153,12 @@ kibana:
 
 elasticsearch:
   # -- Elasticsearch version
-  version: 8.14.0
+  version: 8.14.1
   image:
     # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     # -- Elasticsearch image tag
-    tag: 8.14.0
+    tag: 8.14.1
 
   # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
@@ -858,7 +858,13 @@ metrics:
   # -- Toggle Prometheus ElasticSearch Exporter Installation
   enabled: false
   # -- Exporter imagePullSecrets
-  image: 
+  global:
+    imagePullSecrets:
+      - name: private-registry
+  image:
+    registry: registry1.dso.mil
+    repository: ironbank/opensource/bitnami/elasticsearch-exporter
+    tag: 1.7.0
     pullSecret: private-registry
   # -- Pod securityContext
   podSecurityContext:
@@ -868,7 +874,6 @@ metrics:
     runAsUser: 1000
     runAsGroup: 1000
 
-  imagePullSecrets: []
   serviceMonitor:
     ## scheme and tlsConfig values, allows for mTLS configuration
     scheme: ""
