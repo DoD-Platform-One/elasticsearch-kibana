@@ -52,8 +52,13 @@ Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Elasticsearch-Kibana enabled (the below is a reference, actual changes could be more depending on what changes where made to Elasticsearch-Kibana in the pakcage MR).
 
+    - For Elasticsearch-Kibana to pass CI/CD MR testing, <b>it is required to set Fluent Bit enabled to true</b> in the tests/test-values.yaml.
+
 ### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
     ```yaml
+    fluentbit:
+      enabled: true # For MR CI/CD smoke test Elasticsearch-Kibana requires fluentbit.enabled to be set to true.
+    
     elasticsearchKibana:
       enabled: true
       git:
