@@ -1,11 +1,10 @@
 # elasticsearch-kibana
 
-![Version: 1.17.0-bb.0](https://img.shields.io/badge/Version-1.17.0--bb.0-informational?style=flat-square) ![AppVersion: 8.14.1](https://img.shields.io/badge/AppVersion-8.14.1-informational?style=flat-square)
+![Version: 1.17.0-bb.1](https://img.shields.io/badge/Version-1.17.0--bb.1-informational?style=flat-square) ![AppVersion: 8.14.1](https://img.shields.io/badge/AppVersion-8.14.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
 ## Learn More
-
 * [Application Overview](docs/overview.md)
 * [Other Documentation](docs/)
 
@@ -17,13 +16,12 @@ Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Ins
 
 Install Helm
 
-<https://helm.sh/docs/intro/install/>
+https://helm.sh/docs/intro/install/
 
 ## Deployment
 
 * Clone down the repository
 * cd into directory
-
 ```bash
 helm install elasticsearch-kibana chart/
 ```
@@ -54,7 +52,7 @@ helm install elasticsearch-kibana chart/
 | kibana.tolerations | list | `[]` | Kibana tolerations |
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
-| kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration <https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html> |
+| kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html |
 | elasticsearch.version | string | `"8.14.1"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
 | elasticsearch.image.tag | string | `"8.14.1"` | Elasticsearch image tag |
@@ -151,14 +149,6 @@ helm install elasticsearch-kibana chart/
 | istio.hardened.customAuthorizationPolicies | list | `[]` |  |
 | istio.hardened.outboundTrafficPolicyMode | string | `"REGISTRY_ONLY"` |  |
 | istio.hardened.customServiceEntries | list | `[]` |  |
-| istio.hardened.prometheus.enabled | bool | `true` |  |
-| istio.hardened.prometheus.namespaces[0] | string | `"monitoring"` |  |
-| istio.hardened.prometheus.principals[0] | string | `"cluster.local/ns/monitoring/sa/monitoring-grafana"` |  |
-| istio.hardened.prometheus.principals[1] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-alertmanager"` |  |
-| istio.hardened.prometheus.principals[2] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-operator"` |  |
-| istio.hardened.prometheus.principals[3] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-prometheus"` |  |
-| istio.hardened.prometheus.principals[4] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-kube-state-metrics"` |  |
-| istio.hardened.prometheus.principals[5] | string | `"cluster.local/ns/monitoring/sa/monitoring-monitoring-prometheus-node-exporter"` |  |
 | istio.hardened.fluentbit.enabled | bool | `true` |  |
 | istio.hardened.fluentbit.namespaces[0] | string | `"fluentbit"` |  |
 | istio.hardened.fluentbit.principals[0] | string | `"cluster.local/ns/fluentbit/sa/fluentbit-fluent-bit"` |  |
