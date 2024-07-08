@@ -30,6 +30,8 @@ kibana:
 
   # -- Name for serviceAccount to use, will be autocreated.
   serviceAccountName: "logging-kibana"
+  # -- Annotations for the kibana service account.
+  serviceAccountAnnotations: {}
 
   # -- Kibana updateStrategy
   updateStrategy:
@@ -164,6 +166,8 @@ elasticsearch:
   imagePullSecrets: []
   # -- Name for serviceAccount to use, will be autocreated.
   serviceAccountName: "logging-elasticsearch"
+  # -- Annotations for the elasticsearch service account.
+  serviceAccountAnnotations: {}
 
   # Values for Elasticsearch master node sets.
   master:
