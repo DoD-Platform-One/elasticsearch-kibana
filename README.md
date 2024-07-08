@@ -1,6 +1,6 @@
 # elasticsearch-kibana
 
-![Version: 1.17.0-bb.1](https://img.shields.io/badge/Version-1.17.0--bb.1-informational?style=flat-square) ![AppVersion: 8.14.1](https://img.shields.io/badge/AppVersion-8.14.1-informational?style=flat-square)
+![Version: 1.17.0-bb.2](https://img.shields.io/badge/Version-1.17.0--bb.2-informational?style=flat-square) ![AppVersion: 8.14.1](https://img.shields.io/badge/AppVersion-8.14.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -40,6 +40,7 @@ helm install elasticsearch-kibana chart/
 | kibana.host | string | `""` | Kibana Ingress Host Value. Only required if not using Istio for ingress. |
 | kibana.count | int | `3` | Number of Kibana replicas |
 | kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
+| kibana.serviceAccountAnnotations | object | `{}` | Annotations for the kibana service account. |
 | kibana.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Kibana updateStrategy |
 | kibana.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for Kibana pods |
 | kibana.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -58,6 +59,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.image.tag | string | `"8.14.1"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
+| elasticsearch.serviceAccountAnnotations | object | `{}` | Annotations for the elasticsearch service account. |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
 | elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
 | elasticsearch.master.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
