@@ -8,6 +8,7 @@
   "ignorePaths": ["chart/charts/**"],
   "labels": ["elasticsearch","Big Bang Core","Package Sustainment","kind::maintenance"],
   "separateMajorMinor": false,
+  "postUpdateOptions": ["helmUpdateSubChartArchives"],
   "packageRules": [
     {
         "matchDatasources": ["docker"],
