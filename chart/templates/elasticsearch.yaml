@@ -150,6 +150,8 @@ spec:
         annotations:
           prometheus.istio.io/merge-metrics: "false"
           traffic.sidecar.istio.io/includeInboundPorts: "*"
+          # 9300 is Elastic's transport port and Elastic handles the TLS encryption for it
+          # To prevent double encrypted traffic we exclude 9300 from  sidecar traffic and mTLS
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
