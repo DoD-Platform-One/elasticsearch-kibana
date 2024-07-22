@@ -17,8 +17,8 @@ spec:
     "9300":
       mode: PERMISSIVE
     {{- if or .Values.mattermost.enabled .Values.istio.elasticsearch.enabled }}
-    # Mattermost conditionally reaches out to Elastic for indexing of chat posts.
-    # MM is not Istio injected currently (4/25/22). This exception should be removed when it is injected.
+    # 9200 is Elastic's transport port and Elastic handles the TLS encryption for it
+    # To prevent double encrypted traffic we exclude 9200 from mTLS
     "9200":
       mode: PERMISSIVE
     {{- end }}
