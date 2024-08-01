@@ -1,8 +1,20 @@
+<!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.17.0-bb.3](https://img.shields.io/badge/Version-1.17.0--bb.3-informational?style=flat-square) ![AppVersion: 8.14.1](https://img.shields.io/badge/AppVersion-8.14.1-informational?style=flat-square)
+![Version: 1.17.0-bb.4](https://img.shields.io/badge/Version-1.17.0--bb.4-informational?style=flat-square) ![AppVersion: 8.14.1](https://img.shields.io/badge/AppVersion-8.14.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
+
+### Upstream Release Notes
+
+This package has no upstream release note links on file. Please add some to [chart/Chart.yaml](chart/Chart.yaml) under `annotations.bigbang.dev/upstreamReleaseNotesMarkdown`.
+Example:
+```yaml
+annotations:
+  bigbang.dev/upstreamReleaseNotesMarkdown: |
+    - [Find our upstream chart's CHANGELOG here](https://link-goes-here/CHANGELOG.md)
+    - [and our upstream application release notes here](https://another-link-here/RELEASE_NOTES.md)
+```
 
 ## Learn More
 * [Application Overview](docs/overview.md)
@@ -60,6 +72,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.serviceAccountAnnotations | object | `{}` | Annotations for the elasticsearch service account. |
+| elasticsearch.podDisruptionBudget | object | `{"create":true,"values":{}}` | Elasticsearch podDisruptionBudget https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-pod-disruption-budget.html |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
 | elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
 | elasticsearch.master.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -168,7 +181,7 @@ helm install elasticsearch-kibana chart/
 | istio.hardened.elasticsearch.enabled | bool | `true` |  |
 | istio.hardened.elasticsearch.namespaces[0] | string | `"logging"` |  |
 | istio.hardened.elasticsearch.principals[0] | string | `"cluster.local/ns/logging/sa/logging-elasticsearch"` |  |
-| istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication       |
+| istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | istio.elasticsearch.enabled | bool | `false` | Toggle virtualService creation |
 | istio.elasticsearch.annotations | object | `{}` | Annotations for controls the gateway used/attached to the virtualService |
@@ -232,3 +245,8 @@ helm install elasticsearch-kibana chart/
 ## Contributing
 
 Please see the [contributing guide](./CONTRIBUTING.md) if you are interested in contributing.
+
+---
+
+_This file is programatically generated using `helm-docs` and some BigBang-specific templates. The `gluon` repository has [instructions for regenerating package READMEs](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md)._
+

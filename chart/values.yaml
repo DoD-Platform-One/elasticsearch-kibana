@@ -169,6 +169,12 @@ elasticsearch:
   # -- Annotations for the elasticsearch service account.
   serviceAccountAnnotations: {}
 
+  # -- Elasticsearch podDisruptionBudget
+  # https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-pod-disruption-budget.html
+  podDisruptionBudget:
+    enabled: true
+    spec: {}
+
   # Values for Elasticsearch master node sets.
   master:
     # -- Add init containers to master pods
