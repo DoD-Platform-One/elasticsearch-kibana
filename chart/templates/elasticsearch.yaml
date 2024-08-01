@@ -12,6 +12,14 @@ spec:
     - secretName: sso-secret
   {{- end }}
 
+  {{- if not .Values.elasticsearch.podDisruptionBudget.enabled }}
+  podDisruptionBudget: {}
+  {{- else if .Values.elasticsearch.podDisruptionBudget.spec }}
+  podDisruptionBudget:
+    spec:
+      {{- toYaml .Values.elasticsearch.podDisruptionBudget.spec | nindent 6 }}
+  {{- end }}
+
   nodeSets:
 
   #
