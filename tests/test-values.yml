@@ -6,10 +6,8 @@ kibana:
   resources:
     requests:
       memory: 1Gi
-      cpu: 1
     limits:
       memory: 1Gi
-      cpu: 1
 
 elasticsearch:
   imagePullSecrets:
@@ -20,9 +18,7 @@ elasticsearch:
     resources:
       requests:
         memory: 2Gi
-        cpu: 1
       limits:
-        cpu: 1
         memory: 2Gi
     heap:
       # Xms
@@ -32,14 +28,10 @@ elasticsearch:
 
   data:
     count: 2
-    persistence:
-      storageClassName: ""
     resources:
       requests:
         memory: 2Gi
-        cpu: 1
       limits:
-        cpu: 1
         memory: 2Gi
     heap:
       # Xms
