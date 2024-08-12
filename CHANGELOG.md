@@ -3,11 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
-## [1.17.0-bb.5] - 2024-08-02
+
+## [1.18.0-bb.0] - 2024-08-02
 
 ### Changed
 
-- Remove redundant items from test/test-values.yaml
+- gluon updated from 0.5.0 to 0.5.2
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.14.1 to 8.14.3
+- ironbank/elastic/kibana/kibana updated from 8.14.1 to 8.14.3
 
 ## [1.17.0-bb.4] - 2024-07-26
 

@@ -153,6 +153,9 @@ spec:
               elif [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == 8.12.* ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.version}') == 8.13.* ]]; then
                 export ES_DESIRED_VERSION="8.13.*"
                 export ROLLING_UPGRADE="true"
+              elif [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.status.version}') == 8.13.* ]] && [[ $(kubectl get elasticsearch {{ .Release.Name }} -n {{ .Release.Namespace }} -o jsonpath='{.spec.version}') == 8.14.* ]]; then
+                export ES_DESIRED_VERSION="8.14.*"
+                export ROLLING_UPGRADE="true"
               fi
 
               if [[ "$ROLLING_UPGRADE" == "true" ]]; then

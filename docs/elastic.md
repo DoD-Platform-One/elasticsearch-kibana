@@ -1,6 +1,7 @@
 ## Logs from the ECK stack
 
 #### Pre-requisites
+
 - ECK stack deployed
 
 #### Getting Started
@@ -22,10 +23,10 @@ Further filters that can be used are:
 
 #### Kibana
 
-  - `kubernetes.pod_name`   = `Kibana Pod Name` to get logs from a specific  pod
-     - `kubernetes.container_name` = `kibana` to get logs from kibana container
+- `kubernetes.pod_name`   = `Kibana Pod Name` to get logs from a specific  pod
+  - `kubernetes.container_name` = `kibana` to get logs from kibana container
 
-####  Elasticsearch Pods
+#### Elasticsearch Pods
 
-  - `kubernetes.pod_name`   = `elastic-es-default-#` to get logs from a specific # pod
-     - `kubernetes.container_name` = `elasticsearch` or `elastic-internal-init-filesystem` to get logs from a specific container within the pod
+- `kubernetes.pod_name`   = `elastic-es-default-#` to get logs from a specific # pod
+  - `kubernetes.container_name` = `elasticsearch` or `elastic-internal-init-filesystem` to get logs from a specific container within the pod

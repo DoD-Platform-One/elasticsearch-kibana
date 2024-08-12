@@ -10,10 +10,10 @@ This chart installs Custom Resources for the Elasticsearch and Kibana resource t
 
 A more detailed [architecture overview](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/charter/packages/elasticsearch-kibana/Architecture.md) details how the components interact in a bigbang deployment.
 
-
 ### External resources for learning more
+
 The following links provide more information on elasticsearch on kubernetes.
 
 * [Running the ELastic Stack on Kubernetes](https://www.youtube.com/watch?v=Wf6E3vkvEFM&t=2261s)
 * [Elasticsearch Architecture and scaling](https://www.youtube.com/watch?v=YsYUgZu9-Y4&list=RDQM3CS9KywI3RE&start_radio=1)
-*  [How To Use The Elastic Stack as a SIEM](https://www.youtube.com/watch?v=v69kyU5XMFI)
+* [How To Use The Elastic Stack as a SIEM](https://www.youtube.com/watch?v=v69kyU5XMFI)
