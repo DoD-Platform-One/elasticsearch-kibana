@@ -4,7 +4,7 @@ This document summarizes helm values and manual steps that are required to integ
 
 ## Configuration Steps
 
-These are the items you need to do to configure keycloak, elastic search, and kibana for SSO on the ECK stack in your Big Bang installation. 
+These are the items you need to do to configure keycloak, elastic search, and kibana for SSO on the ECK stack in your Big Bang installation.
 
 ### Keycloak Configuration
 
@@ -22,7 +22,7 @@ Keycloak is configured with a working Realm including Groups and Users.
   | group    | Group Membership | N/A                  | groups             | N/A             |
   | username | User Property    | username             | preferred_username | string          |
   
-- Create an elastic client 
+- Create an elastic client
   - Change the following configuration items
     - access type: confidential _this will enable "Credentials"_
     - Direct Access Grants Enabled: Off
@@ -122,14 +122,15 @@ NOTE: The path for the cert authority can be any path on the container as long a
 Kibana requires no additional helm values changes, since all of the above will incorporate the necessary Kibana changes.
 
 To set up role mappings and fully enable SSO:
- - Decrypt the elasticsearch user secret from the kubernetes secret
-   - `kubectl get secrets -n logging logging-ek-es-elastic-user -o yaml | grep elastic: | awk 'NR==1{printf $2}' | base64 -d | xargs echo`
- - Log into kibana with user elastic and the decrypted password
- - Go to Management -> Stack Management -> Security -> Role Mappings
- - Create the desired role 
-    - For development the following settings will make everyone a super user. Roles: Superuser, Mapping rules: groups = *
-    - NOTE: for integration other oauth providers (such as google), you may need to adjust this role mapping to something like `username = *`
- - You should now be able to login to Kibana with Keycloak realm users
+
+- Decrypt the elasticsearch user secret from the kubernetes secret
+  - `kubectl get secrets -n logging logging-ek-es-elastic-user -o yaml | grep elastic: | awk 'NR==1{printf $2}' | base64 -d | xargs echo`
+- Log into kibana with user elastic and the decrypted password
+- Go to Management -> Stack Management -> Security -> Role Mappings
+- Create the desired role
+  - For development the following settings will make everyone a super user. Roles: Superuser, Mapping rules: groups = *
+  - NOTE: for integration other oauth providers (such as google), you may need to adjust this role mapping to something like `username = *`
+- You should now be able to login to Kibana with Keycloak realm users
 
 ## Dev Reference Resources
 
