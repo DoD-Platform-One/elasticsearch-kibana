@@ -1,14 +1,15 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.18.0-bb.0](https://img.shields.io/badge/Version-1.18.0--bb.0-informational?style=flat-square) ![AppVersion: 8.14.3](https://img.shields.io/badge/AppVersion-8.14.3-informational?style=flat-square)
+![Version: 1.18.0-bb.1](https://img.shields.io/badge/Version-1.18.0--bb.1-informational?style=flat-square) ![AppVersion: 8.14.1](https://img.shields.io/badge/AppVersion-8.14.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
-### Upstream Release Notes
+## Upstream Release Notes
 
 This package has no upstream release note links on file. Please add some to [chart/Chart.yaml](chart/Chart.yaml) under `annotations.bigbang.dev/upstreamReleaseNotesMarkdown`.
 Example:
+
 ```yaml
 annotations:
   bigbang.dev/upstreamReleaseNotesMarkdown: |
@@ -17,6 +18,7 @@ annotations:
 ```
 
 ## Learn More
+
 * [Application Overview](docs/overview.md)
 * [Other Documentation](docs/)
 
@@ -28,12 +30,13 @@ annotations:
 
 Install Helm
 
-https://helm.sh/docs/intro/install/
+<https://helm.sh/docs/intro/install/>
 
 ## Deployment
 
 * Clone down the repository
 * cd into directory
+
 ```bash
 helm install elasticsearch-kibana chart/
 ```
@@ -61,18 +64,19 @@ helm install elasticsearch-kibana chart/
 | kibana.volumes | list | `[]` | Kibana volumes |
 | kibana.volumeMounts | list | `[]` | Kibana volumeMounts |
 | kibana.podAnnotations | object | `{}` | Kibana podAnnotations |
+| kibana.podLabels | object | `{}` | Kibana podLabels |
 | kibana.affinity | object | `{}` | Kibana affinity |
 | kibana.tolerations | list | `[]` | Kibana tolerations |
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
-| kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html |
+| kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration <https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html> |
 | elasticsearch.version | string | `"8.14.3"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
 | elasticsearch.image.tag | string | `"8.14.3"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.serviceAccountAnnotations | object | `{}` | Annotations for the elasticsearch service account. |
-| elasticsearch.podDisruptionBudget | object | `{"enabled":true,"spec":{}}` | Elasticsearch podDisruptionBudget https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-pod-disruption-budget.html |
+| elasticsearch.podDisruptionBudget | object | `{"enabled":true,"spec":{}}` | Elasticsearch podDisruptionBudget <https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-pod-disruption-budget.html> |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
 | elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
 | elasticsearch.master.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -80,6 +84,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.master.volumes | list | `[]` | Elasticsearch master volumes |
 | elasticsearch.master.volumeMounts | list | `[]` | Elasticsearch master volumeMounts |
 | elasticsearch.master.podAnnotations | object | `{}` | Elasticsearch master podAnnotations |
+| elasticsearch.master.podLabels | object | `{}` | Elasticsearch master podLabels |
 | elasticsearch.master.affinity | object | `{}` | Elasticsearch master affinity |
 | elasticsearch.master.tolerations | list | `[]` | Elasticsearch master tolerations |
 | elasticsearch.master.nodeSelector | object | `{}` | Elasticsearch master nodeSelector |
@@ -96,6 +101,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.data.volumes | list | `[]` | Elasticsearch data volumes |
 | elasticsearch.data.volumeMounts | list | `[]` | Elasticsearch data volumeMounts |
 | elasticsearch.data.podAnnotations | object | `{}` | Elasticsearch data podAnnotations |
+| elasticsearch.data.podLabels | object | `{}` | Elasticsearch data podLabels |
 | elasticsearch.data.affinity | object | `{}` | Elasticsearch data affinity |
 | elasticsearch.data.tolerations | list | `[]` | Elasticsearch data tolerations |
 | elasticsearch.data.nodeSelector | object | `{}` | Elasticsearch data nodeSelector |
@@ -113,6 +119,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.ingest.volumes | list | `[]` | volumes |
 | elasticsearch.ingest.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.ingest.podAnnotations | object | `{}` | podAnnotations |
+| elasticsearch.ingest.podLabels | object | `{}` | Elasticsearch ingest podLabels |
 | elasticsearch.ingest.affinity | object | `{}` | affinity |
 | elasticsearch.ingest.tolerations | list | `[]` | tolerations |
 | elasticsearch.ingest.nodeSelector | object | `{}` | nodeSelector |
@@ -131,6 +138,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.ml.volumes | list | `[]` | volumes |
 | elasticsearch.ml.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.ml.podAnnotations | object | `{}` | podAnnotations |
+| elasticsearch.ml.podLabels | object | `{}` | Elasticsearch ML podLabels |
 | elasticsearch.ml.affinity | object | `{}` | affinity |
 | elasticsearch.ml.tolerations | list | `[]` | tolerations |
 | elasticsearch.ml.nodeSelector | object | `{}` | nodeSelector |
@@ -149,6 +157,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.coord.volumes | list | `[]` | volumes |
 | elasticsearch.coord.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.coord.podAnnotations | object | `{}` | podAnnotations |
+| elasticsearch.coord.podLabels | object | `{}` | Elasticsearch coordinating podLabels |
 | elasticsearch.coord.affinity | object | `{}` | affinity |
 | elasticsearch.coord.tolerations | list | `[]` | tolerations |
 | elasticsearch.coord.nodeSelector | object | `{}` | nodeSelector |
@@ -232,6 +241,7 @@ helm install elasticsearch-kibana chart/
 | metrics.serviceMonitor.tlsConfig | object | `{}` |  |
 | metrics.env | object | `{"ES_USERNAME":"elastic"}` | Environment Variable Passthrough to set Auth for Exporter |
 | metrics.extraEnvSecrets | object | `{"ES_PASSWORD":{"key":"elastic","secret":"logging-ek-es-elastic-user"}}` | Environment Variable Secret Mount to set Auth for Exporter Replace with empty braces if you would like to use a an API_KEY |
+| metrics.podLabels | object | `{}` | Prometheus podLabels |
 | openshift | bool | `false` | Openshift Container Platform Feature Toggle |
 | mattermost.enabled | bool | `false` | Mattermost integration toggle, controls mTLS exception and networkPolicies |
 | bbtests.enabled | bool | `false` | Big Bang CI/Dev toggle for helm tests |
@@ -249,4 +259,3 @@ Please see the [contributing guide](./CONTRIBUTING.md) if you are interested in 
 ---
 
 _This file is programatically generated using `helm-docs` and some BigBang-specific templates. The `gluon` repository has [instructions for regenerating package READMEs](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md)._
-

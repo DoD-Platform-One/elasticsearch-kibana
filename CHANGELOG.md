@@ -4,6 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.18.0-bb.1] - 2024-08-13
+
+### Changed
+
+- Adds the ability to supply the kiali-required labels app and version via the umbrella chart.
+
 ## [1.18.0-bb.0] - 2024-08-02
 
 ### Changed
