@@ -72,6 +72,9 @@ kibana:
   podAnnotations: {}
     # bigbang.dev/istioVersion: 1.10.3
 
+  # -- Kibana podLabels
+  podLabels: {}
+
   # -- Kibana affinity
   affinity: {}
     # podAntiAffinity:
@@ -223,6 +226,9 @@ elasticsearch:
     podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
 
+    # -- Elasticsearch master podLabels
+    podLabels: {}
+
     # -- Elasticsearch master affinity
     affinity: {}
       # podAntiAffinity:
@@ -319,6 +325,9 @@ elasticsearch:
     # -- Elasticsearch data podAnnotations
     podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
+
+    # -- Elasticsearch data podLabels
+    podLabels: {}
 
     # -- Elasticsearch data affinity
     affinity: {}
@@ -419,6 +428,9 @@ elasticsearch:
     # -- podAnnotations
     podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
+
+    # -- Elasticsearch ingest podLabels
+    podLabels: {}
 
     # -- affinity
     affinity: {}
@@ -526,6 +538,9 @@ elasticsearch:
     podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
 
+    # -- Elasticsearch ML podLabels
+    podLabels: {}
+
     # -- affinity
     affinity: {}
       # podAntiAffinity:
@@ -631,6 +646,9 @@ elasticsearch:
     # -- podAnnotations
     podAnnotations: {}
       # bigbang.dev/istioVersion: 1.10.3
+
+    # -- Elasticsearch coordinating podLabels
+    podLabels: {}
 
     # -- affinity
     affinity: {}
@@ -853,6 +871,7 @@ monitoring:
   # -- Toggle BigBang monitoring integration, controls serviceMonitor template
   enabled: false
 
+# Alias for prometheus-elasticsearch-exporter
 metrics:
   # -- Toggle Prometheus ElasticSearch Exporter Installation
   enabled: false
@@ -886,6 +905,9 @@ metrics:
     ES_PASSWORD:
       secret: logging-ek-es-elastic-user
       key: elastic
+
+  # -- Prometheus podLabels
+  podLabels: {}
 
 # -- Openshift Container Platform Feature Toggle
 openshift: false

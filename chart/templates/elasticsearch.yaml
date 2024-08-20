@@ -63,6 +63,10 @@ spec:
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
         {{- end }}
+        {{- if .podLabels }}
+        labels:
+          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
+        {{- end }}
 
       spec:
         {{- if .securityContext }}
@@ -166,6 +170,10 @@ spec:
           values/checksum: {{ include "oidc" $ | sha256sum }}
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
+        {{- end }}
+        {{- if .podLabels }}
+        labels:
+          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
         {{- end }}
 
       spec:
@@ -271,6 +279,10 @@ spec:
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
         {{- end }}
+        {{- if .podLabels }}
+        labels:
+          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
+        {{- end }}
 
       spec:
         {{- if .securityContext }}
@@ -370,6 +382,10 @@ spec:
           values/checksum: {{ include "oidc" $ | sha256sum }}
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
+        {{- end }}
+        {{- if .podLabels }}
+        labels:
+          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
         {{- end }}
 
       spec:
@@ -472,6 +488,10 @@ spec:
           values/checksum: {{ include "oidc" $ | sha256sum }}
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
+        {{- end }}
+        {{- if .podLabels }}
+        labels:
+          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
         {{- end }}
 
       spec:
