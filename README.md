@@ -1,15 +1,18 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.18.0-bb.1](https://img.shields.io/badge/Version-1.18.0--bb.1-informational?style=flat-square) ![AppVersion: 8.14.1](https://img.shields.io/badge/AppVersion-8.14.1-informational?style=flat-square)
+![Version: 1.18.0-bb.2](https://img.shields.io/badge/Version-1.18.0--bb.2-informational?style=flat-square) ![AppVersion: 8.14.3](https://img.shields.io/badge/AppVersion-8.14.3-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
-## Upstream Release Notes
+## Upstream References
+
+* None
+
+### Upstream Release Notes
 
 This package has no upstream release note links on file. Please add some to [chart/Chart.yaml](chart/Chart.yaml) under `annotations.bigbang.dev/upstreamReleaseNotesMarkdown`.
 Example:
-
 ```yaml
 annotations:
   bigbang.dev/upstreamReleaseNotesMarkdown: |
@@ -18,7 +21,6 @@ annotations:
 ```
 
 ## Learn More
-
 * [Application Overview](docs/overview.md)
 * [Other Documentation](docs/)
 
@@ -30,13 +32,12 @@ annotations:
 
 Install Helm
 
-<https://helm.sh/docs/intro/install/>
+https://helm.sh/docs/intro/install/
 
 ## Deployment
 
 * Clone down the repository
 * cd into directory
-
 ```bash
 helm install elasticsearch-kibana chart/
 ```
@@ -69,14 +70,14 @@ helm install elasticsearch-kibana chart/
 | kibana.tolerations | list | `[]` | Kibana tolerations |
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
-| kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration <https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html> |
+| kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html |
 | elasticsearch.version | string | `"8.14.3"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
 | elasticsearch.image.tag | string | `"8.14.3"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.serviceAccountAnnotations | object | `{}` | Annotations for the elasticsearch service account. |
-| elasticsearch.podDisruptionBudget | object | `{"enabled":true,"spec":{}}` | Elasticsearch podDisruptionBudget <https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-pod-disruption-budget.html> |
+| elasticsearch.podDisruptionBudget | object | `{"enabled":true,"spec":{}}` | Elasticsearch podDisruptionBudget https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-pod-disruption-budget.html |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
 | elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
 | elasticsearch.master.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -259,3 +260,4 @@ Please see the [contributing guide](./CONTRIBUTING.md) if you are interested in 
 ---
 
 _This file is programatically generated using `helm-docs` and some BigBang-specific templates. The `gluon` repository has [instructions for regenerating package READMEs](https://repo1.dso.mil/big-bang/product/packages/gluon/-/blob/master/docs/bb-package-readme.md)._
+

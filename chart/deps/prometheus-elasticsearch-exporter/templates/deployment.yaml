@@ -30,7 +30,9 @@ spec:
       labels:
         app: {{ template "elasticsearch-exporter.name" . }}
         release: "{{ .Release.Name }}"
-        {{- tpl (toYaml .Values.podLabels) . | nindent 8 }}
+        {{- if .Values.podLabels }}
+          {{- tpl (toYaml .Values.podLabels) . | nindent 8 }}
+        {{- end }}
       {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
