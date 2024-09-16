@@ -8,5 +8,5 @@ spec:
   host: {{ .Release.Name }}-es-http
   trafficPolicy:
     tls:
-      mode: SIMPLE
+      mode: ISTIO_MUTUAL
 {{- end }}

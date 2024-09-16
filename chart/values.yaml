@@ -767,7 +767,7 @@ istio:
     mode: STRICT
   elasticsearch:
     # -- Toggle virtualService creation
-    enabled: false
+    enabled: true
     # -- Annotations for controls the gateway used/attached to the virtualService
     annotations: {}
     # -- Labels for virtualService
