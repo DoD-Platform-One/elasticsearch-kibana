@@ -216,7 +216,8 @@ fluentbit:
 Testing Steps:
 
 - Ensure all pods go to running (NOTE: this is especially important for the upgrade testing since Big Bang has an "auto rolling upgrade" job in place)
-- Login to Kibana with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md), using the password in the `logging-ek-es-elastic-user` secret and username `elastic`
+- Log in to Elasticsearch [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md) to ensure that the Elasticsearch endpoint is available
+- Log in to Kibana with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md), using the password in the `logging-ek-es-elastic-user` secret and username `elastic`
 
     ```shell
     kubectl get secrets -n logging logging-ek-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'; echo
