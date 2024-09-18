@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Disabled Elasticsearch selfSignedCertificate if Istio is enabled
 - Enforced mtls in the Destination Rule if Istio is enabled
+- Enable Elasticsearch virtual service by default
 
 ## [1.18.0-bb.2] - 2024-08-29
 
