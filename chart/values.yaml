@@ -948,3 +948,12 @@ bbtests:
           secretKeyRef:
             name: "logging-ek-es-elastic-user"
             key: elastic
+
+
+waitJob:
+  enabled: true
+  scripts:
+    image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.29.6
+  permissions:
+    resources:
+     - elasticsearch-kibana
