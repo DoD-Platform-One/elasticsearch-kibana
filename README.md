@@ -1,11 +1,11 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.18.0-bb.4](https://img.shields.io/badge/Version-1.18.0--bb.4-informational?style=flat-square) ![AppVersion: 8.14.3](https://img.shields.io/badge/AppVersion-8.14.3-informational?style=flat-square)
+![Version: 1.18.0-bb.5](https://img.shields.io/badge/Version-1.18.0--bb.5-informational?style=flat-square) ![AppVersion: 8.14.3](https://img.shields.io/badge/AppVersion-8.14.3-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
-## Upstream Release Notes
+### Upstream Release Notes
 
 This package has no upstream release note links on file. Please add some to [chart/Chart.yaml](chart/Chart.yaml) under `annotations.bigbang.dev/upstreamReleaseNotesMarkdown`.
 Example:
@@ -109,7 +109,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.data.resources | object | `{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}}` | Elasticsearch data pod resources |
 | elasticsearch.data.heap.min | string | `"2g"` | Elasticsearch data Java heap Xms setting |
 | elasticsearch.data.heap.max | string | `"2g"` | Elasticsearch data Java heap Xmx setting |
-| elasticsearch.ingest.enabled | bool | `false` | Enable ingest specific Elasticsearch pods |
+| elasticsearch.ingest.enabled | bool | `true` | Enable ingest specific Elasticsearch pods |
 | elasticsearch.ingest.initContainers | list | `[]` | initContainers |
 | elasticsearch.ingest.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ingest node sets |
 | elasticsearch.ingest.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
@@ -189,7 +189,7 @@ helm install elasticsearch-kibana chart/
 | istio.hardened.elasticsearch.principals[0] | string | `"cluster.local/ns/logging/sa/logging-elasticsearch"` |  |
 | istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication       |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
-| istio.elasticsearch.enabled | bool | `false` | Toggle virtualService creation |
+| istio.elasticsearch.enabled | bool | `true` | Toggle virtualService creation |
 | istio.elasticsearch.annotations | object | `{}` | Annotations for controls the gateway used/attached to the virtualService |
 | istio.elasticsearch.labels | object | `{}` | Labels for virtualService |
 | istio.elasticsearch.gateways | list | `["istio-system/main"]` | Gateway(s) to apply virtualService routes to. |
@@ -248,6 +248,9 @@ helm install elasticsearch-kibana chart/
 | bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/stedolan/jq:1.7"` | image to use for script based tests |
 | bbtests.scripts.envs | object | `{"desired_version":"{{ .Values.elasticsearch.version }}","elasticsearch_host":"https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"}` | ENVs added to script test pods |
 | bbtests.scripts.secretEnvs | list | `[{"name":"ELASTIC_PASSWORD","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to script test pods from existing secrets |
+| waitJob.enabled | bool | `true` |  |
+| waitJob.scripts.image | string | `"registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.29.6"` |  |
+| waitJob.permissions.resources[0] | string | `"elasticsearch-kibana"` |  |
 
 ## Contributing
 
