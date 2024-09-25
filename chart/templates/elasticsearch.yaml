@@ -6,12 +6,7 @@ metadata:
 spec:
   version: {{ .Values.elasticsearch.version }}
   image: {{ .Values.elasticsearch.image.repository }}:{{ .Values.elasticsearch.image.tag }}
-  {{ if .Values.istio.enabled }}
-  http:
-    tls:
-      selfSignedCertificate:
-        disabled: true
-  {{- end }}
+  
   {{- if .Values.sso.enabled }}
   secureSettings:
     - secretName: sso-secret
@@ -39,7 +34,7 @@ spec:
       node.roles: ["master"]
       node.store.allow_mmap: true
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
-      xpack.security.authc.token.enabled: {{ not $.Values.istio.enabled }}
+      xpack.security.authc.token.enabled: true
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -144,7 +139,7 @@ spec:
       node.roles: ["data", "ingest"]
       node.store.allow_mmap: true
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
-      xpack.security.authc.token.enabled: {{ not $.Values.istio.enabled }}
+      xpack.security.authc.token.enabled: true
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -253,7 +248,7 @@ spec:
       node.roles: ["ingest"]
       node.store.allow_mmap: true
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
-      xpack.security.authc.token.enabled: {{ not $.Values.istio.enabled }}
+      xpack.security.authc.token.enabled: true
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -357,7 +352,7 @@ spec:
       node.roles: ["ml"]
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
       node.store.allow_mmap: true
-      xpack.security.authc.token.enabled: {{ not $.Values.istio.enabled }}
+      xpack.security.authc.token.enabled: true
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -463,7 +458,7 @@ spec:
       index.store.type: mmapfs
       node.store.allow_mmap: true
       xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
-      xpack.security.authc.token.enabled: {{ not $.Values.istio.enabled }}
+      xpack.security.authc.token.enabled: true
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
