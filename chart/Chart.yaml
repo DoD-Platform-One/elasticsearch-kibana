@@ -1,8 +1,8 @@
 apiVersion: v2
 name: elasticsearch-kibana
 description: Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
-version: 1.18.0-bb.5
-appVersion: 8.14.3
+version: 1.19.0-bb.0
+appVersion: 8.15.1
 dependencies:
   - name: gluon
     version: 0.5.4
@@ -14,13 +14,20 @@ dependencies:
     alias: metrics
 annotations:
   bigbang.dev/applicationVersions: |
-    - Kibana: 8.14.3
-    - Elasticsearch: 8.14.3
+    - Kibana: 8.15.1
+    - Elasticsearch: 8.15.1
+  bigbang.dev/upstreamReleaseNotesMarkdown: |
+    This chart has no upstream and is maintained entirely by the Big Bang team. It is 
+    (usually) updated any time new versions of elasticsearch and kibana are released
+    upstream. The changelog for both can be found at the following places:
+
+    - [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/es-release-notes.html)
+    - [Kibana](https://www.elastic.co/guide/en/kibana/current/release-notes.html)
   helm.sh/images: |
     - name: kibana
-      image: registry1.dso.mil/ironbank/elastic/kibana/kibana:8.14.3
+      image: registry1.dso.mil/ironbank/elastic/kibana/kibana:8.15.1
     - name: elasticsearch
-      image: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch:8.14.3
+      image: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch:8.15.1
     - name: base
       image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
     - name: script-tests
@@ -30,4 +37,4 @@ annotations:
       condition: metrics.enabled
       image: registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter:1.7.0
     - name: kubectl
-      image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.29.6
+      image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.30.5

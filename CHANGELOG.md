@@ -3,13 +3,36 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+
+## [1.19.0-bb.0] - 2024-09-26
+
+### Changed
+
+Updated ElasticSearch-Kibana to 1.19.0:
+
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.14.3 to 8.15.1
+
+  Upstream Release Notes:
+
+  - [8.15.1](https://www.elastic.co/guide/en/elasticsearch/reference/8.15/release-notes-8.15.1.html)
+  - [8.15.0](https://www.elastic.co/guide/en/elasticsearch/reference/8.15/release-notes-8.15.0.html)
+
+- ironbank/elastic/kibana/kibana updated from 8.14.3 to 8.15.1
+
+  Upstream Release Notes:
+
+  - [8.15.1](https://www.elastic.co/guide/en/kibana/8.15/release-notes-8.15.1.html)
+  - [8.15.0](https://www.elastic.co/guide/en/kibana/8.15/release-notes-8.15.0.html)
+
+- ironbank/opensource/kubernetes/kubectl updated from v1.29.6 to v1.30.5
+
 ## [1.18.0-bb.5] - 2024-09-25
 
 ### Changed
 
 - Reverted changes made from 1.18.0-bb.3
-  - Renabled Elasticsearch selfSignedCertificate 
-  - Changed mtls to SIMPLE in the Destination Rule 
+  - Renabled Elasticsearch selfSignedCertificate
+  - Changed mtls to SIMPLE in the Destination Rule
   - Disable Elasticsearch virtual service by default
 
 ## [1.18.0-bb.4] - 2024-09-17
@@ -32,7 +55,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 - Fix bug in prometheus subchart that errored when trying to parse podLabels
 - Ran a fresh helm dependency update to sync the subchart archive to the copy in deps
-
 
 ## [1.18.0-bb.1] - 2024-08-13
 
