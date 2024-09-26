@@ -1,20 +1,18 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.18.0-bb.5](https://img.shields.io/badge/Version-1.18.0--bb.5-informational?style=flat-square) ![AppVersion: 8.14.3](https://img.shields.io/badge/AppVersion-8.14.3-informational?style=flat-square)
+![Version: 1.19.0-bb.0](https://img.shields.io/badge/Version-1.19.0--bb.0-informational?style=flat-square) ![AppVersion: 8.15.1](https://img.shields.io/badge/AppVersion-8.15.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
 ### Upstream Release Notes
 
-This package has no upstream release note links on file. Please add some to [chart/Chart.yaml](chart/Chart.yaml) under `annotations.bigbang.dev/upstreamReleaseNotesMarkdown`.
-Example:
-```yaml
-annotations:
-  bigbang.dev/upstreamReleaseNotesMarkdown: |
-    - [Find our upstream chart's CHANGELOG here](https://link-goes-here/CHANGELOG.md)
-    - [and our upstream application release notes here](https://another-link-here/RELEASE_NOTES.md)
-```
+This chart has no upstream and is maintained entirely by the Big Bang team. It is
+(usually) updated any time new versions of elasticsearch and kibana are released
+upstream. The changelog for both can be found at the following places:
+
+- [Elasticsearch](https://www.elastic.co/guide/en/elasticsearch/reference/current/es-release-notes.html)
+- [Kibana](https://www.elastic.co/guide/en/kibana/current/release-notes.html)
 
 ## Learn More
 * [Application Overview](docs/overview.md)
@@ -46,9 +44,9 @@ helm install elasticsearch-kibana chart/
 | autoRollingUpgrade.enabled | bool | `false` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
 | fluentbit | object | `{"enabled":false}` | Toggle for networkpolicies to allow fluentbit ingress |
-| kibana.version | string | `"8.14.3"` | Kibana version |
+| kibana.version | string | `"8.15.1"` | Kibana version |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` | Kibana image repository |
-| kibana.image.tag | string | `"8.14.3"` | Kibana image tag |
+| kibana.image.tag | string | `"8.15.1"` | Kibana image tag |
 | kibana.host | string | `""` | Kibana Ingress Host Value. Only required if not using Istio for ingress. |
 | kibana.count | int | `3` | Number of Kibana replicas |
 | kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
@@ -67,9 +65,9 @@ helm install elasticsearch-kibana chart/
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
 | kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html |
-| elasticsearch.version | string | `"8.14.3"` | Elasticsearch version |
+| elasticsearch.version | string | `"8.15.1"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
-| elasticsearch.image.tag | string | `"8.14.3"` | Elasticsearch image tag |
+| elasticsearch.image.tag | string | `"8.15.1"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.serviceAccountAnnotations | object | `{}` | Annotations for the elasticsearch service account. |
@@ -249,7 +247,7 @@ helm install elasticsearch-kibana chart/
 | bbtests.scripts.envs | object | `{"desired_version":"{{ .Values.elasticsearch.version }}","elasticsearch_host":"https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"}` | ENVs added to script test pods |
 | bbtests.scripts.secretEnvs | list | `[{"name":"ELASTIC_PASSWORD","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to script test pods from existing secrets |
 | waitJob.enabled | bool | `true` |  |
-| waitJob.scripts.image | string | `"registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.29.6"` |  |
+| waitJob.scripts.image | string | `"registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.30.5"` |  |
 | waitJob.permissions.resources[0] | string | `"elasticsearch-kibana"` |  |
 
 ## Contributing
