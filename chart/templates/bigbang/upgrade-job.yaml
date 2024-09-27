@@ -91,6 +91,9 @@ spec:
       labels:
         app.kubernetes.io/name: bigbang-ek-upgrade-job
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
       serviceAccountName: {{ .Release.Name }}-bb-upgrade
       containers:
         - name: bb-{{ .Release.Name }}-upgrade

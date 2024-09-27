@@ -4,6 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.19.0-bb.1] - 2024-09-26
+
+### Changed
+
+- Now setting `securityContext` on rolling upgrade `Job` to comply with Kyverno policies
+
 ## [1.19.0-bb.0] - 2024-09-26
 
 ### Changed
