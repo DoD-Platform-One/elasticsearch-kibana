@@ -41,14 +41,12 @@ Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts
 6. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md).
     - Renovate bot may have already performed this step for you as well! 🤖
 
-7. If this is a new minor version of Elastic you will likely need to add a new section to `chart/templates/bigbang/upgrade-job.yaml` for the new version upgrade. Follow the existing examples to update the job to support upgrades between old version -> new version.
-
-8. Push up your changes, add upgrade notices if applicable, validate that CI passes.
+7. Push up your changes, add upgrade notices if applicable, validate that CI passes.
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
     - Add the `debug` label to the MR for more detailed information.
     - Reach out to the CODEOWNERS if needed.
 
-9. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
+8. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Elasticsearch-Kibana enabled (the below is a reference, actual changes could be more depending on what changes where made to Elasticsearch-Kibana in the pakcage MR).
 
@@ -216,7 +214,6 @@ fluentbit:
 Testing Steps:
 
 - Ensure all pods go to running (NOTE: this is especially important for the upgrade testing since Big Bang has an "auto rolling upgrade" job in place)
-- Log in to Elasticsearch [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md) to ensure that the Elasticsearch endpoint is available
 - Log in to Kibana with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md), using the password in the `logging-ek-es-elastic-user` secret and username `elastic`
 
     ```shell
