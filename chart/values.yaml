@@ -1,10 +1,6 @@
 # -- Domain used for BigBang created exposed services.
 domain: dev.bigbang.mil
 
-autoRollingUpgrade:
-  # -- Enable BigBang specific autoRollingUpgrade support
-  enabled: false
-
 # -- Pull Policy for all non-init containers in this package.
 imagePullPolicy: IfNotPresent
 

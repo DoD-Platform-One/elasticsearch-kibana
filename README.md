@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.19.0-bb.1](https://img.shields.io/badge/Version-1.19.0--bb.1-informational?style=flat-square) ![AppVersion: 8.15.1](https://img.shields.io/badge/AppVersion-8.15.1-informational?style=flat-square)
+![Version: 1.19.0-bb.2](https://img.shields.io/badge/Version-1.19.0--bb.2-informational?style=flat-square) ![AppVersion: 8.15.1](https://img.shields.io/badge/AppVersion-8.15.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -41,7 +41,6 @@ helm install elasticsearch-kibana chart/
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | domain | string | `"dev.bigbang.mil"` | Domain used for BigBang created exposed services. |
-| autoRollingUpgrade.enabled | bool | `false` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
 | fluentbit | object | `{"enabled":false}` | Toggle for networkpolicies to allow fluentbit ingress |
 | kibana.version | string | `"8.15.1"` | Kibana version |

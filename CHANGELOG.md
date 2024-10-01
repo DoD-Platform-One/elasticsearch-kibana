@@ -4,6 +4,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.19.0-bb.2] - 2024-09-30
+
+### Removed
+
+- The auto rolling upgrade job has been removed entirely. The ECK operator (which this package depends on)
+  already performs rolling upgrades for elastic and kibana version changes which was all the upgrade job
+  tried to do. Also, the upgrade job has been nonfunctional with Kyverno policies enabled for some time.
+
+  [Here](https://github.com/elastic/cloud-on-k8s/blob/7323879c77aecede9971cee8a4b4988906725d7b/docs/orchestrating-elastic-stack-applications/elasticsearch/orchestration.asciidoc#upgrading-the-cluster)
+  are the relevant docs from the ECK operator project outlining the operator's upgrade logic.
+
 ## [1.19.0-bb.1] - 2024-09-26
 
 ### Changed
