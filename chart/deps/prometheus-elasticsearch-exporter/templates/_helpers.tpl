@@ -79,6 +79,10 @@ global:
 - name: {{ tpl . $ }}
   {{- end }}
 {{- end }}
+{{/* Include local image pullSecret */}}
+{{- with .Values.image.pullSecret }}
+- name: {{ tpl . $ }}
+{{- end }}
 {{- end -}}
 
 {{/*
@@ -94,4 +98,38 @@ Return the correct (overridden global) image registry.
   {{- else -}}
     {{- printf "%s" .Values.image.repository -}}
   {{- end }}
+{{- end -}}
+
+{{/*
+Common labels
+*/}}
+{{- define "elasticsearch-exporter.labels" -}}
+helm.sh/chart: {{ include "elasticsearch-exporter.chart" . }}
+{{ include "elasticsearch-exporter.selectorLabels" . }}
+{{- with .Chart.AppVersion }}
+app.kubernetes.io/version: {{ . | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.commonLabels }}
+{{ toYaml .Values.commonLabels }}
+{{- end }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "elasticsearch-exporter.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "elasticsearch-exporter.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "elasticsearch-exporter.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+    {{ default (include "elasticsearch-exporter.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
 {{- end -}}
