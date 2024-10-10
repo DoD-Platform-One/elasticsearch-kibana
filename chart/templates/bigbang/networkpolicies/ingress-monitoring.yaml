@@ -18,8 +18,8 @@ spec:
           protocol: TCP
   podSelector:
     matchLabels:
-      app: metrics
-      release: {{ .Release.Name }}
+      app.kubernetes.io/name: metrics
+      app.kubernetes.io/instance: {{ .Release.Name }}
   policyTypes:
     - Ingress
 {{- end }}

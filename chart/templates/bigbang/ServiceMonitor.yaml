@@ -10,8 +10,8 @@ spec:
   jobLabel: {{ .Release.Name }}
   selector:
     matchLabels:
-      app: metrics
-      release: {{ .Release.Name }}
+      app.kubernetes.io/name: metrics
+      app.kubernetes.io/instance: {{ .Release.Name }}
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}

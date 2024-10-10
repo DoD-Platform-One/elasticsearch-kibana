@@ -7,7 +7,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: metrics
+      app.kubernetes.io/name: metrics
   mtls:
     mode: {{ .Values.istio.mtls.mode }}
 {{- end }}
