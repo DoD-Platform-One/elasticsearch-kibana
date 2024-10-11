@@ -4,13 +4,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
-## [1.20.0-bb.0] - 2024-10-02
-### Changed
-- ironbank/elastic/elasticsearch/elasticsearch updated from 8.15.1 to 8.15.2
-- ironbank/elastic/kibana/kibana updated from 8.15.1 to 8.15.2
-- ironbank/opensource/bitnami/elasticsearch-exporter updated from 1.7.0 to 1.8.0
-- prometheus-elasticsearch-exporter to 6.5.0
-
 ## [1.19.0-bb.2] - 2024-09-30
 
 ### Removed

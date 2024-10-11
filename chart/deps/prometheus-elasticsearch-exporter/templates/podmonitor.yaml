@@ -9,7 +9,10 @@ metadata:
   namespace: {{ .Values.podMonitor.namespace }}
   {{- end }}
   labels:
-    {{- include "elasticsearch-exporter.labels" . | nindent 4 }}
+    chart: {{ template "elasticsearch-exporter.chart" . }}
+    app: {{ template "elasticsearch-exporter.name" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
     {{- if .Values.podMonitor.labels }}
     {{- toYaml .Values.podMonitor.labels | nindent 4 }}
     {{- end }}
@@ -42,5 +45,6 @@ spec:
   {{- end }}
   selector:
     matchLabels:
-      {{- include "elasticsearch-exporter.selectorLabels" . | nindent 6 }}
+      app: {{ template "elasticsearch-exporter.name" . }}
+      release: "{{ .Release.Name }}"
 {{- end }}

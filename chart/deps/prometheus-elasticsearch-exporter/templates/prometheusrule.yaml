@@ -8,7 +8,10 @@ metadata:
   namespace: {{ .Values.prometheusRule.namespace }}
 {{- end }}
   labels:
-    {{- include "elasticsearch-exporter.labels" . | nindent 4 }}
+    chart: {{ template "elasticsearch-exporter.chart" . }}
+    app: {{ template "elasticsearch-exporter.name" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 {{- if .Values.prometheusRule.labels }}
 {{- toYaml .Values.prometheusRule.labels | nindent 4 }}
 {{- end }}

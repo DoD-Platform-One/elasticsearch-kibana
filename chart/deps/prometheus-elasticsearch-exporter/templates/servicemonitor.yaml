@@ -8,7 +8,10 @@ metadata:
   namespace: {{ .Values.serviceMonitor.namespace }}
   {{- end }}
   labels:
-    {{- include "elasticsearch-exporter.labels" . | nindent 4 }}
+    chart: {{ template "elasticsearch-exporter.chart" . }}
+    app: {{ template "elasticsearch-exporter.name" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
     {{- if .Values.serviceMonitor.labels }}
     {{- toYaml .Values.serviceMonitor.labels | nindent 4 }}
     {{- end }}
@@ -33,7 +36,8 @@ spec:
   jobLabel: {{ default .Release.Name .Values.serviceMonitor.jobLabel }}
   selector:
     matchLabels:
-      {{- include "elasticsearch-exporter.selectorLabels" . | nindent 6 }}
+      app: {{ template "elasticsearch-exporter.name" . }}
+      release: "{{ .Release.Name }}"
   namespaceSelector:
     matchNames:
       - {{ .Release.Namespace }}

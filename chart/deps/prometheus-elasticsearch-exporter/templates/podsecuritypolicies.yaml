@@ -4,7 +4,10 @@ kind: PodSecurityPolicy
 metadata:
   name: {{ template "elasticsearch-exporter.fullname" . }}
   labels:
-    {{- include "elasticsearch-exporter.labels" . | nindent 4 }}
+    chart: {{ template "elasticsearch-exporter.chart" . }}
+    app: {{ template "elasticsearch-exporter.name" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
 spec:
   privileged: false
   allowPrivilegeEscalation: false
