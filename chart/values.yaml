@@ -10,12 +10,12 @@ fluentbit:
 
 kibana:
   # -- Kibana version
-  version: 8.15.2
+  version: 8.15.1
   image:
     # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     # -- Kibana image tag
-    tag: 8.15.2
+    tag: 8.15.1
 
   # -- Kibana Ingress Host Value.
   # Only required if not using Istio for ingress.
@@ -154,12 +154,12 @@ kibana:
 
 elasticsearch:
   # -- Elasticsearch version
-  version: 8.15.2
+  version: 8.15.1
   image:
     # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     # -- Elasticsearch image tag
-    tag: 8.15.2
+    tag: 8.15.1
 
   # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
@@ -878,7 +878,7 @@ metrics:
   image:
     registry: registry1.dso.mil
     repository: ironbank/opensource/bitnami/elasticsearch-exporter
-    tag: 1.8.0
+    tag: 1.7.0
     pullSecret: private-registry
   # -- Pod securityContext
   podSecurityContext:
