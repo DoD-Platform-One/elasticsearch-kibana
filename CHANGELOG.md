@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.19.0-bb.3] - 2024-10-11
+
+### Changed
+
+- Configured istio `DestinationRule` to allow envoy to accept certs presented by ElasticSearch
+- Updated Kibana config to use `http` scheme when communicating with istio-enabled ElasticSearch
+
 ## [1.19.0-bb.2] - 2024-09-30
 
 ### Removed

@@ -9,6 +9,10 @@ spec:
   image: {{ .Values.kibana.image.repository }}:{{ .Values.kibana.image.tag }}
 
   config:
+    {{- if and .Values.istio.enabled .Values.istio.elasticsearch.enabled }}
+    elasticsearch.hosts:
+      - http://{{ .Release.Name }}-es-http:9200
+    {{- end }}
     {{- if .Values.bbtests.enabled }}
     # To make Cypress happy we need to disable the strict CSP rules
     csp.strict: false
