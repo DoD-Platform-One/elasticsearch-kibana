@@ -94,10 +94,10 @@ kiali:
   enabled: false
 
 kyverno:
-  enabled: false
+  enabled: true
 
 kyvernoPolicies:
-  enabled: false
+  enabled: true
 
 kyvernoReporter:
   enabled: false
@@ -129,9 +129,6 @@ istio:
 
 eckOperator:
   enabled: true
-  git:
-    tag: null
-    branch: renovate/ironbank
 
 elasticsearchKibana:
   enabled: true
@@ -154,10 +151,10 @@ kiali:
   enabled: false
 
 kyverno:
-  enabled: false
+  enabled: true
 
 kyvernoPolicies:
-  enabled: false
+  enabled: true
 
 kyvernoReporter:
   enabled: false
@@ -214,6 +211,11 @@ fluentbit:
 Testing Steps:
 
 - Ensure all pods go to running (NOTE: this is especially important for the upgrade testing since Big Bang has an "auto rolling upgrade" job in place)
+- If kyverno and kyvernoPolicies are enabled to `true` skip this step, otherwise if set to `false` in the `overrides/elasticsearchKibana.yaml` for testing the following secrets will need to be copied from the logging namespace to fluentbit in order to successfully test fluentbit log shipping to elasticsearch. See [fluentbit/DEVELOPMENT_MAINTENANCE.md manual testing for more detailed information](https://repo1.dso.mil/big-bang/product/packages/fluentbit/-/blob/main/docs/DEVELOPMENT_MAINTENANCE.md?ref_type=heads&plain=0#manual-testing-for-updates).
+- `logging-ek-es-http-certs-public`
+- `logging-ek-es-http-certs-internal`
+- `logging-ek-es-elastic-user`
+
 - Log in to Kibana with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md), using the password in the `logging-ek-es-elastic-user` secret and username `elastic`
 
     ```shell
