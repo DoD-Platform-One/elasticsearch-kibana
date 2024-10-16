@@ -1,11 +1,11 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.19.0-bb.2](https://img.shields.io/badge/Version-1.19.0--bb.2-informational?style=flat-square) ![AppVersion: 8.15.1](https://img.shields.io/badge/AppVersion-8.15.1-informational?style=flat-square)
+![Version: 1.19.0-bb.3](https://img.shields.io/badge/Version-1.19.0--bb.3-informational?style=flat-square) ![AppVersion: 8.15.1](https://img.shields.io/badge/AppVersion-8.15.1-informational?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
-### Upstream Release Notes
+## Upstream Release Notes
 
 This chart has no upstream and is maintained entirely by the Big Bang team. It is
 (usually) updated any time new versions of elasticsearch and kibana are released
@@ -15,14 +15,15 @@ upstream. The changelog for both can be found at the following places:
 - [Kibana](https://www.elastic.co/guide/en/kibana/current/release-notes.html)
 
 ## Learn More
-* [Application Overview](docs/overview.md)
-* [Other Documentation](docs/)
+
+- [Application Overview](docs/overview.md)
+- [Other Documentation](docs/)
 
 ## Pre-Requisites
 
-* Kubernetes Cluster deployed
-* Kubernetes config installed in `~/.kube/config`
-* Helm installed
+- Kubernetes Cluster deployed
+- Kubernetes config installed in `~/.kube/config`
+- Helm installed
 
 Install Helm
 
@@ -30,8 +31,9 @@ https://helm.sh/docs/intro/install/
 
 ## Deployment
 
-* Clone down the repository
-* cd into directory
+- Clone down the repository
+- cd into directory
+
 ```bash
 helm install elasticsearch-kibana chart/
 ```
