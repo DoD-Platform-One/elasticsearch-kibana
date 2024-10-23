@@ -36,7 +36,6 @@ app.kubernetes.io/name: {{ include "elasticsearch.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-
 {{/*
 Expand the name of the chart.
 */}}

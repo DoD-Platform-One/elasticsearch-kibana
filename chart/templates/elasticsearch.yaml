@@ -3,6 +3,7 @@ kind: Elasticsearch
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
+  labels: {{- include "elasticsearch.labels" $ | nindent 4 }}
 spec:
   version: {{ .Values.elasticsearch.version }}
   image: {{ .Values.elasticsearch.image.repository }}:{{ .Values.elasticsearch.image.tag }}
