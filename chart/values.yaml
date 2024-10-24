@@ -1,6 +1,11 @@
 # -- Domain used for BigBang created exposed services.
 domain: dev.bigbang.mil
 
+
+autoRollingUpgrade:
+  # -- Enable BigBang specific autoRollingUpgrade support
+  enabled: true
+
 # -- Pull Policy for all non-init containers in this package.
 imagePullPolicy: IfNotPresent
 
@@ -10,12 +15,12 @@ fluentbit:
 
 kibana:
   # -- Kibana version
-  version: 8.15.1
+  version: 8.15.2
   image:
     # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     # -- Kibana image tag
-    tag: 8.15.1
+    tag: 8.15.2
 
   # -- Kibana Ingress Host Value.
   # Only required if not using Istio for ingress.
@@ -154,12 +159,12 @@ kibana:
 
 elasticsearch:
   # -- Elasticsearch version
-  version: 8.15.1
+  version: 8.15.2
   image:
     # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     # -- Elasticsearch image tag
-    tag: 8.15.1
+    tag: 8.15.2
 
   # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
@@ -878,7 +883,7 @@ metrics:
   image:
     registry: registry1.dso.mil
     repository: ironbank/opensource/bitnami/elasticsearch-exporter
-    tag: 1.7.0
+    tag: 1.8.0
     pullSecret: private-registry
   # -- Pod securityContext
   podSecurityContext:

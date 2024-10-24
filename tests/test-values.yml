@@ -59,3 +59,6 @@ bbtests:
 
 metrics: 
   enabled: true
+
+autoRollingUpgrade:
+  enabled: true

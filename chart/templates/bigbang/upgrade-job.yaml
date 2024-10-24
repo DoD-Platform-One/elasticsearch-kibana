@@ -1,0 +1,149 @@
+{{- $upgradeVersion := "1.20.0-bb.0" }}
+{{- if and .Values.autoRollingUpgrade.enabled .Release.IsUpgrade .Values.metrics.enabled}}
+  {{- $Elasticsearch := lookup "elasticsearch.k8s.elastic.co/v1" "Elasticsearch" .Release.Namespace .Release.Name }}
+  {{- if $Elasticsearch }}
+    {{- $currentVersion := dig "metadata" "labels" "helm.sh/chart" "<missing>" $Elasticsearch | trimPrefix (print .Chart.Name "-") }}
+    {{- if semverCompare (print "<" $upgradeVersion) $currentVersion }}
+{{- if .Values.networkPolicies.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: api-egress-upgrade-job
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+spec:
+  egress:
+  - to:
+    - ipBlock:
+        cidr: {{ .Values.networkPolicies.controlPlaneCidr }}
+        {{- if eq .Values.networkPolicies.controlPlaneCidr "0.0.0.0/0" }}
+        # ONLY Block requests to AWS metadata IP
+        except:
+        - 169.254.169.254/32
+        {{- end }}
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: bigbang-ek-upgrade-job
+  policyTypes:
+  - Egress
+{{- end }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Release.Name }}-bb-upgrade
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: bb-{{ .Release.Name }}-upgrade-view
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+    
+rules:
+- apiGroups: ["elasticsearch.k8s.elastic.co"]
+  resources: ["elasticsearches"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["kibana.k8s.elastic.co"]
+  resources: ["kibanas"]
+  verbs: ["get", "list", "update", "patch"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ .Release.Name }}-bb-upgrade
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+    
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: bb-{{ .Release.Name }}-upgrade-view
+subjects:
+- kind: ServiceAccount
+  name: {{ .Release.Name }}-bb-upgrade
+  namespace: {{ .Release.Namespace }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bb-{{ .Release.Name }}-upgrade
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 480
+  template:
+    metadata:
+      name: bb-{{ .Release.Name }}-upgrade
+      labels:
+        app.kubernetes.io/name: bigbang-ek-upgrade-job
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+      serviceAccountName: {{ .Release.Name }}-bb-upgrade
+      automountServiceAccountToken: true
+      containers:
+        - name: bb-{{ .Release.Name }}-upgrade
+          image: {{ $.Values.upgradeJob.image.repository }}:{{ $.Values.upgradeJob.image.tag }}
+          command:
+            - /bin/bash
+            - -ec
+            - |
+              echo "Starting deployment deletion in namespace {{ .Release.Namespace }}..."
+
+              # Delete the deployment and check if successful
+              if kubectl delete deploy -l app=metrics -n {{ .Release.Namespace }}; then
+                echo "Deployments deleted successfully."
+
+                # Optionally, wait for all resources to be deleted
+                kubectl wait --for=delete deploy -l app=metrics -n {{ .Release.Namespace }} --timeout=60s || echo "Some deployments are taking longer to delete."
+              else
+                echo "[ERROR] Failed to delete deployments." >&2
+                exit 1  # Exit with error if the deletion fails
+              fi
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+          envFrom:
+            - secretRef:
+                name: {{ .Release.Name }}-es-elastic-user
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+      {{- with $.Values.elasticsearch.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: OnFailure
+
+    {{- end }}
+  {{- end }}
+{{- end }}
