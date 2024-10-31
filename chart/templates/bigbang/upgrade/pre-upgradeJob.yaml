@@ -1,0 +1,64 @@
+{{- if include "elasticsearch.shouldDeployUpgradeResources" . }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: bb-{{ .Release.Name }}-upgrade
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
+spec:
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 480
+  template:
+    metadata:
+      name: bb-{{ .Release.Name }}-upgrade
+      labels:
+        app.kubernetes.io/name: bigbang-ek-upgrade-job
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+      serviceAccountName: {{ .Release.Name }}-bb-upgrade
+      automountServiceAccountToken: true
+      containers:
+        - name: bb-{{ .Release.Name }}-upgrade
+          image: {{ $.Values.upgradeJob.image.repository }}:{{ $.Values.upgradeJob.image.tag }}
+          command:
+            - /bin/bash
+            - -ec
+            - |
+              echo "Starting deployment deletion in namespace {{ .Release.Namespace }}..."
+
+              # Delete the deployment and check if successful
+              if kubectl delete deploy -l app=metrics -n {{ .Release.Namespace }}; then
+                echo "Deployments deleted successfully."
+
+                # Optionally, wait for all resources to be deleted
+                kubectl wait --for=delete deploy -l app=metrics -n {{ .Release.Namespace }} --timeout=60s || echo "Some deployments are taking longer to delete."
+              else
+                echo "[ERROR] Failed to delete deployments." >&2
+                exit 1  # Exit with error if the deletion fails
+              fi
+
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 100m
+              memory: 256Mi
+          envFrom:
+            - secretRef:
+                name: {{ .Release.Name }}-es-elastic-user
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+      {{- with $.Values.elasticsearch.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      restartPolicy: OnFailure
+{{- end }}
