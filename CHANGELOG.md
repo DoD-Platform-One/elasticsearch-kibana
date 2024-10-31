@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.21.0-bb.0] - 2024-10-25
+
+### Changed
+
+- gluon updated from 0.5.4 to 0.5.8
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.15.2 to 8.15.3
+- ironbank/elastic/kibana/kibana updated from 8.15.2 to 8.15.3
+- ironbank/opensource/kubernetes/kubectl updated from v1.30.5 to v1.30.6
+  
 ## [1.20.0-bb.1] - 2024-10-25
 
 ### Changed
