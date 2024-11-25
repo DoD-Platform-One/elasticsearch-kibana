@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - gluon updated from 0.5.8 to 0.5.10
 - ironbank/elastic/elasticsearch/elasticsearch updated from 8.15.3 to 8.16.0
 - ironbank/elastic/kibana/kibana updated from 8.15.3 to 8.16.0
+- Added the maintenance track annotation and badge
 
 ## [1.21.0-bb.0] - 2024-10-25
 

@@ -13,6 +13,7 @@ dependencies:
     condition: metrics.enabled
     alias: metrics
 annotations:
+  bigbang.dev/maintenanceTrack: bb_integrated
   bigbang.dev/applicationVersions: |
     - Kibana: 8.16.0
     - Elasticsearch: 8.16.0
