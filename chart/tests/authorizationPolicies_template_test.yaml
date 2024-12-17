@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test bigbang/istio/authorizationPolicies/template.yaml
+templates:
+  - bigbang/istio/authorizationPolicies/template.yaml
+tests:
+  - it: should not exist with default values
+    asserts:
+      - hasDocuments:
+          count: 0
+  - it: should exist when necessary values are set
+    set:
+      istio:
+        enabled: true
+        hardened:
+          enabled: true
+          customAuthorizationPolicies:
+            - name: fooBarPolicy
+              enabled: true
+              spec: 
+                foo: bar
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: AuthorizationPolicy
+      - equal:
+          path: metadata.name
+          value: fooBarPolicy
+      - equal:
+          path: spec.foo
+          value: bar
+

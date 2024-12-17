@@ -74,6 +74,10 @@ Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts
 
 # Testing a new Elasticsearch-Kibana version
 
+- Run Helm Unittests
+  - Make sure that you have helm unitests installed
+  - run `helm unittest chart` will run all tests under chart/tests/*_test.yaml
+
 > NOTE: For these testing steps it is good to do them on both a clean install and an upgrade. For clean install, point Elasticsearch-Kibana to your branch. For an upgrade do an install with Elasticsearch-Kibana pointing to the latest tag, then perform a helm upgrade with Elasticsearch-Kibana pointing to your branch.
 
 You will want to install with:
