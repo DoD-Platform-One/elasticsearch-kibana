@@ -1,1 +1,2 @@
-tests
+# ingore helm unittest tests
+tests/*_test.yaml
