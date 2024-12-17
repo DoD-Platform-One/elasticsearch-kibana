@@ -59,7 +59,9 @@ spec:
           traffic.sidecar.istio.io/includeInboundPorts: "*"
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
+          {{- if $.Values.sso.enabled }}
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
+          {{- end }}
           values/checksum: {{ include "oidc" $ | sha256sum }}
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
@@ -167,7 +169,9 @@ spec:
           # To prevent double encrypted traffic we exclude 9300 from  sidecar traffic and mTLS
           traffic.sidecar.istio.io/excludeInboundPorts: "9300"
           traffic.sidecar.istio.io/excludeOutboundPorts: "9300"
+          {{- if $.Values.sso.enabled }}
           sso-secret/checksum: {{ include (print $.Template.BasePath "/bigbang/sso-secret.yaml") $ | sha256sum }}
+          {{- end }}
           values/checksum: {{ include "oidc" $ | sha256sum }}
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}

@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.24.0-bb.1] - 2024-12-16
+### Changed
+- added the ability to add custom authorizationPolicies
+- added helm unittest tests
+
 ## [1.24.0-bb.0] - 2024-12-13
 ### Changed
 - ironbank/elastic/elasticsearch/elasticsearch updated from 8.16.1 to 8.17.0
