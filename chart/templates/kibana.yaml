@@ -62,10 +62,8 @@ spec:
       annotations:
         {{- toYaml .Values.kibana.podAnnotations | nindent 8 }}
       {{- end }}
-      {{- if .Values.kibana.podLabels }}
       labels:
-        {{- tpl (toYaml .Values.kibana.podLabels) . | nindent 8 }}
-      {{- end }}
+        {{ include "elasticsearch.labels" $ |  nindent 8 }}
     spec:
       serviceAccountName: {{ .Values.kibana.serviceAccountName }}
       {{- if .Values.kibana.securityContext }}
