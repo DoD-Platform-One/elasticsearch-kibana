@@ -66,10 +66,8 @@ spec:
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
         {{- end }}
-        {{- if .podLabels }}
         labels:
-          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
-        {{- end }}
+          {{ include "elasticsearch.labels" $ |  nindent 10 }}
 
       spec:
         {{- if .securityContext }}
@@ -176,10 +174,8 @@ spec:
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
         {{- end }}
-        {{- if .podLabels }}
         labels:
-          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
-        {{- end }}
+          {{ include "elasticsearch.labels" $ |  nindent 10 }}
 
       spec:
         {{- if .securityContext }}
@@ -284,10 +280,8 @@ spec:
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
         {{- end }}
-        {{- if .podLabels }}
         labels:
-          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
-        {{- end }}
+          {{ include "elasticsearch.labels" $ |  nindent 10 }}
 
       spec:
         {{- if .securityContext }}
@@ -388,10 +382,8 @@ spec:
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
         {{- end }}
-        {{- if .podLabels }}
         labels:
-          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
-        {{- end }}
+          {{ include "elasticsearch.labels" $ |  nindent 10 }}
 
       spec:
         {{- if .securityContext }}
@@ -494,10 +486,8 @@ spec:
         {{- if .podAnnotations }}
           {{- toYaml .podAnnotations | nindent 10 }}
         {{- end }}
-        {{- if .podLabels }}
         labels:
-          {{- tpl (toYaml .podLabels) $ | nindent 10 }}
-        {{- end }}
+          {{ include "elasticsearch.labels" $ |  nindent 10 }}
 
       spec:
         {{- if .securityContext }}

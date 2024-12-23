@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.24.0-bb.1](https://img.shields.io/badge/Version-1.24.0--bb.1-informational?style=flat-square) ![AppVersion: 8.17.0](https://img.shields.io/badge/AppVersion-8.17.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.24.0-bb.2](https://img.shields.io/badge/Version-1.24.0--bb.2-informational?style=flat-square) ![AppVersion: 8.17.0](https://img.shields.io/badge/AppVersion-8.17.0-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -61,7 +61,6 @@ helm install elasticsearch-kibana chart/
 | kibana.volumes | list | `[]` | Kibana volumes |
 | kibana.volumeMounts | list | `[]` | Kibana volumeMounts |
 | kibana.podAnnotations | object | `{}` | Kibana podAnnotations |
-| kibana.podLabels | object | `{}` | Kibana podLabels |
 | kibana.affinity | object | `{}` | Kibana affinity |
 | kibana.tolerations | list | `[]` | Kibana tolerations |
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
@@ -81,7 +80,6 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.master.volumes | list | `[]` | Elasticsearch master volumes |
 | elasticsearch.master.volumeMounts | list | `[]` | Elasticsearch master volumeMounts |
 | elasticsearch.master.podAnnotations | object | `{}` | Elasticsearch master podAnnotations |
-| elasticsearch.master.podLabels | object | `{}` | Elasticsearch master podLabels |
 | elasticsearch.master.affinity | object | `{}` | Elasticsearch master affinity |
 | elasticsearch.master.tolerations | list | `[]` | Elasticsearch master tolerations |
 | elasticsearch.master.nodeSelector | object | `{}` | Elasticsearch master nodeSelector |
@@ -98,7 +96,6 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.data.volumes | list | `[]` | Elasticsearch data volumes |
 | elasticsearch.data.volumeMounts | list | `[]` | Elasticsearch data volumeMounts |
 | elasticsearch.data.podAnnotations | object | `{}` | Elasticsearch data podAnnotations |
-| elasticsearch.data.podLabels | object | `{}` | Elasticsearch data podLabels |
 | elasticsearch.data.affinity | object | `{}` | Elasticsearch data affinity |
 | elasticsearch.data.tolerations | list | `[]` | Elasticsearch data tolerations |
 | elasticsearch.data.nodeSelector | object | `{}` | Elasticsearch data nodeSelector |
@@ -116,7 +113,6 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.ingest.volumes | list | `[]` | volumes |
 | elasticsearch.ingest.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.ingest.podAnnotations | object | `{}` | podAnnotations |
-| elasticsearch.ingest.podLabels | object | `{}` | Elasticsearch ingest podLabels |
 | elasticsearch.ingest.affinity | object | `{}` | affinity |
 | elasticsearch.ingest.tolerations | list | `[]` | tolerations |
 | elasticsearch.ingest.nodeSelector | object | `{}` | nodeSelector |
@@ -135,7 +131,6 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.ml.volumes | list | `[]` | volumes |
 | elasticsearch.ml.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.ml.podAnnotations | object | `{}` | podAnnotations |
-| elasticsearch.ml.podLabels | object | `{}` | Elasticsearch ML podLabels |
 | elasticsearch.ml.affinity | object | `{}` | affinity |
 | elasticsearch.ml.tolerations | list | `[]` | tolerations |
 | elasticsearch.ml.nodeSelector | object | `{}` | nodeSelector |
@@ -154,7 +149,6 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.coord.volumes | list | `[]` | volumes |
 | elasticsearch.coord.volumeMounts | list | `[]` | volumeMounts |
 | elasticsearch.coord.podAnnotations | object | `{}` | podAnnotations |
-| elasticsearch.coord.podLabels | object | `{}` | Elasticsearch coordinating podLabels |
 | elasticsearch.coord.affinity | object | `{}` | affinity |
 | elasticsearch.coord.tolerations | list | `[]` | tolerations |
 | elasticsearch.coord.nodeSelector | object | `{}` | nodeSelector |
@@ -238,7 +232,6 @@ helm install elasticsearch-kibana chart/
 | metrics.serviceMonitor.tlsConfig | object | `{}` |  |
 | metrics.env | object | `{"ES_USERNAME":"elastic"}` | Environment Variable Passthrough to set Auth for Exporter |
 | metrics.extraEnvSecrets | object | `{"ES_PASSWORD":{"key":"elastic","secret":"logging-ek-es-elastic-user"}}` | Environment Variable Secret Mount to set Auth for Exporter Replace with empty braces if you would like to use a an API_KEY |
-| metrics.podLabels | object | `{}` | Prometheus podLabels |
 | openshift | bool | `false` | Openshift Container Platform Feature Toggle |
 | mattermost.enabled | bool | `false` | Mattermost integration toggle, controls mTLS exception and networkPolicies |
 | bbtests.enabled | bool | `false` | Big Bang CI/Dev toggle for helm tests |
