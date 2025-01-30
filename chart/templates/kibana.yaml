@@ -75,7 +75,7 @@ spec:
           {{- toYaml .updateStrategy | nindent 10 }}
         {{- end }}
       initContainers:
-        - name: elastic-internal-init-config
+        - name: elastic-internal-init
           securityContext:
             capabilities:
               drop:

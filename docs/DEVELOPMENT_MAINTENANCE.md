@@ -5,12 +5,9 @@ Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream 
 1. Ensure that newest elastic/kibana images are compatible. If possible the image tags should be the same, although patch version differences are OK.
 
 2. Checkout the `renovate/ironbank` branch.
-    - This branch should already have the updates you need for the images, `elasticsearch.version`, `kibana.version` and `appVersion` in `Chart.yaml`. Validate that the `version` values are equal to their respective `image.tag` value and that the `appVersion` is equal to the elasticsearch version.
+    - This branch should already have the updates you need for the images, `elasticsearch.version`, `kibana.version` as well as `version` and `appVersion` in `Chart.yaml`. Validate that the `version` values are equal to their respective `image.tag` value and that the `appVersion` is equal to the elasticsearch version.
 
-3. Modify the `version` in `Chart.yaml`.
-    - Since this is an upstream chart you should bump the versioning following semver, and append `-bb.0`. In general for new elastic/kibana versions this will mean bumping the minor version (i.e. `0.1.2-bb.0` to `0.2.0-bb.0`). This value is usually updated automatically by renovate bot.
-
-4. Update dependencies and binaries using `helm dependency update ./chart`
+3. Update dependencies and binaries using `helm dependency update ./chart`
     - Pull assets and commit the binaries as well as the Chart.lock file that was generated.
 
         ```shell
@@ -36,17 +33,14 @@ Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts
 
         - Otherwise (if a new chart does not exist with the new image), skip this image update and continue to `Step 5.`
 
-5. Update `CHANGELOG.md` adding an entry for the new version and noting all changes (at minimum should include `Updated Elasticsearch-Kibana to x.x.x`).
+4. Enusure that `CHANGELOG.md` has been updated by verifying or updating the entry for the new version and noting all changes (at minimum should include `Updated Elasticsearch-Kibana to x.x.x`).
 
-6. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md).
-    - Renovate bot may have already performed this step for you as well! 🤖
-
-7. Push up your changes, add upgrade notices if applicable, validate that CI passes.
+5. Push up your changes, add upgrade notices if applicable, validate that CI passes.
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
     - Add the `debug` label to the MR for more detailed information.
     - Reach out to the CODEOWNERS if needed.
 
-8. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
+6. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Elasticsearch-Kibana enabled (the below is a reference, actual changes could be more depending on what changes where made to Elasticsearch-Kibana in the pakcage MR).
 
@@ -70,9 +64,9 @@ Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts
       ### Additional compononents of Elasticsearch-Kibana should be changed to reflect testing changes introduced in the package MR
     ```
 
-10. Follow the `Testing a new Elasticsearch-Kibana version` section of this document for manual testing.
+6. Follow the `Testing a new Elasticsearch-Kibana version` section of this document for manual testing.
 
-# Testing a new Elasticsearch-Kibana version
+## Testing a new Elasticsearch-Kibana version
 
 - Run Helm Unittests
   - Make sure that you have helm unitests installed
