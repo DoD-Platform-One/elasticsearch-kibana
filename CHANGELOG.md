@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.25.0-bb.0] - 2025-01-22
+### Changed
+- gluon updated from 0.5.12 to 0.5.14
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.17.0 to 8.17.1
+- ironbank/elastic/kibana/kibana updated from 8.17.0 to 8.17.1
+- ironbank/opensource/kubernetes/kubectl updated from v1.30.8 to v1.30.9
+- update kibana init container name from eks-operator 2.16.1 update: https://github.com/elastic/cloud-on-k8s/issues/8426
+
 ## [1.24.0-bb.2] - 2024-12-23
 ### Changed
 

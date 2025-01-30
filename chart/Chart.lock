@@ -1,9 +1,9 @@
 dependencies:
 - name: gluon
   repository: oci://registry1.dso.mil/bigbang
-  version: 0.5.12
+  version: 0.5.14
 - name: prometheus-elasticsearch-exporter
   repository: file://./deps/prometheus-elasticsearch-exporter
   version: 6.6.0
-digest: sha256:4953146c2b6fcc9f29d15268ca3fa425f22448b5ce9c8f6aeb924387a3e25b74
-generated: "2024-12-23T06:30:49.891161-06:00"
+digest: sha256:00b369d34eeb14eb24d7b8cbb5c2e64e075f589d0f7b2935bfcaa8b051adb297
+generated: "2025-01-22T07:18:00.031578739Z"
