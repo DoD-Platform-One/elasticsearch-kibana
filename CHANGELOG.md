@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.28.0-bb.0] (2025-03-26)
+### Changed
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.17.3 to 8.17.4
+- ironbank/elastic/kibana/kibana updated from 8.17.3 to 8.17.4
+- ironbank/opensource/bitnami/elasticsearch-exporter updated from 1.8.0 to 1.9.0
+- ironbank/opensource/kubernetes/kubectl updated from v1.30.10 to v1.30.11
+
 ## [1.27.0-bb.0] (2025-03-05)
 ### Changed
 - ironbank/elastic/elasticsearch/elasticsearch updated from 8.17.2 to 8.17.3
