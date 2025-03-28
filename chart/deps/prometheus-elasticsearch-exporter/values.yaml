@@ -39,7 +39,7 @@ image:
   registry: registry1.dso.mil
   repository: ironbank/opensource/bitnami/elasticsearch-exporter
   # if not set appVersion field from Chart.yaml is used
-  tag: 1.8.0
+  tag: 1.9.0
   pullPolicy: IfNotPresent
   pullSecret: private-registry
 
