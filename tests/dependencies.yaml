@@ -1,4 +1,0 @@
-eckoperator:
-  git: 
-    repo: "https://repo1.dso.mil/big-bang/product/packages/eck-operator.git"
-  namespace: "eck-operator"
