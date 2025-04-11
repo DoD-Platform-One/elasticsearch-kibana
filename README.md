@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.28.0-bb.2](https://img.shields.io/badge/Version-1.28.0--bb.2-informational?style=flat-square) ![AppVersion: 8.17.4](https://img.shields.io/badge/AppVersion-8.17.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.28.0-bb.3](https://img.shields.io/badge/Version-1.28.0--bb.3-informational?style=flat-square) ![AppVersion: 8.17.4](https://img.shields.io/badge/AppVersion-8.17.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -238,7 +238,7 @@ helm install elasticsearch-kibana chart/
 | bbtests.cypress.artifacts | bool | `true` | Toggle creation of cypress artifacts |
 | bbtests.cypress.envs | object | `{"cypress_expect_logs":"false","cypress_kibana_url":"https://logging-ek-kb-http:5601"}` | ENVs added to cypress test pods |
 | bbtests.cypress.secretEnvs | list | `[{"name":"cypress_elastic_password","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to cypress test pods from existing secrets |
-| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/stedolan/jq:1.7"` | image to use for script based tests |
+| bbtests.scripts.image | string | `"registry1.dso.mil/ironbank/big-bang/base:2.1.0"` | image to use for script based tests |
 | bbtests.scripts.envs | object | `{"desired_version":"{{ .Values.elasticsearch.version }}","elasticsearch_host":"https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"}` | ENVs added to script test pods |
 | bbtests.scripts.secretEnvs | list | `[{"name":"ELASTIC_PASSWORD","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to script test pods from existing secrets |
 | waitJob.enabled | bool | `true` |  |

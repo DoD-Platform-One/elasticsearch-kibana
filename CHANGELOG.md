@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.28.0-bb.3] (2025-04-11)
+### Changed
+- registry1.dso.mil/ironbank/stedolan/jq:1.7.1 changed to registry1.dso.mil/ironbank/big-bang/base:2.1.0
+
 ## [1.28.0-bb.2] (2025-03-28)
 ### Changed
 - registry1.dso.mil/ironbank/stedolan/jq updated from 1.7.0 to 1.7.1

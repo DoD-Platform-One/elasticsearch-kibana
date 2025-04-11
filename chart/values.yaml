@@ -916,7 +916,7 @@ bbtests:
 
   scripts:
     # -- image to use for script based tests
-    image: registry1.dso.mil/ironbank/stedolan/jq:1.7
+    image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
     # -- ENVs added to script test pods
     envs:
       elasticsearch_host: "https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"
