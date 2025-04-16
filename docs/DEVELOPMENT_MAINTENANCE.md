@@ -10,30 +10,30 @@ Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream 
 3. Update dependencies and binaries using `helm dependency update ./chart`
     - Pull assets and commit the binaries as well as the Chart.lock file that was generated.
 
-        ```shell
-        helm dependency update ./chart
-        ```
+      ```shell
+      helm dependency update ./chart
+      ```
 
     - **If the `bitnami/elasticsearch-exporter` image is being updated:**
       - Check the [upstream prometheus-elasticsearch-exporter
-Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-elasticsearch-exporter/Chart.yaml) file to see if there is a new chart released with the new image update
+  Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-elasticsearch-exporter/Chart.yaml) file to see if there is a new chart released with the new image update
 
         - If a new chart exists with the new image, from the root of the repo run the following command:
-            - Run a KPT package update
+          - Run a KPT package update
 
-              ```shell
-              kpt pkg update chart/deps/prometheus-elasticsearch-exporter@prometheus-elasticsearch-exporter-<version> --strategy alpha-git-patch
-              ```
+            ```shell
+            kpt pkg update chart/deps/prometheus-elasticsearch-exporter@prometheus-elasticsearch-exporter-<version> --strategy alpha-git-patch
+            ```
 
-            - Update the `file://./deps/prometheus-elasticsearch-exporter` chart version in `chart/Chart.yaml`, image version in `chart/values.yaml` and `tests/images.txt`
+          - Update the `file://./deps/prometheus-elasticsearch-exporter` chart version in `chart/Chart.yaml`, image version in `chart/values.yaml` and `tests/images.txt`
 
-            - Last, update dependencies and binaries using `helm dependency update ./chart`.
+          - Last, update dependencies and binaries using `helm dependency update ./chart`.
 
-              **Note:** Any time any file in the `chart/deps/prometheus-elasticsearch-exporter` directory (or a sub-directory thereof) is changed, you must run `helm dependency update ./chart` to rebuild `chart/charts/prometheus-elasticsearch-exporter-<version>.tgz`.
+            **Note:** Any time any file in the `chart/deps/prometheus-elasticsearch-exporter` directory (or a sub-directory thereof) is changed, you must run `helm dependency update ./chart` to rebuild `chart/charts/prometheus-elasticsearch-exporter-<version>.tgz`.
 
         - Otherwise (if a new chart does not exist with the new image), skip this image update and continue to `Step 5.`
 
-4. Enusure that `CHANGELOG.md` has been updated by verifying or updating the entry for the new version and noting all changes (at minimum should include `Updated Elasticsearch-Kibana to x.x.x`).
+4. Ensure that `CHANGELOG.md` has been updated by verifying or updating the entry for the new version and noting all changes (at minimum should include `Updated Elasticsearch-Kibana to x.x.x`).
 
 5. Push up your changes, add upgrade notices if applicable, validate that CI passes.
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
@@ -42,27 +42,27 @@ Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts
 
 6. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
 
-    - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Elasticsearch-Kibana enabled (the below is a reference, actual changes could be more depending on what changes where made to Elasticsearch-Kibana in the pakcage MR).
+    - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Elasticsearch-Kibana enabled (the below is a reference, actual changes could be more depending on what changes where made to Elasticsearch-Kibana in the package MR).
 
     - For Elasticsearch-Kibana to pass CI/CD MR testing, <b>it is required to set Fluent Bit enabled to true</b> in the tests/test-values.yaml.
 
 ### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
 
-    ```yaml
-    fluentbit:
-      enabled: true # For MR CI/CD smoke test Elasticsearch-Kibana requires fluentbit.enabled to be set to true.
-    
-    elasticsearchKibana:
-      enabled: true
-      git:
-        tag: null
-        branch: <my-package-branch-that-needs-testing>
-      values:
-        istio:
-          hardened:
-            enabled: true
-      ### Additional compononents of Elasticsearch-Kibana should be changed to reflect testing changes introduced in the package MR
-    ```
+```yaml
+fluentbit:
+  enabled: true # For MR CI/CD smoke test Elasticsearch-Kibana requires fluentbit.enabled to be set to true.
+
+elasticsearchKibana:
+  enabled: true
+  git:
+    tag: null
+    branch: renovate/ironbank
+  values:
+    istio:
+      hardened:
+        enabled: true
+  ### Additional components of Elasticsearch-Kibana should be changed to reflect testing changes introduced in the package MR
+```
 
 6. Follow the `Testing a new Elasticsearch-Kibana version` section of this document for manual testing.
 
@@ -70,7 +70,7 @@ Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts
 
 - Run Helm Unittests
   - Make sure that you have helm unitests installed
-  - run `helm unittest chart` will run all tests under chart/tests/*_test.yaml
+  - run `helm unittest chart` will run all tests under `chart/tests/*_test.yaml`
 
 > NOTE: For these testing steps it is good to do them on both a clean install and an upgrade. For clean install, point Elasticsearch-Kibana to your branch. For an upgrade do an install with Elasticsearch-Kibana pointing to the latest tag, then perform a helm upgrade with Elasticsearch-Kibana pointing to your branch.
 
@@ -208,22 +208,22 @@ fluentbit:
 
 Testing Steps:
 
-- Ensure all pods go to running (NOTE: this is especially important for the upgrade testing since Big Bang has an "auto rolling upgrade" job in place)
-- If kyverno and kyvernoPolicies are enabled to `true` skip this step, otherwise if set to `false` in the `overrides/elasticsearchKibana.yaml` for testing the following secrets will need to be copied from the logging namespace to fluentbit in order to successfully test fluentbit log shipping to elasticsearch. See [fluentbit/DEVELOPMENT_MAINTENANCE.md manual testing for more detailed information](https://repo1.dso.mil/big-bang/product/packages/fluentbit/-/blob/main/docs/DEVELOPMENT_MAINTENANCE.md?ref_type=heads&plain=0#manual-testing-for-updates).
-- `logging-ek-es-http-certs-public`
-- `logging-ek-es-http-certs-internal`
-- `logging-ek-es-elastic-user`
+1. Ensure all pods go to running (NOTE: this is especially important for the upgrade testing since Big Bang has an "auto rolling upgrade" job in place)
+2. If kyverno and kyvernoPolicies are enabled to `true` skip this step, otherwise if set to `false` in the `overrides/elasticsearchKibana.yaml` for testing the following secrets will need to be copied from the logging namespace to fluentbit in order to successfully test fluentbit log shipping to elasticsearch. See [fluentbit/DEVELOPMENT_MAINTENANCE.md manual testing for more detailed information](https://repo1.dso.mil/big-bang/product/packages/fluentbit/-/blob/main/docs/DEVELOPMENT_MAINTENANCE.md?ref_type=heads&plain=0#manual-testing-for-updates).
+    - `logging-ek-es-http-certs-public`
+    - `logging-ek-es-http-certs-internal`
+    - `logging-ek-es-elastic-user`
 
-- Log in to Kibana with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md), using the password in the `logging-ek-es-elastic-user` secret and username `elastic`
+3. Log in to Kibana with [default credentials](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/guides/using-bigbang/default-credentials.md), using the password in the `logging-ek-es-elastic-user` secret and username `elastic`
 
     ```shell
     kubectl get secrets -n logging logging-ek-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'; echo
     ```
 
-- *Note*: This instruction is only relevant if SSO was enabled, skip otherwise. Navigate to <https://kibana.dev.bigbang.mil/app/management/security/role_mappings> and add a role mapping for SSO logins (name: sso, roles: superuser, mapping rules: username=*)
-- Logout and attempt to perform an SSO login with your login.dso.mil credentials
-- Navigate to <https://kibana.dev.bigbang.mil/app/discover#/> and click `Create data view` to add an index pattern to test (ex: `logstash-*`)
-- Navigate to `Analytics` -> `Discover` and validate that pod logs are appearing in the `logstash` index pattern
+4. *Note*: This instruction is only relevant if SSO was enabled, skip otherwise. Navigate to <https://kibana.dev.bigbang.mil/app/management/security/role_mappings> and add a role mapping for SSO logins (name: sso, roles: superuser, mapping rules: username=*)
+5. Logout and attempt to perform an SSO login with your login.dso.mil credentials
+6. Navigate to <https://kibana.dev.bigbang.mil/app/discover#/> and click `Create data view` to add an index pattern to test (ex: `logstash-*`)
+7. Navigate to `Analytics` -> `Discover` and validate that pod logs are appearing in the `logstash` index pattern
 
 When in doubt with any testing or upgrade steps ask one of the CODEOWNERS for assistance.
 
