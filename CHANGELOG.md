@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.28.0-bb.4] (2025-04-14)
+### Changed
+- gluon updated from 0.5.14 to 0.5.15
+- ironbank/opensource/kubernetes/kubectl updated from v1.30.11 to v1.32.3
+- prometheus-elasticsearch-exporter chart updated from 6.6.1 to 6.7.2
+
 ## [1.28.0-bb.3] (2025-04-11)
 ### Changed
 - registry1.dso.mil/ironbank/stedolan/jq:1.7.1 changed to registry1.dso.mil/ironbank/big-bang/base:2.1.0

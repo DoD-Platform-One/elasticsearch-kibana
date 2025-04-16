@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.28.0-bb.3](https://img.shields.io/badge/Version-1.28.0--bb.3-informational?style=flat-square) ![AppVersion: 8.17.4](https://img.shields.io/badge/AppVersion-8.17.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.28.0-bb.4](https://img.shields.io/badge/Version-1.28.0--bb.4-informational?style=flat-square) ![AppVersion: 8.17.4](https://img.shields.io/badge/AppVersion-8.17.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -242,7 +242,7 @@ helm install elasticsearch-kibana chart/
 | bbtests.scripts.envs | object | `{"desired_version":"{{ .Values.elasticsearch.version }}","elasticsearch_host":"https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"}` | ENVs added to script test pods |
 | bbtests.scripts.secretEnvs | list | `[{"name":"ELASTIC_PASSWORD","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to script test pods from existing secrets |
 | waitJob.enabled | bool | `true` |  |
-| waitJob.scripts.image | string | `"registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.30.11"` |  |
+| waitJob.scripts.image | string | `"registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.32.3"` |  |
 | waitJob.permissions.resources[0] | string | `"elasticsearch-kibana"` |  |
 
 ## Contributing
