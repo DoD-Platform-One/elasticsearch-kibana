@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.28.0-bb.4](https://img.shields.io/badge/Version-1.28.0--bb.4-informational?style=flat-square) ![AppVersion: 8.17.4](https://img.shields.io/badge/AppVersion-8.17.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.28.0-bb.5](https://img.shields.io/badge/Version-1.28.0--bb.5-informational?style=flat-square) ![AppVersion: 8.17.4](https://img.shields.io/badge/AppVersion-8.17.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -221,7 +221,7 @@ helm install elasticsearch-kibana chart/
 | upgradeJob.image.tag | string | `"2.1.0"` | image tag for upgradeJob |
 | monitoring.enabled | bool | `false` | Toggle BigBang monitoring integration, controls serviceMonitor template |
 | metrics.enabled | bool | `false` | Toggle Prometheus ElasticSearch Exporter Installation |
-| metrics.global | object | `{"imagePullSecrets":[{"name":"private-registry"}]}` | Exporter imagePullSecrets |
+| metrics.global | object | `{"imagePullSecrets":[]}` | Exporter imagePullSecrets |
 | metrics.image.registry | string | `"registry1.dso.mil"` |  |
 | metrics.image.repository | string | `"ironbank/opensource/bitnami/elasticsearch-exporter"` |  |
 | metrics.image.tag | string | `"1.9.0"` |  |

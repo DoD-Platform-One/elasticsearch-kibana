@@ -860,8 +860,7 @@ metrics:
   enabled: false
   # -- Exporter imagePullSecrets
   global:
-    imagePullSecrets:
-      - name: private-registry
+    imagePullSecrets: []
   image:
     registry: registry1.dso.mil
     repository: ironbank/opensource/bitnami/elasticsearch-exporter
