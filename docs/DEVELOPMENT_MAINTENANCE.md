@@ -31,8 +31,6 @@ Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream 
 
             **Note:** Any time any file in the `chart/deps/prometheus-elasticsearch-exporter` directory (or a sub-directory thereof) is changed, you must run `helm dependency update ./chart` to rebuild `chart/charts/prometheus-elasticsearch-exporter-<version>.tgz`.
 
-        - Otherwise (if a new chart does not exist with the new image), skip this image update and continue to `Step 5.`
-
 4. Ensure that `CHANGELOG.md` has been updated by verifying or updating the entry for the new version and noting all changes (at minimum should include `Updated Elasticsearch-Kibana to x.x.x`).
 
 5. Push up your changes, add upgrade notices if applicable, validate that CI passes.
