@@ -4,6 +4,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.28.0-bb.6] - 2025-05-22
+### Changed
+
+- ironbank/elastic/elasticsearch/elasticsearch updated from 8.17.4 to 8.18.1
+- ironbank/elastic/kibana/kibana updated from 8.17.4 to 8.18.1
+
 ## [1.28.0-bb.5] - 2025-04-18
 ### Changed
 
@@ -133,8 +139,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
   already performs rolling upgrades for elastic and kibana version changes which was all the upgrade job
   tried to do. Also, the upgrade job has been nonfunctional with Kyverno policies enabled for some time.
 
-  [Here](https://github.com/elastic/cloud-on-k8s/blob/7323879c77aecede9971cee8a4b4988906725d7b/docs/orchestrating-elastic-stack-applications/elasticsearch/orchestration.asciidoc#upgrading-the-cluster)
-  are the relevant docs from the ECK operator project outlining the operator's upgrade logic.
+  Ref: [ECK operator upgrade logic documentation](https://github.com/elastic/cloud-on-k8s/blob/7323879c77aecede9971cee8a4b4988906725d7b/docs/orchestrating-elastic-stack-applications/elasticsearch/orchestration.asciidoc#upgrading-the-cluster)
 
 ## [1.19.0-bb.1] - 2024-09-26
 
