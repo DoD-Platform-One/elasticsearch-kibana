@@ -4,10 +4,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.30.0-bb.0] (2025-05-12)
+### Changed
+- gluon updated from 0.5.18 to 0.5.19
+- registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch updated from 9.0.0 to 9.0.1
+
 ## [1.29.0-bb.1] (2025-05-08)
 ### Changed
 - gluon updated from 0.5.16 to 0.5.18
-- registry1.dso.mil/ironbank/elastic/kibana/kibana updated from 9.0.0 -> 9.0.1
+- registry1.dso.mil/ironbank/elastic/kibana/kibana updated from 9.0.0 to 9.0.1
 
 ## [1.29.0-bb.0] (2025-04-26)
 ### Changed
