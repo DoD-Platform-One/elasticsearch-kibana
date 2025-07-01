@@ -47,6 +47,10 @@ Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream 
 ### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
 
 ```yaml
+eckOperator:
+  # -- Toggle deployment of ECK Operator.
+  enabled: true
+
 fluentbit:
   enabled: true # For MR CI/CD smoke test Elasticsearch-Kibana requires fluentbit.enabled to be set to true.
 
@@ -86,6 +90,9 @@ The following overrides file can be used for a bare minimum `Elasticsearch-Kiban
 `overrides/elasticsearchKibana.yaml`
 
 ```yaml
+alloy:
+  enabled: false 
+
 kiali:
   enabled: false
 
@@ -120,9 +127,6 @@ addons:
   metricsServer:
     enabled: false
 
-istio:
-  enabled: true
-
 eckOperator:
   enabled: true
 
@@ -143,6 +147,9 @@ Or with SSO enabled:
 `overrides/elasticsearchKibana-sso.yaml`
 
 ```yaml
+alloy:
+  enabled: false
+
 kiali:
   enabled: false
 
@@ -173,9 +180,6 @@ grafana:
 addons:
   metricsServer:
     enabled: false
-
-istio:
-  enabled: true
 
 monitoring:
   enabled: true
