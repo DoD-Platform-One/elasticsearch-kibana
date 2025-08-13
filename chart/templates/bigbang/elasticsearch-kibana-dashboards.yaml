@@ -1,11 +1,11 @@
-{{- if and .Values.monitoring.enabled .Values.metrics.enabled}}
+{{- if and .Values.monitoring.enabled .Values.metrics.enabled .Values.dashboards.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: elastisearch-kibana-grafana-dashboards
-  namespace: monitoring
+  namespace: {{ .Values.dashboards.namespace }}
   labels:
-    grafana_dashboard: "1"
+    grafana_dashboard: {{ .Values.dashboards.labels.grafana_dashboard }}
 data:
   grafana-elastisearch-kibana-general.json: |
     {{ .Files.Get "dashboards/grafana-elastisearch-kibana-general.json" | nindent 4 }}

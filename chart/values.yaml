@@ -888,6 +888,14 @@ metrics:
       secret: logging-ek-es-elastic-user
       key: elastic
 
+## Grafana Monitoring Dashboard
+##
+dashboards:
+  enabled: true
+  namespace: "monitoring"
+  labels:
+    grafana_dashboard: '"1"'
+
 # -- Openshift Container Platform Feature Toggle
 openshift: false
 
