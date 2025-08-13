@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.30.0-bb.4](https://img.shields.io/badge/Version-1.30.0--bb.4-informational?style=flat-square) ![AppVersion: 9.0.1](https://img.shields.io/badge/AppVersion-9.0.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.30.0-bb.5](https://img.shields.io/badge/Version-1.30.0--bb.5-informational?style=flat-square) ![AppVersion: 9.0.1](https://img.shields.io/badge/AppVersion-9.0.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -231,7 +231,7 @@ helm install elasticsearch-kibana chart/
 | metrics.serviceMonitor.scheme | string | `""` |  |
 | metrics.serviceMonitor.tlsConfig | object | `{}` |  |
 | metrics.env | object | `{"ES_USERNAME":"elastic"}` | Environment Variable Passthrough to set Auth for Exporter |
-| metrics.extraEnvSecrets | object | `{"ES_PASSWORD":{"key":"elastic","secret":"logging-ek-es-@elastic-user"}}` | Environment Variable Secret Mount to set Auth for Exporter Replace with empty braces if you would like to use a an API_KEY |
+| metrics.extraEnvSecrets | object | `{"ES_PASSWORD":{"key":"elastic","secret":"logging-ek-es-elastic-user"}}` | Environment Variable Secret Mount to set Auth for Exporter Replace with empty braces if you would like to use a an API_KEY |
 | dashboards.enabled | bool | `true` |  |
 | dashboards.namespace | string | `"monitoring"` |  |
 | dashboards.labels.grafana_dashboard | string | `"\"1\""` |  |
