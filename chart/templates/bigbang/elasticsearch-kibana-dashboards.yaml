@@ -5,7 +5,7 @@ metadata:
   name: elastisearch-kibana-grafana-dashboards
   namespace: {{ .Values.dashboards.namespace }}
   labels:
-    grafana_dashboard: {{ .Values.dashboards.labels.grafana_dashboard }}
+  {{ toYaml .Values.dashboards.labels | indent 2 }}
 data:
   grafana-elastisearch-kibana-general.json: |
     {{ .Files.Get "dashboards/grafana-elastisearch-kibana-general.json" | nindent 4 }}
