@@ -894,7 +894,7 @@ dashboards:
   enabled: true
   namespace: "monitoring"
   labels:
-    grafana_dashboard: '"1"'
+    grafana_dashboard: "1"
 
 # -- Openshift Container Platform Feature Toggle
 openshift: false
