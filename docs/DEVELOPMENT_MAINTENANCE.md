@@ -2,7 +2,8 @@
 
 Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream chart. The below details the steps required to update to a new version of the package.
 
-1. Ensure that newest elastic/kibana images are compatible. If possible the image tags should be the same, although patch version differences are OK.
+
+1. Ensure that newest elastic/kibana images are compatible. If possible the image tags should be the same, although patch version differences are OK. 
 
 2. Checkout the `renovate/ironbank` branch.
     - This branch should already have the updates you need for the images, `elasticsearch.version`, `kibana.version` as well as `version` and `appVersion` in `Chart.yaml`. Validate that the `version` values are equal to their respective `image.tag` value and that the `appVersion` is equal to the elasticsearch version.
@@ -105,9 +106,6 @@ kyvernoPolicies:
 kyvernoReporter:
   enabled: false
 
-promtail:
-  enabled: false
-
 loki:
   enabled: false
 
@@ -160,9 +158,6 @@ kyvernoPolicies:
   enabled: true
 
 kyvernoReporter:
-  enabled: false
-
-promtail:
   enabled: false
 
 loki:
@@ -224,7 +219,7 @@ Testing Steps:
 
 4. *Note*: This instruction is only relevant if SSO was enabled, skip otherwise. Navigate to <https://kibana.dev.bigbang.mil/app/management/security/role_mappings> and add a role mapping for SSO logins (name: sso, roles: superuser, mapping rules: username=*)
 5. Logout and attempt to perform an SSO login with your login.dso.mil credentials
-6. Navigate to <https://kibana.dev.bigbang.mil/app/discover#/> and click `Create data view` to add an index pattern to test (ex: `logstash-*`)
+6. Login to Kibana, then navigate to https://kibana.dev.bigbang.mil/app/management/kibana/indexPatterns and create a data view for an index pattern to test (ex: `logstash-*`)
 7. Navigate to `Analytics` -> `Discover` and validate that pod logs are appearing in the `logstash` index pattern
 
 When in doubt with any testing or upgrade steps ask one of the CODEOWNERS for assistance.
