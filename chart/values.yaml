@@ -189,6 +189,16 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
+    # -- Add configs to Master nodes
+    config:
+      index.store.type: mmapfs
+      node.roles: ["master"]
+      node.store.allow_mmap: true
+      # If ML.enabled = true in values this is be set to true as well
+      xpack.ml.enabled: false
+      xpack.security.authc.token.enabled: true
+
+
     # -- Set securityContext for elasticsearch master node sets
     securityContext:
       runAsUser: 1000
@@ -292,6 +302,15 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
+    # -- Add configs to Data nodes
+    config:
+      index.store.type: mmapfs
+      node.roles: ["data", "ingest"]
+      node.store.allow_mmap: true
+      # If ML.enabled = true in values this is be set to true as well
+      xpack.ml.enabled: false
+      xpack.security.authc.token.enabled: true
+
     # -- Set securityContext for elasticsearch data node sets
     securityContext:
       runAsUser: 1000
@@ -392,6 +411,15 @@ elasticsearch:
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
 
+    # -- Add configs to Ingest Nodes
+    config:
+      index.store.type: mmapfs
+      node.roles: ["ingest"]
+      node.store.allow_mmap: true
+      # If ML.enabled = true in values this is be set to true as well
+      xpack.ml.enabled: false
+      xpack.security.authc.token.enabled: true
+
     # -- Set securityContext for elasticsearch ingest node sets
     securityContext:
       runAsUser: 1000
@@ -482,6 +510,7 @@ elasticsearch:
   # Values for Elasticsearch ML node sets.
   ml:
     # -- Enable Machine Learning specific Elasticsearch pods
+    # If enabled to true then the xpack.ml.enabled should be true for master, data, ingest, ml, coordinating node config below 
     enabled: false
     # -- initContainers
     initContainers: []
@@ -491,6 +520,15 @@ elasticsearch:
     #     privileged: true
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+
+    # -- Add configs to ML Nodes
+    config:
+      index.store.type: mmapfs
+      node.roles: ["ml"]
+      node.store.allow_mmap: true
+      # If ML.enabled = true in values this is be set to true as well
+      xpack.ml.enabled: false
+      xpack.security.authc.token.enabled: true
 
     # -- Set securityContext for elasticsearch ml node sets
     securityContext:
@@ -597,6 +635,14 @@ elasticsearch:
     #     privileged: true
     #   image: busybox
     #   command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+
+    # -- Add configs to Coordinating Nodes
+    config:
+      index.store.type: mmapfs
+      node.store.allow_mmap: true
+      # If ML.enabled = true in values this is be set to true as well
+      xpack.ml.enabled: false
+      xpack.security.authc.token.enabled: true
 
     # -- Set securityContext for elasticsearch coordinating node sets
     securityContext:

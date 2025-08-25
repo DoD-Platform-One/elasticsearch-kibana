@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.30.0-bb.7] (2025-08-22)
+### Added
+- Ability to add in config values for the Elasticsearch nodes (ingest,ml,data,master,coordinating)
+
 ## [1.30.0-bb.6] (2025-08-21)
 ### Changed
 - registry1.dso.mil/ironbank/elastic/kibana/kibana updated from 9.0.3 to 9.1.0

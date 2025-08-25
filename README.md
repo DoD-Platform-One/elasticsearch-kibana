@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.30.0-bb.6](https://img.shields.io/badge/Version-1.30.0--bb.6-informational?style=flat-square) ![AppVersion: 9.1.1](https://img.shields.io/badge/AppVersion-9.1.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.30.0-bb.7](https://img.shields.io/badge/Version-1.30.0--bb.7-informational?style=flat-square) ![AppVersion: 9.1.1](https://img.shields.io/badge/AppVersion-9.1.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -74,6 +74,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.serviceAccountAnnotations | object | `{}` | Annotations for the elasticsearch service account. |
 | elasticsearch.podDisruptionBudget | object | `{"enabled":true,"spec":{}}` | Elasticsearch podDisruptionBudget https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-pod-disruption-budget.html |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
+| elasticsearch.master.config | object | `{"index.store.type":"mmapfs","node.roles":["master"],"node.store.allow_mmap":true,"xpack.ml.enabled":false,"xpack.security.authc.token.enabled":true}` | Add configs to Master nodes |
 | elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
 | elasticsearch.master.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | elasticsearch.master.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch master updateStrategy |
@@ -91,6 +92,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.master.heap.min | string | `"2g"` | Elasticsearch master Java heap Xms setting |
 | elasticsearch.master.heap.max | string | `"2g"` | Elasticsearch master Java heap Xmx setting |
 | elasticsearch.data.initContainers | list | `[]` | Add init containers to data pods |
+| elasticsearch.data.config | object | `{"index.store.type":"mmapfs","node.roles":["data","ingest"],"node.store.allow_mmap":true,"xpack.ml.enabled":false,"xpack.security.authc.token.enabled":true}` | Add configs to Data nodes |
 | elasticsearch.data.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch data node sets |
 | elasticsearch.data.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | elasticsearch.data.volumes | list | `[]` | Elasticsearch data volumes |
@@ -108,6 +110,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.data.heap.max | string | `"2g"` | Elasticsearch data Java heap Xmx setting |
 | elasticsearch.ingest.enabled | bool | `false` | Enable ingest specific Elasticsearch pods |
 | elasticsearch.ingest.initContainers | list | `[]` | initContainers |
+| elasticsearch.ingest.config | object | `{"index.store.type":"mmapfs","node.roles":["ingest"],"node.store.allow_mmap":true,"xpack.ml.enabled":false,"xpack.security.authc.token.enabled":true}` | Add configs to Ingest Nodes |
 | elasticsearch.ingest.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ingest node sets |
 | elasticsearch.ingest.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | elasticsearch.ingest.volumes | list | `[]` | volumes |
@@ -123,8 +126,9 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.ingest.resources | object | `{"limits":{"cpu":1,"memory":"4Gi"},"requests":{"cpu":1,"memory":"4Gi"}}` | Elasticsearch ingest pod resources |
 | elasticsearch.ingest.heap.min | string | `"2g"` | Xms |
 | elasticsearch.ingest.heap.max | string | `"2g"` | Xmx |
-| elasticsearch.ml.enabled | bool | `false` | Enable Machine Learning specific Elasticsearch pods |
+| elasticsearch.ml.enabled | bool | `false` | Enable Machine Learning specific Elasticsearch pods If enabled to true then the xpack.ml.enabled should be true for master, data, ingest, ml, coordinating node config below  |
 | elasticsearch.ml.initContainers | list | `[]` | initContainers |
+| elasticsearch.ml.config | object | `{"index.store.type":"mmapfs","node.roles":["ml"],"node.store.allow_mmap":true,"xpack.ml.enabled":false,"xpack.security.authc.token.enabled":true}` | Add configs to ML Nodes |
 | elasticsearch.ml.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch ml node sets |
 | elasticsearch.ml.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | elasticsearch.ml.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch ml updateStrategy |
@@ -143,6 +147,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.ml.heap.max | string | `"2g"` | Xmx |
 | elasticsearch.coord.enabled | bool | `false` | Enable coordinating specific Elasticsearch pods |
 | elasticsearch.coord.initContainers | list | `[]` | initContainers |
+| elasticsearch.coord.config | object | `{"index.store.type":"mmapfs","node.store.allow_mmap":true,"xpack.ml.enabled":false,"xpack.security.authc.token.enabled":true}` | Add configs to Coordinating Nodes |
 | elasticsearch.coord.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch coordinating node sets |
 | elasticsearch.coord.containersecurityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | elasticsearch.coord.updateStrategy | object | `{"rollingUpdate":{"maxUnavailable":1},"type":"rollingUpdate"}` | Elasticsearch coord updateStrategy |
