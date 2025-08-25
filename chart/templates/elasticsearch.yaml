@@ -31,11 +31,13 @@ spec:
     count: {{ .count }}
 
     config:
-      index.store.type: mmapfs
-      node.roles: ["master"]
-      node.store.allow_mmap: true
-      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
-      xpack.security.authc.token.enabled: true
+      {{- range $key, $val := .config }}
+      {{- if kindIs "slice" $val }}
+      {{ $key }}: {{ $val | toJson }}
+      {{- else }}
+      {{ $key }}: {{ $val }}
+      {{- end }}
+    {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -136,11 +138,13 @@ spec:
     count: {{ .count }}
 
     config:
-      index.store.type: mmapfs
-      node.roles: ["data", "ingest"]
-      node.store.allow_mmap: true
-      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
-      xpack.security.authc.token.enabled: true
+      {{- range $key, $val := .config }}
+      {{- if kindIs "slice" $val }}
+      {{ $key }}: {{ $val | toJson }}
+      {{- else }}
+      {{ $key }}: {{ $val }}
+      {{- end }}
+    {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -245,11 +249,13 @@ spec:
     count: {{ .count }}
 
     config:
-      index.store.type: mmapfs
-      node.roles: ["ingest"]
-      node.store.allow_mmap: true
-      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
-      xpack.security.authc.token.enabled: true
+      {{- range $key, $val := .config }}
+      {{- if kindIs "slice" $val }}
+      {{ $key }}: {{ $val | toJson }}
+      {{- else }}
+      {{ $key }}: {{ $val }}
+      {{- end }}
+    {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -347,11 +353,13 @@ spec:
     count: {{ .count }}
 
     config:
-      index.store.type: mmapfs
-      node.roles: ["ml"]
-      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
-      node.store.allow_mmap: true
-      xpack.security.authc.token.enabled: true
+      {{- range $key, $val := .config }}
+      {{- if kindIs "slice" $val }}
+      {{ $key }}: {{ $val | toJson }}
+      {{- else }}
+      {{ $key }}: {{ $val }}
+      {{- end }}
+    {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -452,10 +460,13 @@ spec:
     count: {{ .count }}
 
     config:
-      index.store.type: mmapfs
-      node.store.allow_mmap: true
-      xpack.ml.enabled: {{ $.Values.elasticsearch.ml.enabled }}
-      xpack.security.authc.token.enabled: true
+      {{- range $key, $val := .config }}
+      {{- if kindIs "slice" $val }}
+      {{ $key }}: {{ $val | toJson }}
+      {{- else }}
+      {{ $key }}: {{ $val }}
+      {{- end }}
+    {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
