@@ -109,7 +109,13 @@ kibana:
     # postStart:
     #   exec:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
-
+      # -- Additional Kibana configuration
+  # Notes:
+  #  - Any key you put here must match the Kibana config file format:
+  #    https://www.elastic.co/guide/en/kibana/current/settings.html
+  #  - Values here are deep-merged into the chart’s defaults in _kibana-config.tpl, so your custom config takes precedence
+  #  - If left empty (`{}`), the chart will apply its defaults in _kibana-config.tpl.
+  config: {}
   # -- Kibana Elastic Agent / Fleet Server configuration
   # https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html
   agents: {}

@@ -8,43 +8,7 @@ spec:
   count: {{ .Values.kibana.count }}
   image: {{ .Values.kibana.image.repository }}:{{ .Values.kibana.image.tag }}
 
-  config:
-    {{- if and .Values.istio.enabled .Values.istio.elasticsearch.enabled }}
-    elasticsearch.hosts:
-      - http://{{ .Release.Name }}-es-http:9200
-    {{- end }}
-    {{- if .Values.bbtests.enabled }}
-    # To make Cypress happy we need to disable the strict CSP rules
-    csp.strict: false
-    {{- end }}
-    {{- with .Values.sso }}
-    {{- if .enabled }}
-    xpack.security.authc.providers:
-      oidc.oidc1:
-        enabled: true
-        order: 0
-        realm: {{ .oidc.realm }}
-      {{- if $.Values.kibanaBasicAuth.enabled }}
-      basic.basic1:
-        enabled: true
-        order: 1
-      {{- end }}
-    {{- end }}
-    {{- end }}
-    server:
-      {{- if .Values.kibana.host }}
-      publicBaseUrl: "https://{{ .Values.kibana.host }}"
-      {{- else if .Values.istio.kibana.hosts }}
-      publicBaseUrl: "https://{{ tpl (index .Values.istio.kibana.hosts 0) $ }}"
-      {{- else }}
-      publicBaseUrl: "https://kibana.bigbang.dev"
-      {{- end }}
-    {{- if and .Values.kibana.agents.elasticsearchHosts .Values.kibana.agents.fleetserverHosts .Values.kibana.agents.packages .Values.kibana.agents.agentPolicies }}
-    xpack.fleet.agents.elasticsearch.hosts: {{ .Values.kibana.agents.elasticsearchHosts }}
-    xpack.fleet.agents.fleet_server.hosts: {{ .Values.kibana.agents.fleetserverHosts }}
-    xpack.fleet.packages: {{- toYaml .Values.kibana.agents.packages | nindent 6 }}
-    xpack.fleet.agentPolicies: {{- toYaml .Values.kibana.agents.agentPolicies | nindent 6 }}
-    {{- end }}
+  config: {{ include "kibana.config" . | nindent 4 }}
 
   elasticsearchRef:
     name: {{ .Release.Name }}
