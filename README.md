@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.30.0-bb.7](https://img.shields.io/badge/Version-1.30.0--bb.7-informational?style=flat-square) ![AppVersion: 9.1.1](https://img.shields.io/badge/AppVersion-9.1.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.30.0-bb.8](https://img.shields.io/badge/Version-1.30.0--bb.8-informational?style=flat-square) ![AppVersion: 9.1.1](https://img.shields.io/badge/AppVersion-9.1.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -65,6 +65,7 @@ helm install elasticsearch-kibana chart/
 | kibana.tolerations | list | `[]` | Kibana tolerations |
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
+| kibana.config | object | `{}` | Additional Kibana configuration Notes:  - Any key you put here must match the Kibana config file format:    https://www.elastic.co/guide/en/kibana/current/settings.html  - Values here are deep-merged into the chart’s defaults in _kibana-config.tpl, so your custom config takes precedence  - If left empty (`{}`), the chart will apply its defaults in _kibana-config.tpl. |
 | kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html |
 | elasticsearch.version | string | `"9.1.1"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
