@@ -15,12 +15,12 @@ fluentbit:
 
 kibana:
   # -- Kibana version
-  version: 9.1.0
+  version: 9.1.3
   image:
     # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     # -- Kibana image tag
-    tag: 9.1.0
+    tag: 9.1.3
 
   # -- Kibana Ingress Host Value.
   # Only required if not using Istio for ingress.
@@ -162,12 +162,12 @@ kibana:
 
 elasticsearch:
   # -- Elasticsearch version
-  version: 9.1.1
+  version: 9.1.3
   image:
     # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     # -- Elasticsearch image tag
-    tag: 9.1.1
+    tag: 9.1.3
 
   # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
@@ -992,7 +992,7 @@ bbtests:
 waitJob:
   enabled: true
   scripts:
-    image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.32.7
+    image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.33.5
   permissions:
     resources:
      - elasticsearch-kibana

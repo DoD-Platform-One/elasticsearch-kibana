@@ -1,11 +1,11 @@
 apiVersion: v2
 name: elasticsearch-kibana
 description: Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
-version: 1.30.0-bb.8
-appVersion: 9.1.1
+version: 1.31.0-bb.0
+appVersion: 9.1.3
 dependencies:
   - name: gluon
-    version: 0.7.0
+    version: 0.9.0
     repository: oci://registry1.dso.mil/bigbang
   - name: prometheus-elasticsearch-exporter
     repository: file://./deps/prometheus-elasticsearch-exporter
@@ -15,8 +15,8 @@ dependencies:
 annotations:
   bigbang.dev/maintenanceTrack: bb_integrated
   bigbang.dev/applicationVersions: |
-    - Kibana: 9.1.0
-    - Elasticsearch: 9.1.1
+    - Kibana: 9.1.3
+    - Elasticsearch: 9.1.3
   bigbang.dev/upstreamReleaseNotesMarkdown: |
     This chart has no upstream and is maintained entirely by the Big Bang team. It is 
     (usually) updated any time new versions of elasticsearch and kibana are released
@@ -26,9 +26,9 @@ annotations:
     - [Kibana](https://www.elastic.co/guide/en/kibana/current/release-notes.html)
   helm.sh/images: |
     - name: kibana
-      image: registry1.dso.mil/ironbank/elastic/kibana/kibana:9.1.0
+      image: registry1.dso.mil/ironbank/elastic/kibana/kibana:9.1.3
     - name: elasticsearch
-      image: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch:9.1.1
+      image: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch:9.1.3
     - name: base
       image: registry1.dso.mil/ironbank/big-bang/base:2.1.0
     - name: script-tests
@@ -38,4 +38,4 @@ annotations:
       condition: metrics.enabled
       image: registry1.dso.mil/ironbank/opensource/bitnami/elasticsearch-exporter:1.9.0
     - name: kubectl
-      image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.32.7
+      image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.33.5

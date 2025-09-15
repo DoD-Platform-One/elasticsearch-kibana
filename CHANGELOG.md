@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.31.0-bb.0] (2025-09-10)
+### Updated
+- gluon updated from 0.7.0 to 0.9.0
+- registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch 9.1.1 -> 9.1.3
+- registry1.dso.mil/ironbank/elastic/kibana/kibana 9.1.0 -> 9.1.3
+- registry1.dso.mil/ironbank/opensource/kubernetes/kubectl v1.32.7 -> v1.33.5
+
 ## [1.30.0-bb.8] (2025-09-03)
 ### Added
 - Ability to add in config values to replace default config values for the Kibana resource from values.yaml
