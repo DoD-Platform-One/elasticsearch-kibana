@@ -1,11 +1,19 @@
 {
-  "baseBranches": ["main"],
+  "baseBranches": [
+    "main"
+  ],
   "configWarningReuseIssue": false,
   "dependencyDashboard": true,
   "dependencyDashboardTitle": "Renovate: Upgrade Elasticsearch/Kibana Package Dependencies",
-  "enabledManagers": ["custom.regex", "helm-values", "helmv3"],
+  "enabledManagers": [
+    "custom.regex",
+    "helm-values",
+    "helmv3"
+  ],
   "draftPR": true,
-  "ignorePaths": ["chart/charts/**"],
+  "ignorePaths": [
+    "chart/charts/**"
+  ],
   "labels": [
     "elasticsearch",
     "Big Bang Core",
@@ -15,30 +23,44 @@
     "team::Observability"
   ],
   "separateMajorMinor": false,
-  "postUpdateOptions": ["helmUpdateSubChartArchives"],
+  "postUpdateOptions": [
+    "helmUpdateSubChartArchives"
+  ],
   "packageRules": [
     {
-      "matchDatasources": ["docker"],
+      "matchDatasources": [
+        "docker"
+      ],
       "groupName": "Ironbank",
-      "registryUrls": ["https://registry1.dso.mil"],
+      "registryUrls": [
+        "https://registry1.dso.mil"
+      ],
       "postUpgradeTasks": {
         "commands": [
           "bump-chart-yaml",
           "regenerate-helm-docs",
           "bump-changelog '- {{{replace 'registry1.dso.mil/' '' depName}}} updated from {{{currentVersion}}} to {{{newVersion}}}'"
         ],
-        "fileFilters": ["chart/Chart.yaml", "README.md", "CHANGELOG.md"]
+        "fileFilters": [
+          "chart/Chart.yaml",
+          "README.md",
+          "CHANGELOG.md"
+        ]
       }
     },
     {
-      "matchPackageNames": ["registry1.dso.mil/ironbank/big-bang/base"],
+      "matchPackageNames": [
+        "registry1.dso.mil/ironbank/big-bang/base"
+      ],
       "allowedVersions": "!/8.4/"
     }
   ],
   "customManagers": [
     {
       "customType": "regex",
-      "fileMatch": ["^chart/values\\.yaml$"],
+      "managerFilePatterns": [
+        "/^chart/values\\.yaml$/"
+      ],
       "matchStrings": [
         "Elasticsearch version\\n\\s+version:\\s+(?<currentValue>.+)"
       ],
@@ -47,14 +69,20 @@
     },
     {
       "customType": "regex",
-      "fileMatch": ["^chart/values\\.yaml$"],
-      "matchStrings": ["Kibana version\\n\\s+version:\\s+(?<currentValue>.+)"],
+      "managerFilePatterns": [
+        "/^chart/values\\.yaml$/"
+      ],
+      "matchStrings": [
+        "Kibana version\\n\\s+version:\\s+(?<currentValue>.+)"
+      ],
       "depNameTemplate": "registry1.dso.mil/ironbank/elastic/kibana/kibana",
       "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "managerFilePatterns": [
+        "/^chart/Chart\\.yaml$/"
+      ],
       "matchStrings": [
         "- Elasticsearch:\\s+(?<currentValue>.+)",
         "appVersion:\\s+(?<currentValue>.+)"
@@ -64,26 +92,40 @@
     },
     {
       "customType": "regex",
-      "fileMatch": ["^chart/Chart\\.yaml$"],
-      "matchStrings": ["- Kibana:\\s+(?<currentValue>.+)"],
+      "managerFilePatterns": [
+        "/^chart/Chart\\.yaml$/"
+      ],
+      "matchStrings": [
+        "- Kibana:\\s+(?<currentValue>.+)"
+      ],
       "depNameTemplate": "registry1.dso.mil/ironbank/elastic/kibana/kibana",
       "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^tests/images\\.txt$"],
-      "matchStrings": ["\\s*(?<depName>.+):(?<currentValue>.+)"],
+      "managerFilePatterns": [
+        "/^tests/images\\.txt$/"
+      ],
+      "matchStrings": [
+        "\\s*(?<depName>.+):(?<currentValue>.+)"
+      ],
       "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^chart/Chart\\.yaml$"],
-      "matchStrings": ["image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"],
+      "managerFilePatterns": [
+        "/^chart/Chart\\.yaml$/"
+      ],
+      "matchStrings": [
+        "image:[^\\S\\r\\n]+(?<depName>.+):(?<currentValue>.+)"
+      ],
       "datasourceTemplate": "docker"
     },
     {
       "customType": "regex",
-      "fileMatch": ["^chart/Chart\\.yaml$"],
+      "managerFilePatterns": [
+        "/^chart/Chart\\.yaml$/"
+      ],
       "matchStrings": [
         "image:[^\\S\\r\\n]+(?<depName>.+)elasticsearch-exporter:(?<currentValue>.+)"
       ],
