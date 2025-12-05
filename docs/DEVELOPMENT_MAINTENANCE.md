@@ -3,7 +3,7 @@
 Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream chart. The below details the steps required to update to a new version of the package.
 
 
-1. Ensure that newest elastic/kibana images are compatible. If possible the image tags should be the same, although patch version differences are OK. 
+1. Ensure that newest elastic image and kibana image is version compatible. If possible the image tags should be the same, although patch version differences are OK. 
 
 2. Checkout the `renovate/ironbank` branch.
     - This branch should already have the updates you need for the images, `elasticsearch.version`, `kibana.version` as well as `version` and `appVersion` in `Chart.yaml`. Validate that the `version` values are equal to their respective `image.tag` value and that the `appVersion` is equal to the elasticsearch version.
@@ -15,22 +15,14 @@ Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream 
       helm dependency update ./chart
       ```
 
-    - **If the `bitnami/elasticsearch-exporter` image is being updated:**
+    - **If the `elasticsearch-exporter` image is being updated:**
       - Check the [upstream prometheus-elasticsearch-exporter
   Chart.yaml](https://github.com/prometheus-community/helm-charts/blob/main/charts/prometheus-elasticsearch-exporter/Chart.yaml) file to see if there is a new chart released with the new image update
 
         - If a new chart exists with the new image, from the root of the repo run the following command:
-          - Run a KPT package update
-
-            ```shell
-            kpt pkg update chart/deps/prometheus-elasticsearch-exporter@prometheus-elasticsearch-exporter-<version> --strategy alpha-git-patch
-            ```
-
-          - Update the `file://./deps/prometheus-elasticsearch-exporter` chart version in `chart/Chart.yaml`, image version in `chart/values.yaml` and `tests/images.txt`
-
-          - Last, update dependencies and binaries using `helm dependency update ./chart`.
-
-            **Note:** Any time any file in the `chart/deps/prometheus-elasticsearch-exporter` directory (or a sub-directory thereof) is changed, you must run `helm dependency update ./chart` to rebuild `chart/charts/prometheus-elasticsearch-exporter-<version>.tgz`.
+          ```shell
+          helm dependency update ./chart
+          ```
 
 4. Ensure that `CHANGELOG.md` has been updated by verifying or updating the entry for the new version and noting all changes (at minimum should include `Updated Elasticsearch-Kibana to x.x.x`).
 

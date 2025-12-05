@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.33.0-bb.0](https://img.shields.io/badge/Version-1.33.0--bb.0-informational?style=flat-square) ![AppVersion: 9.1.5](https://img.shields.io/badge/AppVersion-9.1.5-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.34.0-bb.0](https://img.shields.io/badge/Version-1.34.0--bb.0-informational?style=flat-square) ![AppVersion: 9.2.1](https://img.shields.io/badge/AppVersion-9.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -46,9 +46,9 @@ helm install elasticsearch-kibana chart/
 | autoRollingUpgrade.enabled | bool | `true` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
 | fluentbit | object | `{"enabled":false}` | Toggle for networkpolicies to allow fluentbit ingress |
-| kibana.version | string | `"9.1.5"` | Kibana version |
+| kibana.version | string | `"9.2.1"` | Kibana version |
 | kibana.image.repository | string | `"registry1.dso.mil/ironbank/elastic/kibana/kibana"` | Kibana image repository |
-| kibana.image.tag | string | `"9.1.5"` | Kibana image tag |
+| kibana.image.tag | string | `"9.2.1"` | Kibana image tag |
 | kibana.host | string | `""` | Kibana Ingress Host Value. Only required if not using Istio for ingress. |
 | kibana.count | int | `3` | Number of Kibana replicas |
 | kibana.serviceAccountName | string | `"logging-kibana"` | Name for serviceAccount to use, will be autocreated. |
@@ -65,11 +65,11 @@ helm install elasticsearch-kibana chart/
 | kibana.tolerations | list | `[]` | Kibana tolerations |
 | kibana.nodeSelector | object | `{}` | Kibana nodeSelector |
 | kibana.lifecycle | object | `{}` | Kibana lifecycle |
-| kibana.config | object | `{}` | Additional Kibana configuration Notes:  - Any key you put here must match the Kibana config file format:    https://www.elastic.co/guide/en/kibana/current/settings.html  - Values here are deep-merged into the chart’s defaults in _kibana-config.tpl, so your custom config takes precedence  - If left empty (`{}`), the chart will apply its defaults in _kibana-config.tpl. |
+| kibana.config | object | `{}` | Additional Kibana configuration: Any key you put here must match the Kibana config file format: https://www.elastic.co/guide/en/kibana/current/settings.html Values here are deep-merged into the chart’s defaults in `_kibana-config.tpl`, so your custom config takes precedence If left empty (`{}`), the chart will apply its defaults in `_kibana-config.tpl`. |
 | kibana.agents | object | `{}` | Kibana Elastic Agent / Fleet Server configuration https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html |
-| elasticsearch.version | string | `"9.1.5"` | Elasticsearch version |
+| elasticsearch.version | string | `"9.2.1"` | Elasticsearch version |
 | elasticsearch.image.repository | string | `"registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch"` | Elasticsearch image repository |
-| elasticsearch.image.tag | string | `"9.1.5"` | Elasticsearch image tag |
+| elasticsearch.image.tag | string | `"9.2.1"` | Elasticsearch image tag |
 | elasticsearch.imagePullSecrets | list | `[]` | Elasticsearch imagePullSecrets |
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.serviceAccountAnnotations | object | `{}` | Annotations for the elasticsearch service account. |
@@ -227,15 +227,9 @@ helm install elasticsearch-kibana chart/
 | upgradeJob.image.tag | string | `"2.1.0"` | image tag for upgradeJob |
 | monitoring.enabled | bool | `false` | Toggle BigBang monitoring integration, controls serviceMonitor template |
 | metrics.enabled | bool | `false` | Toggle Prometheus ElasticSearch Exporter Installation |
-| metrics.global | object | `{"imagePullSecrets":[]}` | Exporter imagePullSecrets |
-| metrics.image.registry | string | `"registry1.dso.mil"` |  |
-| metrics.image.repository | string | `"ironbank/opensource/bitnami/elasticsearch-exporter"` |  |
-| metrics.image.tag | string | `"1.9.0"` |  |
-| metrics.image.pullSecret | string | `"private-registry"` |  |
+| metrics.image | object | `{"pullPolicy":"Always","pullSecret":"private-registry","registry":"registry1.dso.mil","repository":"ironbank/opensource/elasticsearch-exporter","tag":"v1.9.0"}` | Exporter imagePullSecrets |
 | metrics.podSecurityContext | object | `{"runAsGroup":1000}` | Pod securityContext |
 | metrics.securityContext | object | `{"runAsGroup":1000,"runAsUser":1000}` | Container securityContext |
-| metrics.serviceMonitor.scheme | string | `""` |  |
-| metrics.serviceMonitor.tlsConfig | object | `{}` |  |
 | metrics.env | object | `{"ES_USERNAME":"elastic"}` | Environment Variable Passthrough to set Auth for Exporter |
 | metrics.extraEnvSecrets | object | `{"ES_PASSWORD":{"key":"elastic","secret":"logging-ek-es-elastic-user"}}` | Environment Variable Secret Mount to set Auth for Exporter Replace with empty braces if you would like to use a an API_KEY |
 | dashboards.enabled | bool | `true` |  |
@@ -251,7 +245,7 @@ helm install elasticsearch-kibana chart/
 | bbtests.scripts.envs | object | `{"desired_version":"{{ .Values.elasticsearch.version }}","elasticsearch_host":"https://{{ .Release.Name }}-es-http.{{ .Release.Namespace }}.svc.cluster.local:9200"}` | ENVs added to script test pods |
 | bbtests.scripts.secretEnvs | list | `[{"name":"ELASTIC_PASSWORD","valueFrom":{"secretKeyRef":{"key":"elastic","name":"logging-ek-es-elastic-user"}}}]` | ENVs added to script test pods from existing secrets |
 | waitJob.enabled | bool | `true` |  |
-| waitJob.scripts.image | string | `"registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.33.5"` |  |
+| waitJob.scripts.image | string | `"registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.34.2"` |  |
 | waitJob.permissions.resources[0] | string | `"elasticsearch-kibana"` |  |
 
 ## Contributing

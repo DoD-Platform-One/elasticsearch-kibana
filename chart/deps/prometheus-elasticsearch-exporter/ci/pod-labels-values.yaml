@@ -1,7 +1,0 @@
----
-podLabels:
-  foo: bar
-  baz: qux
-
-podAnnotations:
-  foo.io/bar: baz

@@ -1,6 +1,0 @@
----
-serviceMonitor:
-  enabled: true
-  labels:
-    foo: bar
-  jobLabel: app.kubernetes.io/name

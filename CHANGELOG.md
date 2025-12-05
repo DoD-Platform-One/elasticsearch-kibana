@@ -4,6 +4,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.34.0-bb.0] (2025-12-03)
+### Changed
+- gluon updated from 0.9.3 to 0.9.6
+- elasticsearch and kibana updated from 9.1.5 to 9.2.1
+- prometheus-elasticsearch-exporter chart upgraded from 6.7.2 to 7.0.0
+- elasticsearch-exporter chart dep removed from directory, added as helm dependency tarball
+- defaults updated to align with upstream values
+- updated DEVELOPMENT_MAINTENANCE.md guide to reflect changes
+- removed bitnami elasticsearch-exporter image and replaced with opensource from ironbank
+
 ## [1.33.0-bb.0] (2025-10-14)
 ### Changed
 - gluon updated from 0.9.1 to 0.9.3

@@ -15,12 +15,12 @@ fluentbit:
 
 kibana:
   # -- Kibana version
-  version: 9.1.5
+  version: 9.2.1
   image:
     # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     # -- Kibana image tag
-    tag: 9.1.5
+    tag: 9.2.1
 
   # -- Kibana Ingress Host Value.
   # Only required if not using Istio for ingress.
@@ -109,12 +109,11 @@ kibana:
     # postStart:
     #   exec:
     #     command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
-      # -- Additional Kibana configuration
-  # Notes:
-  #  - Any key you put here must match the Kibana config file format:
-  #    https://www.elastic.co/guide/en/kibana/current/settings.html
-  #  - Values here are deep-merged into the chart’s defaults in _kibana-config.tpl, so your custom config takes precedence
-  #  - If left empty (`{}`), the chart will apply its defaults in _kibana-config.tpl.
+  # -- Additional Kibana configuration:
+  # Any key you put here must match the Kibana config file format:
+  # https://www.elastic.co/guide/en/kibana/current/settings.html
+  # Values here are deep-merged into the chart’s defaults in `_kibana-config.tpl`, so your custom config takes precedence
+  # If left empty (`{}`), the chart will apply its defaults in `_kibana-config.tpl`.
   config: {}
   # -- Kibana Elastic Agent / Fleet Server configuration
   # https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html
@@ -162,12 +161,12 @@ kibana:
 
 elasticsearch:
   # -- Elasticsearch version
-  version: 9.1.5
+  version: 9.2.1
   image:
     # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     # -- Elasticsearch image tag
-    tag: 9.1.5
+    tag: 9.2.1
 
   # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
@@ -911,13 +910,12 @@ metrics:
   # -- Toggle Prometheus ElasticSearch Exporter Installation
   enabled: false
   # -- Exporter imagePullSecrets
-  global:
-    imagePullSecrets: []
   image:
     registry: registry1.dso.mil
-    repository: ironbank/opensource/bitnami/elasticsearch-exporter
-    tag: 1.9.0
+    repository: ironbank/opensource/elasticsearch-exporter
+    tag: v1.9.0
     pullSecret: private-registry
+    pullPolicy: Always
   # -- Pod securityContext
   podSecurityContext:
     runAsGroup: 1000
@@ -926,10 +924,6 @@ metrics:
     runAsUser: 1000
     runAsGroup: 1000
 
-  serviceMonitor:
-    ## scheme and tlsConfig values, allows for mTLS configuration
-    scheme: ""
-    tlsConfig: {}
   # -- Environment Variable Passthrough to set Auth for Exporter
   env:
     ES_USERNAME: elastic
@@ -992,7 +986,7 @@ bbtests:
 waitJob:
   enabled: true
   scripts:
-    image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.33.5
+    image: registry1.dso.mil/ironbank/opensource/kubernetes/kubectl:v1.34.2
   permissions:
     resources:
      - elasticsearch-kibana
