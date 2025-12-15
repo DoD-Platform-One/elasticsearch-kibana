@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.34.0-bb.1] (2025-12-11)
+### Changed
+- gluon updated from 0.9.6 to 0.9.7
+- kibana updated from 9.2.1 to 9.2.2
+- elasticsearch-exporter chart upgraded from v1.9.0 to v1.10.0
+- kubectl updated from v1.34.2 to v1.34.3
+
 ## [1.34.0-bb.0] (2025-12-03)
 ### Changed
 - gluon updated from 0.9.3 to 0.9.6
