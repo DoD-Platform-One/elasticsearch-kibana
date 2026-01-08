@@ -47,8 +47,74 @@ Outputs valid YAML (or {} when empty).
 {{- if and .Values.kibana.agents.elasticsearchHosts .Values.kibana.agents.fleetserverHosts .Values.kibana.agents.packages .Values.kibana.agents.agentPolicies -}}
   {{- $_ := set $cfg "xpack.fleet.agents.elasticsearch.hosts" .Values.kibana.agents.elasticsearchHosts -}}
   {{- $_ := set $cfg "xpack.fleet.agents.fleet_server.hosts" .Values.kibana.agents.fleetserverHosts -}}
-  {{- $_ := set $cfg "xpack.fleet.packages" .Values.kibana.agents.packages -}}
-  {{- $_ := set $cfg "xpack.fleet.agentPolicies" .Values.kibana.agents.agentPolicies -}}
+
+  {{- /* Convert packages: support both list and map formats */ -}}
+  {{- $packages := .Values.kibana.agents.packages -}}
+  {{- if kindIs "map" $packages -}}
+    {{- $pkgList := list -}}
+    {{- range $key := (keys $packages | sortAlpha) -}}
+      {{- $pkg := index $packages $key -}}
+      {{- $pkgObj := deepCopy $pkg -}}
+      {{- if not (hasKey $pkgObj "name") -}}
+        {{- $_ := set $pkgObj "name" $key -}}
+      {{- end -}}
+      {{- $pkgList = append $pkgList $pkgObj -}}
+    {{- end -}}
+    {{- $packages = $pkgList -}}
+  {{- end -}}
+  {{- $_ := set $cfg "xpack.fleet.packages" $packages -}}
+
+  {{- /* Convert agentPolicies: support both list and map formats */ -}}
+  {{- $agentPolicies := .Values.kibana.agents.agentPolicies -}}
+  {{- $policiesList := list -}}
+  {{- if kindIs "map" $agentPolicies -}}
+    {{- range $key := (keys $agentPolicies | sortAlpha) -}}
+      {{- $policy := index $agentPolicies $key -}}
+      {{- $policyObj := deepCopy $policy -}}
+      {{- if not (hasKey $policyObj "id") -}}
+        {{- $_ := set $policyObj "id" $key -}}
+      {{- end -}}
+      {{- /* Convert nested package_policies if map */ -}}
+      {{- if and (hasKey $policyObj "package_policies") (kindIs "map" $policyObj.package_policies) -}}
+        {{- $pkgPoliciesList := list -}}
+        {{- range $pkgKey := (keys $policyObj.package_policies | sortAlpha) -}}
+          {{- $pkgPolicy := index $policyObj.package_policies $pkgKey -}}
+          {{- $pkgPolicyObj := deepCopy $pkgPolicy -}}
+          {{- if not (hasKey $pkgPolicyObj "id") -}}
+            {{- $_ := set $pkgPolicyObj "id" $pkgKey -}}
+          {{- end -}}
+          {{- if not (hasKey $pkgPolicyObj "name") -}}
+            {{- $_ := set $pkgPolicyObj "name" $pkgKey -}}
+          {{- end -}}
+          {{- $pkgPoliciesList = append $pkgPoliciesList $pkgPolicyObj -}}
+        {{- end -}}
+        {{- $_ := set $policyObj "package_policies" $pkgPoliciesList -}}
+      {{- end -}}
+      {{- $policiesList = append $policiesList $policyObj -}}
+    {{- end -}}
+  {{- else -}}
+    {{- /* agentPolicies is a list, but check nested package_policies for maps */ -}}
+    {{- range $policy := $agentPolicies -}}
+      {{- $policyObj := deepCopy $policy -}}
+      {{- if and (hasKey $policyObj "package_policies") (kindIs "map" $policyObj.package_policies) -}}
+        {{- $pkgPoliciesList := list -}}
+        {{- range $pkgKey := (keys $policyObj.package_policies | sortAlpha) -}}
+          {{- $pkgPolicy := index $policyObj.package_policies $pkgKey -}}
+          {{- $pkgPolicyObj := deepCopy $pkgPolicy -}}
+          {{- if not (hasKey $pkgPolicyObj "id") -}}
+            {{- $_ := set $pkgPolicyObj "id" $pkgKey -}}
+          {{- end -}}
+          {{- if not (hasKey $pkgPolicyObj "name") -}}
+            {{- $_ := set $pkgPolicyObj "name" $pkgKey -}}
+          {{- end -}}
+          {{- $pkgPoliciesList = append $pkgPoliciesList $pkgPolicyObj -}}
+        {{- end -}}
+        {{- $_ := set $policyObj "package_policies" $pkgPoliciesList -}}
+      {{- end -}}
+      {{- $policiesList = append $policiesList $policyObj -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $_ := set $cfg "xpack.fleet.agentPolicies" $policiesList -}}
 {{- end -}}
 
 {{- /* Deep-merge user overrides last so they win */ -}}

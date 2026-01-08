@@ -1,3 +1,4 @@
+---
 # yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
 suite: test kibana.yaml
 templates:
@@ -12,3 +13,167 @@ tests:
       - equal:
           path: metadata.name
           value: eck
+
+  - it: should handle list-based packages and agentPolicies (original format)
+    set:
+      kibana.agents:
+        elasticsearchHosts:
+          - "https://es:9200"
+        fleetserverHosts:
+          - "http://fleet:8220"
+        packages:
+          - name: fleet_server
+            version: latest
+        agentPolicies:
+          - name: Test Policy
+            id: test-policy
+            package_policies:
+              - name: pkg-1
+                id: pkg-1
+                package:
+                  name: fleet_server
+    asserts:
+      - isKind:
+          of: Kibana
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][0].id
+          value: test-policy
+
+  - it: should handle map-based packages and agentPolicies (new format)
+    set:
+      kibana.agents:
+        elasticsearchHosts:
+          - "https://es:9200"
+        fleetserverHosts:
+          - "http://fleet:8220"
+        packages:
+          fleet_server:
+            version: latest
+        agentPolicies:
+          test-policy:
+            name: Test Policy
+            package_policies:
+              pkg-1:
+                package:
+                  name: fleet_server
+    asserts:
+      - isKind:
+          of: Kibana
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][0].id
+          value: test-policy
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][0].package_policies[0].id
+          value: pkg-1
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][0].package_policies[0].name
+          value: pkg-1
+      - equal:
+          path: spec.config["xpack.fleet.packages"][0].name
+          value: fleet_server
+      - matchSnapshot:
+          path: spec.config["xpack.fleet.packages"]
+      - matchSnapshot:
+          path: spec.config["xpack.fleet.agentPolicies"]
+
+  - it: should handle map-based agentPolicies with list-based package_policies
+    set:
+      kibana.agents:
+        elasticsearchHosts:
+          - "https://es:9200"
+        fleetserverHosts:
+          - "http://fleet:8220"
+        packages:
+          - name: fleet_server
+            version: latest
+        agentPolicies:
+          test-policy:
+            name: Test Policy
+            package_policies:
+              - name: pkg-1
+                id: pkg-1
+                package:
+                  name: fleet_server
+    asserts:
+      - isKind:
+          of: Kibana
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][0].id
+          value: test-policy
+
+  - it: should handle list-based agentPolicies with map-based package_policies
+    set:
+      kibana.agents:
+        elasticsearchHosts:
+          - "https://es:9200"
+        fleetserverHosts:
+          - "http://fleet:8220"
+        packages:
+          - name: fleet_server
+            version: latest
+        agentPolicies:
+          - name: Test Policy
+            id: test-policy
+            package_policies:
+              pkg-1:
+                package:
+                  name: fleet_server
+    asserts:
+      - isKind:
+          of: Kibana
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][0].package_policies[0].id
+          value: pkg-1
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][0].package_policies[0].name
+          value: pkg-1
+
+  - it: should sort map keys alphabetically for deterministic output
+    set:
+      kibana.agents:
+        elasticsearchHosts:
+          - "https://es:9200"
+        fleetserverHosts:
+          - "http://fleet:8220"
+        packages:
+          zzz-package:
+            version: latest
+          aaa-package:
+            version: latest
+        agentPolicies:
+          zzz-policy:
+            name: ZZZ Policy
+            package_policies:
+              zzz-pkg:
+                package:
+                  name: zzz-package
+          aaa-policy:
+            name: AAA Policy
+            package_policies:
+              aaa-pkg:
+                package:
+                  name: aaa-package
+    asserts:
+      - isKind:
+          of: Kibana
+      # packages sorted: aaa-package before zzz-package
+      - equal:
+          path: spec.config["xpack.fleet.packages"][0].name
+          value: aaa-package
+      - equal:
+          path: spec.config["xpack.fleet.packages"][1].name
+          value: zzz-package
+      # agentPolicies sorted: aaa-policy before zzz-policy
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][0].id
+          value: aaa-policy
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][1].id
+          value: zzz-policy
+      # package_policies within each policy also sorted
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][0].package_policies[0].id
+          value: aaa-pkg
+      - equal:
+          path: spec.config["xpack.fleet.agentPolicies"][1].package_policies[0].id
+          value: zzz-pkg
