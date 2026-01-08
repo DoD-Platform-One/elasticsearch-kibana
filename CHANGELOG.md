@@ -4,6 +4,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 ---
 
+## [1.34.0-bb.2] (2026-01-06)
+### Added
+- Support for map-based `packages`, `agentPolicies`, and `package_policies` configuration
+  - Map keys are automatically used as `name` (for packages), `id` (for agentPolicies), and `id`/`name` (for package_policies) when not explicitly set
+  - Maps are sorted alphabetically by key for deterministic output
+  - Full backwards compatibility with existing list-based configurations
+
 ## [1.34.0-bb.1] (2025-12-11)
 ### Changed
 - gluon updated from 0.9.6 to 0.9.7

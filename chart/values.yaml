@@ -117,6 +117,9 @@ kibana:
   config: {}
   # -- Kibana Elastic Agent / Fleet Server configuration
   # https://www.elastic.co/guide/en/cloud-on-k8s/2.7/k8s-elastic-agent-fleet-quickstart.html
+  # Supports both list format (original) and map format (new).
+  # Map keys become: 'name' for packages, 'id' for agentPolicies, 'id'+'name' for package_policies.
+  # Maps are sorted alphabetically by key for deterministic output.
   agents: {}
     # -- Default URL for the elastic search instance deployed by Big Bang
     #elasticsearchHosts: ["https://logging-ek-es-http.logging.svc:9200"]
@@ -124,13 +127,15 @@ kibana:
     # -- When you deploy an agent in mode: fleet with fleetServerEnabled: true,
     # -- this URL should be the name of your fleet server with -http appended.
     #fleetserverHosts: ["http://fleet-server-http.logging.svc:8220"]
+
+    # --- LIST FORMAT (original) ---
     #packages:
     #  - name: system
     #    version: latest
-    #   - name: elastic_agent
-    #     version: latest
-    #   - name: fleet_server
-    #     version: latest
+    #  - name: elastic_agent
+    #    version: latest
+    #  - name: fleet_server
+    #    version: latest
     #agentPolicies:
     #  - name: Fleet Server on ECK policy
     #    id: eck-fleet-server
@@ -141,23 +146,57 @@ kibana:
     #      - metrics
     #    unenroll_timeout: 900
     #    package_policies:
-    #     - name: fleet_server-1
-    #       id: fleet_server-1
-    #       package:
-    #         name: fleet_server
-    #   - name: Elastic Agent on ECK policy
-    #     id: eck-agent
-    #     namespace: default
-    #     monitoring_enabled:
-    #       - logs
-    #       - metrics
-    #     unenroll_timeout: 900
-    #     is_default: true
-    #     package_policies:
-    #       - name: system-1
-    #         id: system-1
-    #         package:
-    #           name: system
+    #      - name: fleet_server-1
+    #        id: fleet_server-1
+    #        package:
+    #          name: fleet_server
+    #  - name: Elastic Agent on ECK policy
+    #    id: eck-agent
+    #    namespace: default
+    #    monitoring_enabled:
+    #      - logs
+    #      - metrics
+    #    unenroll_timeout: 900
+    #    is_default: true
+    #    package_policies:
+    #      - name: system-1
+    #        id: system-1
+    #        package:
+    #          name: system
+
+    # --- MAP FORMAT (new) ---
+    #packages:
+    #  system:                        # key becomes 'name'
+    #    version: latest
+    #  elastic_agent:
+    #    version: latest
+    #  fleet_server:
+    #    version: latest
+    #agentPolicies:
+    #  eck-fleet-server:              # key becomes 'id'
+    #    name: Fleet Server on ECK policy
+    #    is_default_fleet_server: true
+    #    namespace: logging
+    #    monitoring_enabled:
+    #      - logs
+    #      - metrics
+    #    unenroll_timeout: 900
+    #    package_policies:
+    #      fleet_server-1:            # key becomes 'id' and 'name'
+    #        package:
+    #          name: fleet_server
+    #  eck-agent:
+    #    name: Elastic Agent on ECK policy
+    #    namespace: default
+    #    monitoring_enabled:
+    #      - logs
+    #      - metrics
+    #    unenroll_timeout: 900
+    #    is_default: true
+    #    package_policies:
+    #      system-1:
+    #        package:
+    #          name: system
 
 elasticsearch:
   # -- Elasticsearch version
