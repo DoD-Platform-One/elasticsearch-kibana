@@ -9,7 +9,7 @@ Outputs valid YAML (or {} when empty).
 {{- /* Start with chart-provided defaults */ -}}
 {{- $cfg := dict -}}
 
-{{- if and .Values.istio.enabled .Values.istio.elasticsearch.enabled -}}
+{{- if and .Values.istio.enabled .Values.routes.inbound.elasticsearch.enabled -}}
   {{- $_ := set $cfg "elasticsearch.hosts" (list (printf "http://%s-es-http:9200" .Release.Name)) -}}
 {{- end -}}
 
@@ -34,8 +34,8 @@ Outputs valid YAML (or {} when empty).
 {{- $server := dict -}}
 {{- if .Values.kibana.host -}}
   {{- $_ := set $server "publicBaseUrl" (printf "https://%s" .Values.kibana.host) -}}
-{{- else if .Values.istio.kibana.hosts -}}
-  {{- $_ := set $server "publicBaseUrl" (printf "https://%s" (tpl (index .Values.istio.kibana.hosts 0) .)) -}}
+{{- else if .Values.routes.inbound.kibana.hosts -}}
+  {{- $_ := set $server "publicBaseUrl" (printf "https://%s" (tpl (index .Values.routes.inbound.kibana.hosts 0) .)) -}}
 {{- else -}}
   {{- $_ := set $server "publicBaseUrl" "https://kibana.bigbang.dev" -}}
 {{- end -}}

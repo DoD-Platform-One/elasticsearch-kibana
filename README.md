@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.34.0-bb.2](https://img.shields.io/badge/Version-1.34.0--bb.2-informational?style=flat-square) ![AppVersion: 9.2.1](https://img.shields.io/badge/AppVersion-9.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.34.0-bb.3](https://img.shields.io/badge/Version-1.34.0--bb.3-informational?style=flat-square) ![AppVersion: 9.2.1](https://img.shields.io/badge/AppVersion-9.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -166,39 +166,24 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.coord.heap.min | string | `"2g"` | Xms |
 | elasticsearch.coord.heap.max | string | `"2g"` | Xmx |
 | istio.enabled | bool | `false` | Toggle istio interaction. |
-| istio.hardened.enabled | bool | `false` |  |
-| istio.hardened.customAuthorizationPolicies | list | `[]` |  |
-| istio.hardened.outboundTrafficPolicyMode | string | `"REGISTRY_ONLY"` |  |
-| istio.hardened.customServiceEntries | list | `[]` |  |
-| istio.hardened.fluentbit.enabled | bool | `true` |  |
-| istio.hardened.fluentbit.namespaces[0] | string | `"fluentbit"` |  |
-| istio.hardened.fluentbit.principals[0] | string | `"cluster.local/ns/fluentbit/sa/fluentbit-fluent-bit"` |  |
-| istio.hardened.elasticOperator.enabled | bool | `true` |  |
-| istio.hardened.elasticOperator.namespaces[0] | string | `"eck-operator"` |  |
-| istio.hardened.elasticOperator.principals[0] | string | `"cluster.local/ns/eck-operator/sa/elastic-operator"` |  |
-| istio.hardened.mattermost.enabled | bool | `true` |  |
-| istio.hardened.mattermost.namespaces[0] | string | `"mattermost"` |  |
-| istio.hardened.mattermost.principals[0] | string | `"cluster.local/ns/mattermost/sa/mattermost"` |  |
-| istio.hardened.jaeger.enabled | bool | `true` |  |
-| istio.hardened.jaeger.namespaces[0] | string | `"jaeger"` |  |
-| istio.hardened.jaeger.principals[0] | string | `"cluster.local/ns/jaeger/sa/default"` |  |
-| istio.hardened.jaeger.principals[1] | string | `"cluster.local/ns/jaeger/sa/jaeger"` |  |
-| istio.hardened.jaeger.principals[2] | string | `"cluster.local/ns/jaeger/sa/jaeger-instance"` |  |
-| istio.hardened.elasticsearch.enabled | bool | `true` |  |
-| istio.hardened.elasticsearch.namespaces[0] | string | `"logging"` |  |
-| istio.hardened.elasticsearch.principals[0] | string | `"cluster.local/ns/logging/sa/logging-elasticsearch"` |  |
-| istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication       |
+| istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
-| istio.elasticsearch.enabled | bool | `false` | Toggle virtualService creation |
-| istio.elasticsearch.annotations | object | `{}` | Annotations for controls the gateway used/attached to the virtualService |
-| istio.elasticsearch.labels | object | `{}` | Labels for virtualService |
-| istio.elasticsearch.gateways | list | `["istio-system/main"]` | Gateway(s) to apply virtualService routes to. |
-| istio.elasticsearch.hosts | list | `["elasticsearch.{{ .Values.domain }}"]` | hosts for the virtualService |
-| istio.kibana.enabled | bool | `true` | Toggle virtualService creation |
-| istio.kibana.annotations | object | `{}` | Annotations for controls the gateway used/attached to the virtualService |
-| istio.kibana.labels | object | `{}` | Labels for virtualService |
-| istio.kibana.gateways | list | `["istio-system/main"]` | Gateway(s) to apply virtualService routes to. |
-| istio.kibana.hosts | list | `["kibana.{{ .Values.domain }}"]` | hosts for the virtualService |
+| istio.sidecar | object | `{"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"}` | Sidecar configuration |
+| istio.serviceEntries | object | `{"custom":[]}` | Custom ServiceEntries for external services |
+| istio.authorizationPolicies | object | `{"custom":[],"enabled":false,"generateFromNetpol":false}` | Authorization Policies |
+| routes.inbound.kibana.enabled | bool | `true` |  |
+| routes.inbound.kibana.gateways[0] | string | `"istio-gateway/public-ingressgateway"` |  |
+| routes.inbound.kibana.hosts[0] | string | `"kibana.{{ .Values.domain }}"` |  |
+| routes.inbound.kibana.service | string | `"{{ .Release.Name }}-kb-http"` |  |
+| routes.inbound.kibana.port | int | `5601` |  |
+| routes.inbound.kibana.selector."common.k8s.elastic.co/type" | string | `"kibana"` |  |
+| routes.inbound.elasticsearch.enabled | bool | `false` |  |
+| routes.inbound.elasticsearch.gateways[0] | string | `"istio-gateway/public-ingressgateway"` |  |
+| routes.inbound.elasticsearch.hosts[0] | string | `"elasticsearch.{{ .Values.domain }}"` |  |
+| routes.inbound.elasticsearch.service | string | `"{{ .Release.Name }}-es-http"` |  |
+| routes.inbound.elasticsearch.port | int | `9200` |  |
+| routes.inbound.elasticsearch.selector."common.k8s.elastic.co/type" | string | `"elasticsearch"` |  |
+| routes.outbound | object | `{}` |  |
 | sso.enabled | bool | `false` | Toggle SSO with Keycloak |
 | sso.redirect_url | string | `""` | redirect_url defaults to .Values.istio.kibana.hosts[0] if not set. |
 | sso.client_id | string | `"platform1_a8604cc9-f5e9-4656-802d-d05624370245_bb8-kibana"` | client_id |
@@ -219,9 +204,17 @@ helm install elasticsearch-kibana chart/
 | sso.claims_principal_pattern | string | `""` | claims_principal_pattern |
 | sso.cert_authorities | list | `[]` | cert_authorities |
 | kibanaBasicAuth.enabled | bool | `true` | Toggle this to turn off Kibana's built in auth and only allow SSO. Role mappings for SSO groups must be set up and SSO enabled before doing this. |
-| networkPolicies.enabled | bool | `false` | Toggle BigBang NetworkPolicy templates |
-| networkPolicies.ingressLabels | object | `{"app":"istio-ingressgateway","istio":"ingressgateway"}` | Istio Ingressgateway labels. passed down to NetworkPolicy to whitelist external access to app |
-| networkPolicies.controlPlaneCidr | string | `"0.0.0.0/0"` | See `kubectl cluster-info` and then resolve to IP |
+| networkPolicies.enabled | bool | `true` | Toggle BigBang NetworkPolicy templates |
+| networkPolicies.egress.definitions.kubeAPI.to[0].ipBlock.cidr | string | `"0.0.0.0/0"` |  |
+| networkPolicies.ingress.to.elasticsearch:9200.podSelector.matchLabels."common.k8s.elastic.co/type" | string | `"elasticsearch"` |  |
+| networkPolicies.ingress.to.elasticsearch:9200.from.k8s.logging/kibana.podSelector.matchLabels."common.k8s.elastic.co/type" | string | `"kibana"` |  |
+| networkPolicies.ingress.to.elasticsearch:9200.from.k8s.elastic-operator@eck-operator/elastic-operator | bool | `true` |  |
+| networkPolicies.ingress.to.elasticsearch:9200.from.k8s.jaeger@jaeger/jaeger | bool | `true` |  |
+| networkPolicies.ingress.to.elasticsearch:9200.from.k8s.fluentbit-fluent-bit@fluentbit/fluent-bit | bool | `true` |  |
+| networkPolicies.ingress.to.elasticsearch:9200.from.k8s.mattermost@mattermost/mattermost | bool | `true` |  |
+| networkPolicies.ingress.to.kibana:5601.podSelector.matchLabels."common.k8s.elastic.co/type" | string | `"kibana"` |  |
+| networkPolicies.ingress.to.kibana:5601.from.k8s.elastic-operator@eck-operator/elastic-operator | bool | `true` |  |
+| networkPolicies.ingress.to.metrics:9108.from.k8s.monitoring/prometheus | bool | `true` |  |
 | networkPolicies.additionalPolicies | list | `[]` |  |
 | upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | image repository for upgradeJob |
 | upgradeJob.image.tag | string | `"2.1.0"` | image tag for upgradeJob |

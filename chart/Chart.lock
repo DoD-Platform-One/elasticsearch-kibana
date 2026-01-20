@@ -1,9 +1,12 @@
 dependencies:
+- name: bb-common
+  repository: oci://registry1.dso.mil/bigbang
+  version: 0.12.3
 - name: gluon
   repository: oci://registry1.dso.mil/bigbang
   version: 0.9.7
 - name: prometheus-elasticsearch-exporter
   repository: https://prometheus-community.github.io/helm-charts
   version: 7.0.0
-digest: sha256:45a97994ba2da4ee46aa44f1f459440b1e657c560935cc08ffe70e00954377ec
-generated: "2025-12-11T07:46:42.441001337Z"
+digest: sha256:1c60848f35378a3fc913015018f05f6dd96a485603dd5ba145b0f7931ec5a4f4
+generated: "2026-01-09T09:49:28.836507022-06:00"

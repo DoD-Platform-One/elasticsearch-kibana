@@ -781,13 +781,24 @@ elasticsearch:
 istio:
   # -- Toggle istio interaction.
   enabled: false
-  hardened:
+
+  # -- Default EK peer authentication
+  mtls:
+    # -- STRICT = Allow only mutual TLS traffic,
+    # PERMISSIVE = Allow both plain text and mutual TLS traffic
+    mode: STRICT
+
+  # -- Sidecar configuration
+  sidecar:
     enabled: false
-    customAuthorizationPolicies: []
     outboundTrafficPolicyMode: "REGISTRY_ONLY"
-    customServiceEntries: []
+
+  # -- Custom ServiceEntries for external services
+  serviceEntries:
+    custom: []
       # - name: "allow-google"
-      #   enabled: true
+      #   labels: {}
+      #   annotations: {}
       #   spec:
       #     hosts:
       #       - google.com
@@ -797,73 +808,51 @@ istio:
       #         protocol: TLS
       #         name: https
       #     resolution: DNS
-    # - name: "allow-nothing"
-    #   enabled: true
-    #   spec: {}
-    fluentbit:
-      enabled: true
-      namespaces:
-        - fluentbit
-      principals:
-        - cluster.local/ns/fluentbit/sa/fluentbit-fluent-bit
-    elasticOperator:
-      enabled: true
-      namespaces:
-        - eck-operator 
-      principals:
-        - cluster.local/ns/eck-operator/sa/elastic-operator 
-    mattermost:
-      enabled: true
-      namespaces:
-        - mattermost
-      principals:
-        - cluster.local/ns/mattermost/sa/mattermost 
-    jaeger:
-      enabled: true
-      namespaces:
-      - jaeger
-      principals:
-      - cluster.local/ns/jaeger/sa/default      
-      - cluster.local/ns/jaeger/sa/jaeger
-      - cluster.local/ns/jaeger/sa/jaeger-instance
-    elasticsearch:
-      enabled: true
-      namespaces:
-      - logging
-      principals:
-      - cluster.local/ns/logging/sa/logging-elasticsearch      
 
-  # -- Default EK peer authentication      
-  mtls:
-    # -- STRICT = Allow only mutual TLS traffic,
-    # PERMISSIVE = Allow both plain text and mutual TLS traffic
-    mode: STRICT
-  elasticsearch:
-    # -- Toggle virtualService creation
+  # -- Authorization Policies
+  authorizationPolicies:
     enabled: false
-    # -- Annotations for controls the gateway used/attached to the virtualService
-    annotations: {}
-    # -- Labels for virtualService
-    labels: {}
-    # -- Gateway(s) to apply virtualService routes to.
-    gateways:
-      - istio-system/main
-    # -- hosts for the virtualService
-    hosts:
-      - elasticsearch.{{ .Values.domain }}
-  kibana:
-    # -- Toggle virtualService creation
-    enabled: true
-    # -- Annotations for controls the gateway used/attached to the virtualService
-    annotations: {}
-    # -- Labels for virtualService
-    labels: {}
-    # -- Gateway(s) to apply virtualService routes to.
-    gateways:
-      - istio-system/main
-    # -- hosts for the virtualService
-    hosts:
-      - kibana.{{ .Values.domain }}
+    generateFromNetpol: false
+    custom: []
+      # - name: "custom-policy"
+      #   labels: {}
+      #   annotations: {}
+      #   spec:
+      #     action: ALLOW
+      #     rules:
+      #       - from:
+      #           - source:
+      #               namespaces: ["example"]
+
+routes:
+  # Inbound routes for external access
+  inbound:
+    # Kibana route
+    kibana:
+      enabled: true
+      gateways:
+        - istio-gateway/public-ingressgateway
+      hosts:
+        - kibana.{{ .Values.domain }}
+      service: '{{ .Release.Name }}-kb-http'
+      port: 5601
+      selector:
+        common.k8s.elastic.co/type: kibana
+
+    # Elasticsearch route (disabled by default)
+    elasticsearch:
+      enabled: false
+      gateways:
+        - istio-gateway/public-ingressgateway
+      hosts:
+        - elasticsearch.{{ .Values.domain }}
+      service: '{{ .Release.Name }}-es-http'
+      port: 9200
+      selector:
+        common.k8s.elastic.co/type: elasticsearch
+
+  # Outbound routes for external services
+  outbound: {}
 
 sso:
   # -- Toggle SSO with Keycloak
@@ -923,14 +912,57 @@ kibanaBasicAuth:
 
 networkPolicies:
   # -- Toggle BigBang NetworkPolicy templates
-  enabled: false
-  # -- Istio Ingressgateway labels.
-  # passed down to NetworkPolicy to whitelist external access to app
-  ingressLabels:
-    app: istio-ingressgateway
-    istio: ingressgateway
-  # -- See `kubectl cluster-info` and then resolve to IP
-  controlPlaneCidr: 0.0.0.0/0
+  enabled: true
+
+  egress:
+    definitions:
+      kubeAPI:
+        to:
+          - ipBlock:
+              cidr: 0.0.0.0/0
+
+  ingress:
+    to:
+      # Elasticsearch ingress policies
+      elasticsearch:9200:
+        podSelector:
+          matchLabels:
+            common.k8s.elastic.co/type: elasticsearch
+        from:
+          k8s:
+            logging/kibana:
+              podSelector:
+                matchLabels:
+                  common.k8s.elastic.co/type: kibana
+
+            # Allow ECK operator to manage Elasticsearch
+            elastic-operator@eck-operator/elastic-operator: true
+            # Allow Jaeger to write to Elasticsearch
+            jaeger@jaeger/jaeger: true
+            # Allow Fluentbit to write logs to Elasticsearch
+            fluentbit-fluent-bit@fluentbit/fluent-bit: true
+
+            # Allow Mattermost to write to Elasticsearch (disabled by default)
+            mattermost@mattermost/mattermost: true
+
+      # Kibana ingress policies
+      kibana:5601:
+        podSelector:
+          matchLabels:
+            common.k8s.elastic.co/type: kibana
+        from:
+          k8s:
+            # Allow ECK operator to manage Kibana
+            elastic-operator@eck-operator/elastic-operator: true
+
+      # Metrics exporter ingress
+      metrics:9108:
+        from:
+          k8s:
+            # Allow Prometheus to scrape metrics
+            monitoring/prometheus: true
+
+  # Additional conditional policies that can be added via values
   additionalPolicies: []
 
 upgradeJob:

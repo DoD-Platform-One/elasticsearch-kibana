@@ -5,7 +5,7 @@ This should be used with the $ scope
   {{- if .Values.sso.redirect_url -}}
     {{ tpl .Values.sso.redirect_url . }}
   {{- else -}}
-    {{ tpl (index .Values.istio.kibana.hosts 0) .}}
+    {{ tpl (index .Values.routes.inbound.kibana.hosts 0) .}}
   {{- end }}
 {{- end }}
 
