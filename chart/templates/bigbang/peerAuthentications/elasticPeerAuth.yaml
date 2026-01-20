@@ -16,7 +16,7 @@ spec:
     # To prevent double encrypted traffic we exclude 9300 from  sidecar traffic and mTLS
     "9300":
       mode: PERMISSIVE
-    {{- if or .Values.mattermost.enabled .Values.istio.elasticsearch.enabled }}
+    {{- if (and .Values.routes.inbound.elasticsearch .Values.routes.inbound.elasticsearch.enabled) }}
     # 9200 is Elastic's transport port and Elastic handles the TLS encryption for it
     # To prevent double encrypted traffic we exclude 9200 from mTLS
     "9200":

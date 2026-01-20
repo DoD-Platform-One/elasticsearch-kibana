@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.34.0-bb.3] (2026-1-09)
+### Changed
+- Adopt bb-common for Network Policy creation
+- Adopt bb-common for Istio resource creation
 
 ## [1.34.0-bb.2] (2026-01-06)
 ### Added

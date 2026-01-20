@@ -11,14 +11,7 @@ metadata:
     "helm.sh/hook-delete-policy": hook-succeeded,hook-failed,before-hook-creation
 spec:
   egress:
-  - to:
-    - ipBlock:
-        cidr: {{ .Values.networkPolicies.controlPlaneCidr }}
-        {{- if eq .Values.networkPolicies.controlPlaneCidr "0.0.0.0/0" }}
-        # ONLY Block requests to AWS metadata IP
-        except:
-        - 169.254.169.254/32
-        {{- end }}
+  - {{- toYaml .Values.networkPolicies.egress.definitions.kubeAPI | nindent 4 }}
   podSelector:
     matchLabels:
       app.kubernetes.io/name: bigbang-ek-upgrade-job
