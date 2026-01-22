@@ -914,6 +914,8 @@ networkPolicies:
   # -- Toggle BigBang NetworkPolicy templates
   enabled: true
 
+  prependReleaseName: true
+
   egress:
     definitions:
       kubeAPI:

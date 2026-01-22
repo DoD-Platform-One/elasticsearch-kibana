@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.34.0-bb.3](https://img.shields.io/badge/Version-1.34.0--bb.3-informational?style=flat-square) ![AppVersion: 9.2.1](https://img.shields.io/badge/AppVersion-9.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.34.0-bb.4](https://img.shields.io/badge/Version-1.34.0--bb.4-informational?style=flat-square) ![AppVersion: 9.2.1](https://img.shields.io/badge/AppVersion-9.2.1-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -205,6 +205,7 @@ helm install elasticsearch-kibana chart/
 | sso.cert_authorities | list | `[]` | cert_authorities |
 | kibanaBasicAuth.enabled | bool | `true` | Toggle this to turn off Kibana's built in auth and only allow SSO. Role mappings for SSO groups must be set up and SSO enabled before doing this. |
 | networkPolicies.enabled | bool | `true` | Toggle BigBang NetworkPolicy templates |
+| networkPolicies.prependReleaseName | bool | `true` |  |
 | networkPolicies.egress.definitions.kubeAPI.to[0].ipBlock.cidr | string | `"0.0.0.0/0"` |  |
 | networkPolicies.ingress.to.elasticsearch:9200.podSelector.matchLabels."common.k8s.elastic.co/type" | string | `"elasticsearch"` |  |
 | networkPolicies.ingress.to.elasticsearch:9200.from.k8s.logging/kibana.podSelector.matchLabels."common.k8s.elastic.co/type" | string | `"kibana"` |  |
