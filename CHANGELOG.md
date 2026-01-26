@@ -12,6 +12,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 - Adopt bb-common for Network Policy creation
 - Adopt bb-common for Istio resource creation
 
+## [1.35.0-bb.0] (2026-01-14)
+### Changed
+- registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch updated from 9.2.1 to 9.2.4
+- registry1.dso.mil/ironbank/elastic/kibana/kibana updated from 9.2.2 to 9.2.4
+- prometheus-elasticsearch-exporter updated from 7.0.0 to 7.2.1
+
 ## [1.34.0-bb.2] (2026-01-06)
 ### Added
 - Support for map-based `packages`, `agentPolicies`, and `package_policies` configuration

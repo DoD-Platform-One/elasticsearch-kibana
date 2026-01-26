@@ -15,12 +15,12 @@ fluentbit:
 
 kibana:
   # -- Kibana version
-  version: 9.2.2
+  version: 9.2.4
   image:
     # -- Kibana image repository
     repository: registry1.dso.mil/ironbank/elastic/kibana/kibana
     # -- Kibana image tag
-    tag: 9.2.2
+    tag: 9.2.4
 
   # -- Kibana Ingress Host Value.
   # Only required if not using Istio for ingress.
@@ -200,12 +200,12 @@ kibana:
 
 elasticsearch:
   # -- Elasticsearch version
-  version: 9.2.1
+  version: 9.2.4
   image:
     # -- Elasticsearch image repository
     repository: registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch
     # -- Elasticsearch image tag
-    tag: 9.2.1
+    tag: 9.2.4
 
   # -- Elasticsearch imagePullSecrets
   imagePullSecrets: []
