@@ -1,17 +1,22 @@
 # Node Affinity & Anti-Affinity with Elastic/Kibana
 
-Affinity is exposed through values options for this package. If you want to schedule your pods to deploy on specific nodes you can do that through the `nodeSelector` value and as needed the `affinity` value. Additional info is provided below as well to help in configuring this.
+Affinity and scheduling constraints are exposed through the `values.yaml` options for this package. To schedule your pods onto specific nodes, you can utilize the `nodeSelector` field for simple constraints or the `affinity` field for more complex logic.
 
-It is good to have a basic knowledge of node affinity and available options to you before customizing in this way - the upstream kubernetes documentation [has a good walkthrough of this](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity).
+For a deep dive into how Kubernetes handles these rules, refer to the [official Kubernetes documentation on scheduling](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity).
 
-## Values for NodeSelector
+---
 
-The `nodeSelector` value at multiple levels can be set to do basic node selection for deployments. See the below example for an example to schedule pods to only nodes with the label `node-type` equal to the "pod type":
+## Simple Node Selection (`nodeSelector`)
+
+The `nodeSelector` is the simplest form of node selection constraint. It requires the node to have labels that match every key-value pair specified.
+
+**Example:** Scheduling pods to nodes labeled with a specific `node-type`.
 
 ```yaml
 kibana:
   nodeSelector:
     node-type: kibana
+
 elasticsearch:
   master:
     nodeSelector:
@@ -21,9 +26,13 @@ elasticsearch:
       node-type: elastic-data
 ```
 
-## Values for Affinity
+---
 
-The `affinity` value at multiple levels should be used to specify affinity. The format to include follows what you'd specify at a pod/deployment level. See the example below for scheduling the operator pods only to nodes with the label `node-type` equal to the "pod type":
+## Advanced Node Affinity (`nodeAffinity`)
+
+Use `nodeAffinity` for more expressive rules, such as logical OR operators or "soft" preferences that allow pods to schedule elsewhere if the preferred nodes are full.
+
+> **Note:** The example below uses `requiredDuringSchedulingIgnoredDuringExecution` (Hard Affinity). If the labels do not match, the pods will remain in a **Pending** state.
 
 ```yaml
 kibana:
@@ -36,6 +45,7 @@ kibana:
             operator: In
             values:
             - "kibana"
+
 elasticsearch:
   master:
     affinity:
@@ -59,9 +69,13 @@ elasticsearch:
               - "elastic-data"
 ```
 
-## Values for Anti-Affinity
+---
 
-The `affinity` value at multiple levels can be set in the same way to schedule pods based on anti-affinity. See the below example to schedule pods to not be present on the nodes that already have pods with the `dont-schedule-with:` "pod type" label:
+## Pod Anti-Affinity
+
+Pod Anti-Affinity ensures that pods are not co-located on the same node (or rack). This is critical for high availability in Elasticsearch to ensure that master or data replicas are distributed across different physical hardware.
+
+**Example:** Using `topologyKey: "kubernetes.io/hostname"` to ensure no two identical component pods land on the same node.
 
 ```yaml
 kibana:
@@ -71,7 +85,9 @@ kibana:
         - topologyKey: "kubernetes.io/hostname"
           labelSelector:
             matchLabels:
+              # Matches the label assigned to the component pods
               dont-schedule-with: kibana
+
 elasticsearch:
   master:
     affinity:
@@ -90,3 +106,11 @@ elasticsearch:
               matchLabels:
                 dont-schedule-with: elastic-data
 ```
+
+---
+
+## Best Practices & High Availability
+
+* **Quorum Protection:** Always use Anti-Affinity for Elasticsearch **master** nodes. Losing multiple master nodes due to a single host failure can cause a cluster-wide outage.
+* **Soft Anti-Affinity:** For larger clusters where you might have more pods than nodes (e.g., horizontal scaling), consider using `preferredDuringSchedulingIgnoredDuringExecution`. This allows the cluster to stay online even if optimal distribution isn't possible.
+* **Resource Isolation:** Use `nodeSelector` or `nodeAffinity` to keep Elasticsearch data pods on nodes with high-performance SSD/NVMe storage for better I/O performance.
