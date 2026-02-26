@@ -22,8 +22,9 @@ spec:
 
   podTemplate:
     metadata:
-      {{- if .Values.kibana.podAnnotations }}
       annotations:
+        prometheus.istio.io/merge-metrics: "false"
+      {{- if .Values.kibana.podAnnotations }}
         {{- toYaml .Values.kibana.podAnnotations | nindent 8 }}
       {{- end }}
       labels:
