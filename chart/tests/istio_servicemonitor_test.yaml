@@ -1,0 +1,197 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test istio-servicemonitor.yaml
+templates:
+  - templates/bigbang/istio-servicemonitor.yaml
+release:
+  name: logging-ek
+  namespace: logging
+tests:
+  - it: should not create resources with default values
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should not create resources when only istio is enabled
+    set:
+      istio.enabled: true
+      monitoring.enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should not create resources when only monitoring is enabled
+    set:
+      istio.enabled: false
+      monitoring.enabled: true
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should create four resources when both istio and monitoring are enabled
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    asserts:
+      - hasDocuments:
+          count: 4
+
+  - it: should create headless elasticsearch Service
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 0
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: logging-ek-elasticsearch-istio-metrics
+      - equal:
+          path: spec.selector["common.k8s.elastic.co/type"]
+          value: elasticsearch
+      - equal:
+          path: spec.ports[0].port
+          value: 15020
+      - equal:
+          path: spec.ports[0].name
+          value: istio-metrics
+      - equal:
+          path: spec.clusterIP
+          value: None
+
+  - it: should create headless kibana Service
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 1
+    asserts:
+      - isKind:
+          of: Service
+      - equal:
+          path: metadata.name
+          value: logging-ek-kibana-istio-metrics
+      - equal:
+          path: spec.selector["common.k8s.elastic.co/type"]
+          value: kibana
+      - equal:
+          path: spec.ports[0].port
+          value: 15020
+      - equal:
+          path: spec.clusterIP
+          value: None
+
+  - it: should create elasticsearch ServiceMonitor with correct metadata
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 2
+    asserts:
+      - isKind:
+          of: ServiceMonitor
+      - equal:
+          path: metadata.name
+          value: logging-ek-elasticsearch-istio-proxy
+      - equal:
+          path: metadata.namespace
+          value: logging
+      - equal:
+          path: metadata.labels.prometheus
+          value: k8s
+
+  - it: should create elasticsearch ServiceMonitor with correct selector
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 2
+    asserts:
+      - equal:
+          path: spec.selector.matchLabels["app.kubernetes.io/name"]
+          value: elasticsearch-istio-metrics
+      - equal:
+          path: spec.selector.matchLabels["app.kubernetes.io/instance"]
+          value: logging-ek
+
+  - it: should create elasticsearch ServiceMonitor with correct endpoint config
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 2
+    asserts:
+      - equal:
+          path: spec.endpoints[0].port
+          value: istio-metrics
+      - equal:
+          path: spec.endpoints[0].path
+          value: /stats/prometheus
+      - equal:
+          path: spec.endpoints[0].interval
+          value: 30s
+
+  - it: should create kibana ServiceMonitor with correct metadata
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 3
+    asserts:
+      - isKind:
+          of: ServiceMonitor
+      - equal:
+          path: metadata.name
+          value: logging-ek-kibana-istio-proxy
+      - equal:
+          path: metadata.namespace
+          value: logging
+      - equal:
+          path: metadata.labels.prometheus
+          value: k8s
+
+  - it: should create kibana ServiceMonitor with correct selector
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 3
+    asserts:
+      - equal:
+          path: spec.selector.matchLabels["app.kubernetes.io/name"]
+          value: kibana-istio-metrics
+      - equal:
+          path: spec.selector.matchLabels["app.kubernetes.io/instance"]
+          value: logging-ek
+
+  - it: should create kibana ServiceMonitor with correct endpoint config
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 3
+    asserts:
+      - equal:
+          path: spec.endpoints[0].port
+          value: istio-metrics
+      - equal:
+          path: spec.endpoints[0].path
+          value: /stats/prometheus
+      - equal:
+          path: spec.endpoints[0].interval
+          value: 30s
+
+  - it: should set namespaceSelector on elasticsearch ServiceMonitor
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 2
+    asserts:
+      - equal:
+          path: spec.namespaceSelector.matchNames[0]
+          value: logging
+
+  - it: should not include scheme or tlsConfig on endpoints
+    set:
+      istio.enabled: true
+      monitoring.enabled: true
+    documentIndex: 2
+    asserts:
+      - isNull:
+          path: spec.endpoints[0].scheme
+      - isNull:
+          path: spec.endpoints[0].tlsConfig

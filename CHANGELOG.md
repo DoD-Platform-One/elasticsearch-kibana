@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.35.0-bb.1] (2026-02-13)
+### Added
+- Istio sidecar metrics ServiceMonitors and headless Services for Elasticsearch and Kibana pods (port 15020)
+- `prometheus.istio.io/merge-metrics: "false"` annotation on Kibana pods to match Elasticsearch behavior
+
 ## [1.34.0-bb.3] (2026-1-22)
 ### Changed
 - Prepend release name to bb-common netpols
