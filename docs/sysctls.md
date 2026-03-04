@@ -1,54 +1,29 @@
-### Managing Sysctls via Init Containers
+# Sysctls Configuration
 
-It is possible to use the built in initContainers to set the sysclts. This is needed for Elastic to set the values of vm.max_map_count.
+## Managing Sysctls via Init Containers
 
-Note that the recommended way to set the sysctls is by setting them directly on the cluster nodes. If this is not possible there are a couple of options.
+It is possible to use built-in init containers to set sysctls. This is needed for Elasticsearch to set the value of `vm.max_map_count`.
 
-The values.yaml file provides access to the elasticsearch serviceAccountName. This serviceAccount will be auto-created for you and used by elastic - defaults to "logging-elasticsearch".
+Note that the recommended way to set sysctls is by setting them directly on the cluster nodes. If this is not possible there are a couple of options.
 
-```
+The `values.yaml` file provides access to the Elasticsearch `serviceAccountName`. This ServiceAccount will be auto-created and used by Elastic — it defaults to `logging-elasticsearch`.
+
+```yaml
 elasticsearch:
   serviceAccountName: "logging-elasticsearch"
 ```
 
-An example of a service account that gives root access to the elastic pods (needed to give the init containers root) is given below.
+> **Note:** PodSecurityPolicy (PSP) was removed in Kubernetes 1.25 and is not available in clusters meeting the Big Bang minimum requirement of Kubernetes ≥ 1.32. The ClusterRole/ClusterRoleBinding approach using `podsecuritypolicies` shown in older documentation is no longer valid. Use Kyverno policies or node-level sysctl configuration instead.
 
-```
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
-metadata:
-  name: ek-psp-role
-rules:
-- apiGroups:
-  - policy
-  resourceNames:
-  - privileged
-  resources:
-  - podsecuritypolicies
-  verbs:
-  - use
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: ek-sa-psp-rolebinding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: ek-psp-role
-subjects:
-- kind: ServiceAccount
-  name: logging-elasticsearch
-  namespace: logging
-```
+## Using a DaemonSet
 
-### Using a Daemonset
+It is possible to create a DaemonSet that achieves the same goal as init containers without giving the Elastic pod elevated privileges.
 
-It is possible to create a Daemonset that achieves the same goal as the init containers without giving the elastic pod root credentials.
+The DaemonSet must use an IronBank-approved image. Use `registry1.dso.mil/ironbank/redhat/ubi/ubi8` rather than public images such as `busybox`.
 
-An example is given below.
+An example is given below:
 
-```
+```yaml
 ---
 # Deny all network access to the pod
 apiVersion: networking.k8s.io/v1
@@ -86,9 +61,8 @@ spec:
       containers:
       - name: elasticsearch-ds
         securityContext:
-         privileged: true
-        image: busybox:latest
-        # image: registry1.dso.mil/ironbank/redhat/ubi/ubi8:8.3
+          privileged: true
+        image: registry1.dso.mil/ironbank/redhat/ubi/ubi8:8.3
         resources:
           limits:
             memory: 200Mi
