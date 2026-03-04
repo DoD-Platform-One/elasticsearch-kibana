@@ -35,7 +35,7 @@ Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream 
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Elasticsearch-Kibana enabled (the below is a reference, actual changes could be more depending on what changes where made to Elasticsearch-Kibana in the package MR).
 
-    - For Elasticsearch-Kibana to pass CI/CD MR testing, <b>it is required to set Fluent Bit enabled to true</b> in the tests/test-values.yaml.
+    - For Elasticsearch-Kibana to pass CI/CD MR testing, **it is required to set Fluent Bit enabled to true** in the tests/test-values.yaml.
 
 ### [test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads)
 
@@ -63,9 +63,9 @@ elasticsearchKibana:
 
 ## Testing a new Elasticsearch-Kibana version
 
-- Run Helm Unittests
-  - Make sure that you have helm unitests installed
-  - run `helm unittest chart` will run all tests under `chart/tests/*_test.yaml`
+- Run Helm unit tests
+  - Make sure that you have the [helm-unittest plugin](https://github.com/helm-unittest/helm-unittest) installed
+  - Run `helm unittest ./chart` to run all tests under `chart/tests/*_test.yaml`
 
 > NOTE: For these testing steps it is good to do them on both a clean install and an upgrade. For clean install, point Elasticsearch-Kibana to your branch. For an upgrade do an install with Elasticsearch-Kibana pointing to the latest tag, then perform a helm upgrade with Elasticsearch-Kibana pointing to your branch.
 
@@ -76,7 +76,7 @@ You will want to install with:
 - [FluentBit](https://repo1.dso.mil/big-bang/product/packages/fluentbit/-/blob/main/docs/DEVELOPMENT_MAINTENANCE.md)
   - Log aggregator for kibana
 - Istio enabled
-- [Dev SSO values](https://repo1.dso.mil/platform-one/big-bang/bigbang/-/blob/master/docs/assets/configs/example/dev-sso-values.yaml) for Logging
+- [Dev SSO values](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/reference/configs/example/dev-sso-values.yaml) for Logging
 
 The following overrides file can be used for a bare minimum `Elasticsearch-Kibana` deployment:
 

@@ -50,7 +50,7 @@ kubectl port-forward svc/logging-ek-es-http -n logging 9200:9200
 curl -XPOST -H 'Content-Type: application/json' -ku "elastic:$(kubectl get secrets -n logging logging-ek-es-elastic-user -o go-template='{{.data.elastic | base64decode}}')" "https://localhost:9200/_security/api_key" -d '{   "name": "prom-exporter",  "role_descriptors": {    "prom-monitoring": {      "cluster": ["monitor", "monitor_snapshot"],      "index": [ { "names": ["*"], "privileges": ["monitor"] } ] } } }'
 ```
 
-The above comand will return the reponse of:
+The above command will return the response of:
 
 ```shell
 {"id":"XXXXXXXXXXXXXXXXXXXX","name":"prom-exporter","api_key":"XXXXXXXXXXXXXXXXXXXXXX","encoded":"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX=="}
@@ -59,7 +59,7 @@ The above comand will return the reponse of:
 Make sure to save the `"encoded"` portion and adjust your `logging` value overrides to match the following:
 
 ```yaml
-logging:
+elasticsearchKibana:
   values:
     metrics:
       env:

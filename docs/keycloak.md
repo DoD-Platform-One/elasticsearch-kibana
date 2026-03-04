@@ -77,14 +77,14 @@ kibanaBasicAuth:
 
 Make sure that you have enabled an enterprise license via the operator - this can be done in Big Bang via the logging values section.
 
-NOTE: Local development makes use of login.dsop.io and the necessary values are committed in the values.yaml files in each repo.
+NOTE: Local development makes use of login.dso.mil and the necessary values are committed in the values.yaml files in each repo.
 
 #### OIDC Custom CA
 
 Elasticsearch can be configured to point to specific files to trust with an OIDC auth connection, here is an example when using Big Bang to deploy elasticsearch-kibana, assuming you are populating a secret named "oidc-ca-cert" in the same namespace, with a key of `ca.crt` and value of a single PEM encoded certificate:
 
 ```yaml
-logging:
+elasticsearchKibana:
   values:
     elasticsearch:
       master:
