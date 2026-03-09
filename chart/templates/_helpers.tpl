@@ -103,6 +103,50 @@ xpack.security.authc.realms.oidc.{{ .oidc.realm }}:
     - {{ . | quote }}
     {{- end }}
   {{- end }}
+{{- /* Additional OIDC providers - keyed by realm name for proper values merge */ -}}
+{{- if .additional_oidc }}
+{{- $redirectUrl := (include "redirect_url" $) }}
+{{- range $idx, $realm := (keys .additional_oidc | sortAlpha) }}
+{{- $oidc := index $.Values.sso.additional_oidc $realm }}
+xpack.security.authc.realms.oidc.{{ $realm }}:
+  order: {{ add 3 $idx }}
+  rp.client_id: {{ $oidc.client_id }}
+  rp.response_type: code
+  rp.requested_scopes:
+    {{- range ($oidc.requested_scopes | default (list "openid" "profile" "email" "groups")) }}
+    - {{ . | quote }}
+    {{- end }}
+  rp.redirect_uri: "https://{{ $redirectUrl }}/api/security/oidc/callback"
+  rp.post_logout_redirect_uri: "https://{{ $redirectUrl }}/login"
+  op.issuer: {{ $oidc.issuer }}
+  op.authorization_endpoint: {{ $oidc.auth_url }}
+  op.token_endpoint: {{ $oidc.token_url }}
+  op.userinfo_endpoint: {{ $oidc.userinfo_url }}
+  op.jwkset_path: {{ $oidc.jwkset_url }}
+  claims.principal: {{ $oidc.claims_principal | default "preferred_username" }}
+  {{- if $oidc.claims_principal_pattern }}
+  claim_patterns.principal: {{ $oidc.claims_principal_pattern }}
+  {{- end }}
+  {{- if $oidc.signature_algorithm }}
+  rp.signature_algorithm: {{ $oidc.signature_algorithm }}
+  {{- end }}
+  {{- if $oidc.endsession_url }}
+  op.endsession_endpoint: {{ $oidc.endsession_url }}
+  {{- end }}
+  {{- if $oidc.claims_group }}
+  claims.groups: {{ $oidc.claims_group }}
+  {{- end }}
+  {{- if $oidc.claims_mail }}
+  claims.mail: {{ $oidc.claims_mail }}
+  {{- end }}
+  {{- if $oidc.cert_authorities }}
+  ssl.certificate_authorities:
+    {{- range $oidc.cert_authorities }}
+    - {{ . | quote }}
+    {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
 {{- end }}
 {{- end }}
 

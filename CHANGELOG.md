@@ -3,10 +3,27 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ---
+## [1.35.0-bb.2]
+### Added
+- Multiple OIDC identity provider support via `sso.additional_oidc` MAP
+  - Keyed by realm name for proper Helm values merge (secrets in SOPS merge with plain values)
+  - Each provider gets unique order and Kibana provider key (oidc2, oidc3, etc.)
+  - Default `requested_scopes` includes `groups` for role mapping support
+- `sso.login_label` and `sso.additional_oidc.<realm>.login_label` for configuring login button text
+
+### Changed
+- Basic auth now ordered last after all OIDC providers on login page
+
 ## [1.35.0-bb.1] (2026-02-13)
 ### Added
 - Istio sidecar metrics ServiceMonitors and headless Services for Elasticsearch and Kibana pods (port 15020)
 - `prometheus.istio.io/merge-metrics: "false"` annotation on Kibana pods to match Elasticsearch behavior
+
+## [1.35.0-bb.0] (2026-01-14)
+### Changed
+- registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch updated from 9.2.1 to 9.2.4
+- registry1.dso.mil/ironbank/elastic/kibana/kibana updated from 9.2.2 to 9.2.4
+- prometheus-elasticsearch-exporter updated from 7.0.0 to 7.2.1
 
 ## [1.34.0-bb.3] (2026-1-22)
 ### Changed
@@ -16,12 +33,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ### Changed
 - Adopt bb-common for Network Policy creation
 - Adopt bb-common for Istio resource creation
-
-## [1.35.0-bb.0] (2026-01-14)
-### Changed
-- registry1.dso.mil/ironbank/elastic/elasticsearch/elasticsearch updated from 9.2.1 to 9.2.4
-- registry1.dso.mil/ironbank/elastic/kibana/kibana updated from 9.2.2 to 9.2.4
-- prometheus-elasticsearch-exporter updated from 7.0.0 to 7.2.1
 
 ## [1.34.0-bb.2] (2026-01-06)
 ### Added

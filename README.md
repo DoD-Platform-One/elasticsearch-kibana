@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.35.0-bb.1](https://img.shields.io/badge/Version-1.35.0--bb.1-informational?style=flat-square) ![AppVersion: 9.2.4](https://img.shields.io/badge/AppVersion-9.2.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.35.0-bb.2](https://img.shields.io/badge/Version-1.35.0--bb.2-informational?style=flat-square) ![AppVersion: 9.2.4](https://img.shields.io/badge/AppVersion-9.2.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -203,6 +203,8 @@ helm install elasticsearch-kibana chart/
 | sso.claims_mail | string | `"email"` | claims_mail |
 | sso.claims_principal_pattern | string | `""` | claims_principal_pattern |
 | sso.cert_authorities | list | `[]` | cert_authorities |
+| sso.login_label | string | `""` | login_label sets the text displayed on the Kibana login button for the primary OIDC provider |
+| sso.additional_oidc | object | `{}` | additional_oidc is a MAP of additional OIDC providers keyed by realm name. Using a map allows non-secret config in plain values and client_secret in SOPS to merge automatically. Each provider appears as a separate login button on Kibana (oidc2, oidc3, etc.). Default requested_scopes: ["openid", "profile", "email", "groups"] |
 | kibanaBasicAuth.enabled | bool | `true` | Toggle this to turn off Kibana's built in auth and only allow SSO. Role mappings for SSO groups must be set up and SSO enabled before doing this. |
 | networkPolicies.enabled | bool | `true` | Toggle BigBang NetworkPolicy templates |
 | networkPolicies.prependReleaseName | bool | `true` |  |
