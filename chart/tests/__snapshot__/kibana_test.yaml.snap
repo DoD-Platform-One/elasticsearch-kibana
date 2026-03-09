@@ -1,0 +1,12 @@
+should handle map-based packages and agentPolicies (new format):
+  1: |
+    - name: fleet_server
+      version: latest
+  2: |
+    - id: test-policy
+      name: Test Policy
+      package_policies:
+        - id: pkg-1
+          name: pkg-1
+          package:
+            name: fleet_server

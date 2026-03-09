@@ -906,6 +906,30 @@ sso:
   # -- cert_authorities
   cert_authorities: []
 
+  # -- login_label sets the text displayed on the Kibana login button for the primary OIDC provider
+  login_label: ""
+
+  # -- additional_oidc is a MAP of additional OIDC providers keyed by realm name.
+  # Using a map allows non-secret config in plain values and client_secret in SOPS to merge automatically.
+  # Each provider appears as a separate login button on Kibana (oidc2, oidc3, etc.).
+  # Default requested_scopes: ["openid", "profile", "email", "groups"]
+  # @default -- `{}`
+  additional_oidc: {}
+    # ExampleOkta:
+    #   client_id: "your-client-id"
+    #   client_secret: "your-client-secret"  # Can be in SOPS-encrypted values
+    #   issuer: "https://your-org.okta.mil/oauth2/default"
+    #   auth_url: "https://your-org.okta.mil/oauth2/default/v1/authorize"
+    #   token_url: "https://your-org.okta.mil/oauth2/default/v1/token"
+    #   userinfo_url: "https://your-org.okta.mil/oauth2/default/v1/userinfo"
+    #   jwkset_url: "https://your-org.okta.mil/oauth2/default/v1/keys"
+    #   endsession_url: "https://your-org.okta.mil/oauth2/default/v1/logout"
+    #   claims_principal: "preferred_username"
+    #   claims_group: "groups"
+    #   claims_mail: "email"
+    #   signature_algorithm: "RS256"
+    #   login_label: "Okta Login"  # Button text on Kibana login screen
+
 kibanaBasicAuth:
   # -- Toggle this to turn off Kibana's built in auth and only allow SSO. Role mappings for SSO groups must be set up and SSO enabled before doing this.
   enabled: true

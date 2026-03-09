@@ -1,0 +1,255 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/helm-unittest/helm-unittest/main/schema/helm-testsuite.json
+suite: test SSO and additional OIDC providers
+templates:
+  - kibana.yaml
+  - elasticsearch.yaml
+  - bigbang/sso-secret.yaml
+release:
+  name: logging-ek
+tests:
+  # ===========================================
+  # Kibana OIDC Provider Tests
+  # ===========================================
+  - it: should configure single OIDC provider when SSO enabled without additional_oidc
+    template: kibana.yaml
+    set:
+      sso:
+        enabled: true
+        client_id: "test-client"
+        client_secret: "test-secret"
+        oidc:
+          host: login.example.com
+          realm: test-realm
+        issuer: "https://login.example.com"
+        auth_url: "https://login.example.com/authorize"
+        token_url: "https://login.example.com/token"
+        userinfo_url: "https://login.example.com/userinfo"
+        jwkset_url: "https://login.example.com/certs"
+        claims_principal: preferred_username
+        requested_scopes:
+          - openid
+          - profile
+      kibanaBasicAuth:
+        enabled: true
+    asserts:
+      - isKind:
+          of: Kibana
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc1"].enabled
+          value: true
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc1"].realm
+          value: test-realm
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc1"].order
+          value: 0
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["basic.basic1"].enabled
+          value: true
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["basic.basic1"].order
+          value: 1
+      - isNull:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc2"]
+
+  - it: should configure primary OIDC provider with login_label
+    template: kibana.yaml
+    set:
+      sso:
+        enabled: true
+        client_id: "test-client"
+        oidc:
+          realm: test-realm
+        issuer: "https://login.example.com"
+        auth_url: "https://login.example.com/authorize"
+        token_url: "https://login.example.com/token"
+        userinfo_url: "https://login.example.com/userinfo"
+        jwkset_url: "https://login.example.com/certs"
+        claims_principal: preferred_username
+        login_label: "P1 SSO"
+      kibanaBasicAuth:
+        enabled: false
+    asserts:
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc1"].description
+          value: "P1 SSO"
+
+  - it: should configure additional OIDC providers when additional_oidc is set
+    template: kibana.yaml
+    set:
+      sso:
+        enabled: true
+        client_id: "primary-client"
+        client_secret: "primary-secret"
+        oidc:
+          host: login.dso.mil
+          realm: baby-yoda
+        issuer: "https://login.dso.mil/auth/realms/baby-yoda"
+        auth_url: "https://login.dso.mil/auth/realms/baby-yoda/protocol/openid-connect/auth"
+        token_url: "https://login.dso.mil/auth/realms/baby-yoda/protocol/openid-connect/token"
+        userinfo_url: "https://login.dso.mil/auth/realms/baby-yoda/protocol/openid-connect/userinfo"
+        jwkset_url: "https://login.dso.mil/auth/realms/baby-yoda/protocol/openid-connect/certs"
+        claims_principal: preferred_username
+        requested_scopes:
+          - openid
+        additional_oidc:
+          OktaTest:
+            client_id: "okta-client-id"
+            client_secret: "okta-secret"
+            issuer: "https://af-test.okta.mil"
+            auth_url: "https://af-test.okta.mil/oauth2/v1/authorize"
+            token_url: "https://af-test.okta.mil/oauth2/v1/token"
+            userinfo_url: "https://af-test.okta.mil/oauth2/v1/userinfo"
+            jwkset_url: "https://af-test.okta.mil/oauth2/v1/keys"
+            login_label: "DAF ICAM"
+      kibanaBasicAuth:
+        enabled: false
+    asserts:
+      - isKind:
+          of: Kibana
+      # Primary OIDC provider
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc1"].realm
+          value: baby-yoda
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc1"].order
+          value: 0
+      # Additional OIDC provider (order 1, before basic auth)
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc2"].enabled
+          value: true
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc2"].realm
+          value: OktaTest
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc2"].order
+          value: 1
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc2"].description
+          value: "DAF ICAM"
+
+  - it: should configure multiple additional OIDC providers
+    template: kibana.yaml
+    set:
+      sso:
+        enabled: true
+        client_id: "primary-client"
+        client_secret: "primary-secret"
+        oidc:
+          host: login.dso.mil
+          realm: baby-yoda
+        issuer: "https://login.dso.mil"
+        auth_url: "https://login.dso.mil/authorize"
+        token_url: "https://login.dso.mil/token"
+        userinfo_url: "https://login.dso.mil/userinfo"
+        jwkset_url: "https://login.dso.mil/certs"
+        claims_principal: preferred_username
+        requested_scopes:
+          - openid
+        additional_oidc:
+          AzureAD:
+            client_id: "azure-client"
+            client_secret: "azure-secret"
+            issuer: "https://login.microsoftonline.com/tenant"
+            auth_url: "https://login.microsoftonline.com/tenant/oauth2/v2.0/authorize"
+            token_url: "https://login.microsoftonline.com/tenant/oauth2/v2.0/token"
+            userinfo_url: "https://graph.microsoft.com/oidc/userinfo"
+            jwkset_url: "https://login.microsoftonline.com/tenant/discovery/v2.0/keys"
+            login_label: "Azure AD"
+          OktaTest:
+            client_id: "okta-client"
+            client_secret: "okta-secret"
+            issuer: "https://okta.example.com"
+            auth_url: "https://okta.example.com/authorize"
+            token_url: "https://okta.example.com/token"
+            userinfo_url: "https://okta.example.com/userinfo"
+            jwkset_url: "https://okta.example.com/keys"
+            login_label: "Okta IDP"
+      kibanaBasicAuth:
+        enabled: true
+    asserts:
+      - isKind:
+          of: Kibana
+      # Primary OIDC
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc1"].order
+          value: 0
+      # First additional OIDC (oidc2) - AzureAD comes first alphabetically
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc2"].realm
+          value: AzureAD
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc2"].order
+          value: 1
+      # Second additional OIDC (oidc3) - OktaTest comes second alphabetically
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc3"].realm
+          value: OktaTest
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["oidc.oidc3"].order
+          value: 2
+      # Basic auth comes last
+      - equal:
+          path: spec.config["xpack.security.authc.providers"]["basic.basic1"].order
+          value: 3
+
+  # ===========================================
+  # SSO Secret Tests
+  # ===========================================
+  - it: should create secret with primary client_secret only when no additional_oidc
+    template: bigbang/sso-secret.yaml
+    set:
+      sso:
+        enabled: true
+        client_id: "test-client"
+        client_secret: "primary-secret"
+        oidc:
+          realm: test-realm
+    asserts:
+      - isKind:
+          of: Secret
+      - equal:
+          path: data["xpack.security.authc.realms.oidc.test-realm.rp.client_secret"]
+          value: cHJpbWFyeS1zZWNyZXQ=
+      - isNull:
+          path: data["xpack.security.authc.realms.oidc.OktaTest.rp.client_secret"]
+
+  - it: should create secret with additional client_secrets when additional_oidc is set
+    template: bigbang/sso-secret.yaml
+    set:
+      sso:
+        enabled: true
+        client_id: "primary-client"
+        client_secret: "primary-secret"
+        oidc:
+          realm: baby-yoda
+        additional_oidc:
+          AzureAD:
+            client_id: "azure-client"
+            client_secret: "azure-secret"
+          OktaTest:
+            client_id: "okta-client"
+            client_secret: "okta-secret"
+    asserts:
+      - isKind:
+          of: Secret
+      # Primary secret
+      - equal:
+          path: data["xpack.security.authc.realms.oidc.baby-yoda.rp.client_secret"]
+          value: cHJpbWFyeS1zZWNyZXQ=
+      # Additional secrets
+      - equal:
+          path: data["xpack.security.authc.realms.oidc.OktaTest.rp.client_secret"]
+          value: b2t0YS1zZWNyZXQ=
+      - equal:
+          path: data["xpack.security.authc.realms.oidc.AzureAD.rp.client_secret"]
+          value: YXp1cmUtc2VjcmV0
+
+  - it: should not create secret when SSO is disabled
+    template: bigbang/sso-secret.yaml
+    set:
+      sso:
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0

@@ -19,12 +19,31 @@ Outputs valid YAML (or {} when empty).
 
 {{- with .Values.sso }}
   {{- if .enabled }}
-    {{- $_ := set $cfg "xpack.security.authc.providers" (dict
-          "oidc.oidc1" (dict "enabled" true "order" 0 "realm" .oidc.realm)
-        ) -}}
+    {{- $oidc1Config := dict "enabled" true "order" 0 "realm" .oidc.realm -}}
+    {{- if .login_label }}
+      {{- $_ := set $oidc1Config "description" .login_label -}}
+    {{- end }}
+    {{- $_ := set $cfg "xpack.security.authc.providers" (dict "oidc.oidc1" $oidc1Config) -}}
+    {{- /* Additional OIDC providers - keyed by realm name for proper values merge */ -}}
+    {{- $nextOrder := 1 -}}
+    {{- if .additional_oidc }}
+      {{- $providers := get $cfg "xpack.security.authc.providers" | default dict -}}
+      {{- range $idx, $realm := (keys .additional_oidc | sortAlpha) }}
+        {{- $oidc := index $.Values.sso.additional_oidc $realm -}}
+        {{- $providerKey := printf "oidc.oidc%d" (add 2 $idx) -}}
+        {{- $providerConfig := dict "enabled" true "order" (add 1 $idx) "realm" $realm -}}
+        {{- if $oidc.login_label }}
+          {{- $_ := set $providerConfig "description" $oidc.login_label -}}
+        {{- end }}
+        {{- $_ := set $providers $providerKey $providerConfig -}}
+      {{- end }}
+      {{- $_ := set $cfg "xpack.security.authc.providers" $providers -}}
+      {{- $nextOrder = add 1 (len .additional_oidc) -}}
+    {{- end }}
+    {{- /* Basic auth comes last, after all OIDC providers */ -}}
     {{- if $.Values.kibanaBasicAuth.enabled }}
       {{- $providers := get $cfg "xpack.security.authc.providers" | default dict -}}
-      {{- $_ := set $providers "basic.basic1" (dict "enabled" true "order" 1) -}}
+      {{- $_ := set $providers "basic.basic1" (dict "enabled" true "order" $nextOrder) -}}
       {{- $_ := set $cfg "xpack.security.authc.providers" $providers -}}
     {{- end }}
   {{- end }}

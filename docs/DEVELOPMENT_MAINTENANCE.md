@@ -26,12 +26,14 @@ Elasticsearch-Kibana is a Big Bang built/maintained chart, there is no upstream 
 
 4. Ensure that `CHANGELOG.md` has been updated by verifying or updating the entry for the new version and noting all changes (at minimum should include `Updated Elasticsearch-Kibana to x.x.x`).
 
-5. Push up your changes, add upgrade notices if applicable, validate that CI passes.
+5. Generate the `README.md` updates by following the [guide in gluon](https://repo1.dso.mil/platform-one/big-bang/apps/library-charts/gluon/-/blob/master/docs/bb-package-readme.md) at root directory and in the `chart` directory.
+
+6. Push up your changes, add upgrade notices if applicable, validate that CI passes.
     - If there are any failures, follow the information in the pipeline to make the necessary updates.
     - Add the `debug` label to the MR for more detailed information.
     - Reach out to the CODEOWNERS if needed.
 
-6. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
+7. As part of your MR that modifies bigbang packages, you should modify the bigbang  [bigbang/tests/test-values.yaml](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/tests/test-values.yaml?ref_type=heads) against your branch for the CI/CD MR testing by enabling your packages.
 
     - To do this, at a minimum, you will need to follow the instructions at [bigbang/docs/developer/test-package-against-bb.md](https://repo1.dso.mil/big-bang/bigbang/-/blob/master/docs/developer/test-package-against-bb.md?ref_type=heads) with changes for Elasticsearch-Kibana enabled (the below is a reference, actual changes could be more depending on what changes where made to Elasticsearch-Kibana in the package MR).
 
@@ -59,7 +61,7 @@ elasticsearchKibana:
   ### Additional components of Elasticsearch-Kibana should be changed to reflect testing changes introduced in the package MR
 ```
 
-6. Follow the `Testing a new Elasticsearch-Kibana version` section of this document for manual testing.
+8. Follow the `Testing a new Elasticsearch-Kibana version` section of this document for manual testing.
 
 ## Testing a new Elasticsearch-Kibana version
 
