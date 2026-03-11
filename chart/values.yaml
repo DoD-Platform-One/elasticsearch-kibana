@@ -1,11 +1,6 @@
 # -- Domain used for BigBang created exposed services.
 domain: dev.bigbang.mil
 
-
-autoRollingUpgrade:
-  # -- Enable BigBang specific autoRollingUpgrade support
-  enabled: true
-
 # -- Pull Policy for all non-init containers in this package.
 imagePullPolicy: IfNotPresent
 
@@ -219,6 +214,26 @@ elasticsearch:
   podDisruptionBudget:
     enabled: true
     spec: {}
+
+  # -- Snapshot Lifecycle Management (SLM) configuration. When enabled, injects the specified
+  # secret into Elasticsearch's secureSettings to supply credentials for S3, Azure, or GCS
+  # snapshot repositories.
+  snapshot:
+    # -- Enable injection of a custom snapshot repository credentials secret.
+    enabled: false
+    # -- Name of the Kubernetes secret containing snapshot repository credentials.
+    # The secret should contain keys matching the Elasticsearch keystore settings
+    # (e.g., s3.client.default.access_key).
+    secretName: ""
+
+  # -- Shared settings applied to every Elasticsearch nodeSet (master, data, ingest, ml, coord).
+  common:
+    # -- Init containers prepended before any per-nodeSet initContainers.
+    initContainers: []
+
+    # -- Configuration baseline merged into every nodeSet's config.
+    # Per-nodeSet config values take precedence (e.g., node.roles).
+    config: {}
 
   # Values for Elasticsearch master node sets.
   master:
@@ -782,6 +797,9 @@ istio:
   # -- Toggle istio interaction.
   enabled: false
 
+  # -- Prepends the release name to istio resources created by bb-common
+  prependReleaseName: true # e.g. "my-release-default-peer-auth" instead of "default-peer-auth"
+
   # -- Default EK peer authentication
   mtls:
     # -- STRICT = Allow only mutual TLS traffic,
@@ -990,13 +1008,6 @@ networkPolicies:
 
   # Additional conditional policies that can be added via values
   additionalPolicies: []
-
-upgradeJob:
-  image:
-    # -- image repository for upgradeJob
-    repository: registry1.dso.mil/ironbank/big-bang/base
-    # -- image tag for upgradeJob
-    tag: 2.1.0
 
 monitoring:
   # -- Toggle BigBang monitoring integration, controls serviceMonitor template

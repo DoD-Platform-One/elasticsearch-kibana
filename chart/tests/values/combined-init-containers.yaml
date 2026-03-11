@@ -1,0 +1,9 @@
+elasticsearch:
+  common:
+    initContainers:
+      - name: common-init
+        image: busybox
+  master:
+    initContainers:
+      - name: master-init
+        image: busybox

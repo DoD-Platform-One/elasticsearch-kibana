@@ -1,7 +1,7 @@
 <!-- Warning: Do not manually edit this file. See notes on gluon + helm-docs at the end of this file for more information. -->
 # elasticsearch-kibana
 
-![Version: 1.35.0-bb.2](https://img.shields.io/badge/Version-1.35.0--bb.2-informational?style=flat-square) ![AppVersion: 9.2.4](https://img.shields.io/badge/AppVersion-9.2.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
+![Version: 1.35.0-bb.3](https://img.shields.io/badge/Version-1.35.0--bb.3-informational?style=flat-square) ![AppVersion: 9.2.4](https://img.shields.io/badge/AppVersion-9.2.4-informational?style=flat-square) ![Maintenance Track: bb_integrated](https://img.shields.io/badge/Maintenance_Track-bb_integrated-green?style=flat-square)
 
 Configurable Deployment of Elasticsearch and Kibana Custom Resources Wrapped Inside a Helm Chart.
 
@@ -43,7 +43,6 @@ helm install elasticsearch-kibana chart/
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | domain | string | `"dev.bigbang.mil"` | Domain used for BigBang created exposed services. |
-| autoRollingUpgrade.enabled | bool | `true` | Enable BigBang specific autoRollingUpgrade support |
 | imagePullPolicy | string | `"IfNotPresent"` | Pull Policy for all non-init containers in this package. |
 | fluentbit | object | `{"enabled":false}` | Toggle for networkpolicies to allow fluentbit ingress |
 | kibana.version | string | `"9.2.4"` | Kibana version |
@@ -74,6 +73,12 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.serviceAccountAnnotations | object | `{}` | Annotations for the elasticsearch service account. |
 | elasticsearch.podDisruptionBudget | object | `{"enabled":true,"spec":{}}` | Elasticsearch podDisruptionBudget https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-pod-disruption-budget.html |
+| elasticsearch.snapshot | object | `{"enabled":false,"secretName":""}` | Snapshot Lifecycle Management (SLM) configuration. When enabled, injects the specified secret into Elasticsearch's secureSettings to supply credentials for S3, Azure, or GCS snapshot repositories. |
+| elasticsearch.snapshot.enabled | bool | `false` | Enable injection of a custom snapshot repository credentials secret. |
+| elasticsearch.snapshot.secretName | string | `""` | Name of the Kubernetes secret containing snapshot repository credentials. The secret should contain keys matching the Elasticsearch keystore settings (e.g., s3.client.default.access_key). |
+| elasticsearch.common | object | `{"config":{},"initContainers":[]}` | Shared settings applied to every Elasticsearch nodeSet (master, data, ingest, ml, coord). |
+| elasticsearch.common.initContainers | list | `[]` | Init containers prepended before any per-nodeSet initContainers. |
+| elasticsearch.common.config | object | `{}` | Configuration baseline merged into every nodeSet's config. Per-nodeSet config values take precedence (e.g., node.roles). |
 | elasticsearch.master.initContainers | list | `[]` | Add init containers to master pods |
 | elasticsearch.master.config | object | `{"index.store.type":"mmapfs","node.roles":["master"],"node.store.allow_mmap":true,"xpack.ml.enabled":false,"xpack.security.authc.token.enabled":true}` | Add configs to Master nodes |
 | elasticsearch.master.securityContext | object | `{"fsGroup":1000,"runAsGroup":1000,"runAsUser":1000}` | Set securityContext for elasticsearch master node sets |
@@ -166,6 +171,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.coord.heap.min | string | `"2g"` | Xms |
 | elasticsearch.coord.heap.max | string | `"2g"` | Xmx |
 | istio.enabled | bool | `false` | Toggle istio interaction. |
+| istio.prependReleaseName | bool | `true` | Prepends the release name to istio resources created by bb-common |
 | istio.mtls | object | `{"mode":"STRICT"}` | Default EK peer authentication |
 | istio.mtls.mode | string | `"STRICT"` | STRICT = Allow only mutual TLS traffic, PERMISSIVE = Allow both plain text and mutual TLS traffic |
 | istio.sidecar | object | `{"enabled":false,"outboundTrafficPolicyMode":"REGISTRY_ONLY"}` | Sidecar configuration |
@@ -219,8 +225,6 @@ helm install elasticsearch-kibana chart/
 | networkPolicies.ingress.to.kibana:5601.from.k8s.elastic-operator@eck-operator/elastic-operator | bool | `true` |  |
 | networkPolicies.ingress.to.metrics:9108.from.k8s.monitoring/prometheus | bool | `true` |  |
 | networkPolicies.additionalPolicies | list | `[]` |  |
-| upgradeJob.image.repository | string | `"registry1.dso.mil/ironbank/big-bang/base"` | image repository for upgradeJob |
-| upgradeJob.image.tag | string | `"2.1.0"` | image tag for upgradeJob |
 | monitoring.enabled | bool | `false` | Toggle BigBang monitoring integration, controls serviceMonitor template |
 | metrics.enabled | bool | `false` | Toggle Prometheus ElasticSearch Exporter Installation |
 | metrics.image | object | `{"pullPolicy":"Always","pullSecret":"private-registry","registry":"registry1.dso.mil","repository":"ironbank/opensource/elasticsearch-exporter","tag":"v1.10.0"}` | Exporter imagePullSecrets |

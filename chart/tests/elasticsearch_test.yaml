@@ -2,13 +2,96 @@
 suite: test elasticsearch.yaml
 templates:
   - elasticsearch.yaml
+  - bigbang/sso-secret.yaml
 release:
   name: eck
 tests:
   - it: should work with default values
+    template: elasticsearch.yaml
     asserts:
       - isKind:
           of: Elasticsearch
       - equal:
           path: metadata.name
           value: eck
+      - notExists:
+          path: spec.secureSettings
+
+  - it: should include snapshot secret in secureSettings when snapshot is enabled
+    template: elasticsearch.yaml
+    set:
+      elasticsearch.snapshot.enabled: true
+      elasticsearch.snapshot.secretName: my-snapshot-secret
+    asserts:
+      - equal:
+          path: spec.secureSettings
+          value:
+            - secretName: my-snapshot-secret
+
+  - it: should include both sso and snapshot secrets when both are enabled
+    template: elasticsearch.yaml
+    set:
+      sso.enabled: true
+      elasticsearch.snapshot.enabled: true
+      elasticsearch.snapshot.secretName: my-snapshot-secret
+    asserts:
+      - equal:
+          path: spec.secureSettings
+          value:
+            - secretName: sso-secret
+            - secretName: my-snapshot-secret
+
+  - it: should not include secureSettings when snapshot enabled but secretName is empty
+    template: elasticsearch.yaml
+    set:
+      elasticsearch.snapshot.enabled: true
+      elasticsearch.snapshot.secretName: ""
+    asserts:
+      - notExists:
+          path: spec.secureSettings
+
+  - it: should not render initContainers when both common and per-node are empty
+    template: elasticsearch.yaml
+    asserts:
+      - notExists:
+          path: spec.nodeSets[0].podTemplate.spec.initContainers
+
+  - it: should include common.initContainers in master nodeSet
+    template: elasticsearch.yaml
+    values:
+      - values/common-init-containers.yaml
+    asserts:
+      - equal:
+          path: spec.nodeSets[0].podTemplate.spec.initContainers[0].name
+          value: common-init
+
+  - it: should prepend common.initContainers before per-node initContainers
+    template: elasticsearch.yaml
+    values:
+      - values/combined-init-containers.yaml
+    asserts:
+      - equal:
+          path: spec.nodeSets[0].podTemplate.spec.initContainers[0].name
+          value: common-init
+      - equal:
+          path: spec.nodeSets[0].podTemplate.spec.initContainers[1].name
+          value: master-init
+
+  - it: should merge common.config into master nodeSet config
+    template: elasticsearch.yaml
+    set:
+      elasticsearch.common.config.testkey: common-value
+    asserts:
+      - equal:
+          path: spec.nodeSets[0].config.testkey
+          value: common-value
+
+  - it: per-node config should override common.config on conflict
+    template: elasticsearch.yaml
+    set:
+      elasticsearch.common.config.testkey: common-value
+      elasticsearch.master.config.testkey: per-node-value
+    asserts:
+      - equal:
+          path: spec.nodeSets[0].config.testkey
+          value: per-node-value
