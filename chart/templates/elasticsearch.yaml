@@ -8,9 +8,16 @@ spec:
   version: {{ .Values.elasticsearch.version }}
   image: {{ .Values.elasticsearch.image.repository }}:{{ .Values.elasticsearch.image.tag }}
   
+  {{- $secureSettings := list }}
   {{- if .Values.sso.enabled }}
+  {{- $secureSettings = append $secureSettings (dict "secretName" "sso-secret") }}
+  {{- end }}
+  {{- if and .Values.elasticsearch.snapshot.enabled .Values.elasticsearch.snapshot.secretName }}
+  {{- $secureSettings = append $secureSettings (dict "secretName" .Values.elasticsearch.snapshot.secretName) }}
+  {{- end }}
+  {{- if $secureSettings }}
   secureSettings:
-    - secretName: sso-secret
+    {{- toYaml $secureSettings | nindent 4 }}
   {{- end }}
 
   {{- if not .Values.elasticsearch.podDisruptionBudget.enabled }}
@@ -31,13 +38,20 @@ spec:
     count: {{ .count }}
 
     config:
-      {{- range $key, $val := .config }}
+      {{- $mergedConfig := dict -}}
+      {{- if $.Values.elasticsearch.common.config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy $.Values.elasticsearch.common.config) -}}
+      {{- end -}}
+      {{- if .config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy .config) -}}
+      {{- end -}}
+      {{- range $key, $val := $mergedConfig }}
       {{- if kindIs "slice" $val }}
       {{ $key }}: {{ $val | toJson }}
       {{- else }}
       {{ $key }}: {{ $val }}
       {{- end }}
-    {{- end }}
+      {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -97,9 +111,12 @@ spec:
           {{- toYaml .updateStrategy | nindent 10 }}
         {{- end }}
 
-        {{- if .initContainers }}
+        {{- $commonInit := default list $.Values.elasticsearch.common.initContainers }}
+        {{- $nodeInit := default list .initContainers }}
+        {{- $allInitContainers := concat $commonInit $nodeInit }}
+        {{- if $allInitContainers }}
         initContainers:
-        {{ toYaml .initContainers | nindent 10 }}
+        {{- toYaml $allInitContainers | nindent 10 }}
         {{- end }}
         containers:
           - name: elasticsearch
@@ -138,13 +155,20 @@ spec:
     count: {{ .count }}
 
     config:
-      {{- range $key, $val := .config }}
+      {{- $mergedConfig := dict -}}
+      {{- if $.Values.elasticsearch.common.config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy $.Values.elasticsearch.common.config) -}}
+      {{- end -}}
+      {{- if .config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy .config) -}}
+      {{- end -}}
+      {{- range $key, $val := $mergedConfig }}
       {{- if kindIs "slice" $val }}
       {{ $key }}: {{ $val | toJson }}
       {{- else }}
       {{ $key }}: {{ $val }}
       {{- end }}
-    {{- end }}
+      {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -207,9 +231,12 @@ spec:
           {{- toYaml .updateStrategy | nindent 10 }}
         {{- end }}
 
-        {{- if .initContainers }}
+        {{- $commonInit := default list $.Values.elasticsearch.common.initContainers }}
+        {{- $nodeInit := default list .initContainers }}
+        {{- $allInitContainers := concat $commonInit $nodeInit }}
+        {{- if $allInitContainers }}
         initContainers:
-        {{ toYaml .initContainers | nindent 10 }}
+        {{- toYaml $allInitContainers | nindent 10 }}
         {{- end }}
         containers:
           - name: elasticsearch
@@ -249,13 +276,20 @@ spec:
     count: {{ .count }}
 
     config:
-      {{- range $key, $val := .config }}
+      {{- $mergedConfig := dict -}}
+      {{- if $.Values.elasticsearch.common.config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy $.Values.elasticsearch.common.config) -}}
+      {{- end -}}
+      {{- if .config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy .config) -}}
+      {{- end -}}
+      {{- range $key, $val := $mergedConfig }}
       {{- if kindIs "slice" $val }}
       {{ $key }}: {{ $val | toJson }}
       {{- else }}
       {{ $key }}: {{ $val }}
       {{- end }}
-    {{- end }}
+      {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -310,9 +344,12 @@ spec:
 
         serviceAccountName: {{ $.Values.elasticsearch.serviceAccountName }}
 
-        {{- if .initContainers }}
+        {{- $commonInit := default list $.Values.elasticsearch.common.initContainers }}
+        {{- $nodeInit := default list .initContainers }}
+        {{- $allInitContainers := concat $commonInit $nodeInit }}
+        {{- if $allInitContainers }}
         initContainers:
-        {{ toYaml .initContainers | nindent 10 }}
+        {{- toYaml $allInitContainers | nindent 10 }}
         {{- end }}
         containers:
           - name: elasticsearch
@@ -353,13 +390,20 @@ spec:
     count: {{ .count }}
 
     config:
-      {{- range $key, $val := .config }}
+      {{- $mergedConfig := dict -}}
+      {{- if $.Values.elasticsearch.common.config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy $.Values.elasticsearch.common.config) -}}
+      {{- end -}}
+      {{- if .config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy .config) -}}
+      {{- end -}}
+      {{- range $key, $val := $mergedConfig }}
       {{- if kindIs "slice" $val }}
       {{ $key }}: {{ $val | toJson }}
       {{- else }}
       {{ $key }}: {{ $val }}
       {{- end }}
-    {{- end }}
+      {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -417,9 +461,12 @@ spec:
           {{- toYaml .updateStrategy | nindent 10 }}
         {{- end }}
 
-        {{- if .initContainers }}
+        {{- $commonInit := default list $.Values.elasticsearch.common.initContainers }}
+        {{- $nodeInit := default list .initContainers }}
+        {{- $allInitContainers := concat $commonInit $nodeInit }}
+        {{- if $allInitContainers }}
         initContainers:
-        {{ toYaml .initContainers | nindent 10 }}
+        {{- toYaml $allInitContainers | nindent 10 }}
         {{- end }}
         containers:
           - name: elasticsearch
@@ -460,13 +507,20 @@ spec:
     count: {{ .count }}
 
     config:
-      {{- range $key, $val := .config }}
+      {{- $mergedConfig := dict -}}
+      {{- if $.Values.elasticsearch.common.config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy $.Values.elasticsearch.common.config) -}}
+      {{- end -}}
+      {{- if .config -}}
+        {{- $mergedConfig = mergeOverwrite $mergedConfig (deepCopy .config) -}}
+      {{- end -}}
+      {{- range $key, $val := $mergedConfig }}
       {{- if kindIs "slice" $val }}
       {{ $key }}: {{ $val | toJson }}
       {{- else }}
       {{ $key }}: {{ $val }}
       {{- end }}
-    {{- end }}
+      {{- end }}
       {{- if $.Values.sso.enabled }}
       {{ include "oidc" $ | indent 6 }}
       {{- end }}
@@ -526,9 +580,12 @@ spec:
         {{- end }}
         
 
-        {{- if .initContainers }}
+        {{- $commonInit := default list $.Values.elasticsearch.common.initContainers }}
+        {{- $nodeInit := default list .initContainers }}
+        {{- $allInitContainers := concat $commonInit $nodeInit }}
+        {{- if $allInitContainers }}
         initContainers:
-        {{ toYaml .initContainers | nindent 10 }}
+        {{- toYaml $allInitContainers | nindent 10 }}
         {{- end }}
         containers:
           - name: elasticsearch
