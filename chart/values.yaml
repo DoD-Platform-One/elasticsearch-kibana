@@ -215,16 +215,13 @@ elasticsearch:
     enabled: true
     spec: {}
 
-  # -- Snapshot Lifecycle Management (SLM) configuration. When enabled, injects the specified
-  # secret into Elasticsearch's secureSettings to supply credentials for S3, Azure, or GCS
-  # snapshot repositories.
-  snapshot:
-    # -- Enable injection of a custom snapshot repository credentials secret.
-    enabled: false
-    # -- Name of the Kubernetes secret containing snapshot repository credentials.
-    # The secret should contain keys matching the Elasticsearch keystore settings
-    # (e.g., s3.client.default.access_key).
-    secretName: ""
+  # -- List of Kubernetes secrets to load into the Elasticsearch keystore via ECK secureSettings.
+  # Applies to all nodeSets (ECK spec-level).
+  # The SSO secret is automatically prepended when sso.enabled is true.
+  # See: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-es-secure-settings.html
+  secureSettings: []
+  # - secretName: my-s3-credentials
+  # - secretName: my-azure-credentials
 
   # -- Shared settings applied to every Elasticsearch nodeSet (master, data, ingest, ml, coord).
   common:
@@ -796,6 +793,9 @@ elasticsearch:
 istio:
   # -- Toggle istio interaction.
   enabled: false
+
+  # -- Prepends the release name to istio resources created by bb-common
+  prependReleaseName: true # e.g. "my-release-default-peer-auth" instead of "default-peer-auth"
 
   # -- Prepends the release name to istio resources created by bb-common
   prependReleaseName: true # e.g. "my-release-default-peer-auth" instead of "default-peer-auth"

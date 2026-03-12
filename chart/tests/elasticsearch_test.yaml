@@ -17,38 +17,30 @@ tests:
       - notExists:
           path: spec.secureSettings
 
-  - it: should include snapshot secret in secureSettings when snapshot is enabled
+  - it: should render multiple secureSettings entries
     template: elasticsearch.yaml
-    set:
-      elasticsearch.snapshot.enabled: true
-      elasticsearch.snapshot.secretName: my-snapshot-secret
+    values:
+      - values/multiple-secure-settings.yaml
     asserts:
       - equal:
           path: spec.secureSettings
           value:
-            - secretName: my-snapshot-secret
+            - secretName: first-secret
+            - secretName: second-secret
 
-  - it: should include both sso and snapshot secrets when both are enabled
+  - it: should prepend sso secret before user secureSettings
     template: elasticsearch.yaml
     set:
       sso.enabled: true
-      elasticsearch.snapshot.enabled: true
-      elasticsearch.snapshot.secretName: my-snapshot-secret
+    values:
+      - values/multiple-secure-settings.yaml
     asserts:
       - equal:
           path: spec.secureSettings
           value:
             - secretName: sso-secret
-            - secretName: my-snapshot-secret
-
-  - it: should not include secureSettings when snapshot enabled but secretName is empty
-    template: elasticsearch.yaml
-    set:
-      elasticsearch.snapshot.enabled: true
-      elasticsearch.snapshot.secretName: ""
-    asserts:
-      - notExists:
-          path: spec.secureSettings
+            - secretName: first-secret
+            - secretName: second-secret
 
   - it: should not render initContainers when both common and per-node are empty
     template: elasticsearch.yaml
