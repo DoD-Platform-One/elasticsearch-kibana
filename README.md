@@ -73,9 +73,7 @@ helm install elasticsearch-kibana chart/
 | elasticsearch.serviceAccountName | string | `"logging-elasticsearch"` | Name for serviceAccount to use, will be autocreated. |
 | elasticsearch.serviceAccountAnnotations | object | `{}` | Annotations for the elasticsearch service account. |
 | elasticsearch.podDisruptionBudget | object | `{"enabled":true,"spec":{}}` | Elasticsearch podDisruptionBudget https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-pod-disruption-budget.html |
-| elasticsearch.snapshot | object | `{"enabled":false,"secretName":""}` | Snapshot Lifecycle Management (SLM) configuration. When enabled, injects the specified secret into Elasticsearch's secureSettings to supply credentials for S3, Azure, or GCS snapshot repositories. |
-| elasticsearch.snapshot.enabled | bool | `false` | Enable injection of a custom snapshot repository credentials secret. |
-| elasticsearch.snapshot.secretName | string | `""` | Name of the Kubernetes secret containing snapshot repository credentials. The secret should contain keys matching the Elasticsearch keystore settings (e.g., s3.client.default.access_key). |
+| elasticsearch.secureSettings | list | `[]` | List of Kubernetes secrets to load into the Elasticsearch keystore via ECK secureSettings. Applies to all nodeSets (ECK spec-level). The SSO secret is automatically prepended when sso.enabled is true. See: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-es-secure-settings.html |
 | elasticsearch.common | object | `{"config":{},"initContainers":[]}` | Shared settings applied to every Elasticsearch nodeSet (master, data, ingest, ml, coord). |
 | elasticsearch.common.initContainers | list | `[]` | Init containers prepended before any per-nodeSet initContainers. |
 | elasticsearch.common.config | object | `{}` | Configuration baseline merged into every nodeSet's config. Per-nodeSet config values take precedence (e.g., node.roles). |

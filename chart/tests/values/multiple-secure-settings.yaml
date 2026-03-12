@@ -1,0 +1,4 @@
+elasticsearch:
+  secureSettings:
+    - secretName: first-secret
+    - secretName: second-secret

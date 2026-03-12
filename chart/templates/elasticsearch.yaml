@@ -12,9 +12,8 @@ spec:
   {{- if .Values.sso.enabled }}
   {{- $secureSettings = append $secureSettings (dict "secretName" "sso-secret") }}
   {{- end }}
-  {{- if and .Values.elasticsearch.snapshot.enabled .Values.elasticsearch.snapshot.secretName }}
-  {{- $secureSettings = append $secureSettings (dict "secretName" .Values.elasticsearch.snapshot.secretName) }}
-  {{- end }}
+  {{- $userSecureSettings := kindIs "slice" .Values.elasticsearch.secureSettings | ternary .Values.elasticsearch.secureSettings list }}
+  {{- $secureSettings = concat $secureSettings $userSecureSettings }}
   {{- if $secureSettings }}
   secureSettings:
     {{- toYaml $secureSettings | nindent 4 }}

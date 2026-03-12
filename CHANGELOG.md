@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 ---
 ## [1.35.0-bb.3] (2026-03-09)
 ### Added
-- Added `elasticsearch.snapshot` values block (`enabled`, `secretName`) to support injecting custom Kubernetes secrets into Elasticsearch `secureSettings` for Snapshot Lifecycle Management (SLM) repository credentials (S3, Azure, GCS)
+- Added `elasticsearch.secureSettings` list to inject one or more Kubernetes secrets into the Elasticsearch keystore via ECK `spec.secureSettings` (S3, Azure, GCS credentials, etc.); SSO secret is automatically prepended when `sso.enabled` is true
 - Added `elasticsearch.common.initContainers` to prepend shared init containers to every Elasticsearch nodeSet (master, data, ingest, ml, coord), eliminating per-node duplication
 - Added `elasticsearch.common.config` to provide a baseline Elasticsearch config merged into every nodeSet, with per-nodeSet config taking precedence
 - Removed upgrade job that handled breaking change in version `1.20.0-bb.0`, released with Big Bang `2.40.0`
