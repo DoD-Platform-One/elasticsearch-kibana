@@ -797,9 +797,6 @@ istio:
   # -- Prepends the release name to istio resources created by bb-common
   prependReleaseName: true # e.g. "my-release-default-peer-auth" instead of "default-peer-auth"
 
-  # -- Prepends the release name to istio resources created by bb-common
-  prependReleaseName: true # e.g. "my-release-default-peer-auth" instead of "default-peer-auth"
-
   # -- Default EK peer authentication
   mtls:
     # -- STRICT = Allow only mutual TLS traffic,
